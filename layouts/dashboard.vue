@@ -129,7 +129,7 @@
   export default {
     /* middleware: 'auth', */
     middleware({redirect,$getToken,$getUser,$isLogged,$loggout }) {
-      console.log('token: ++++++++++ ',$getToken())
+      //console.log('token: ++++++++++ ',$getToken())
       if ($getToken()==null || $getUser()==null || $isLogged()==null || $isLogged()==false) {
         $loggout()
         return redirect('/login')
@@ -148,14 +148,9 @@
       loading: false,
       isAuthenticate:false,
       loggedInUser:null,
-      cards: ['Today', 'Yesterday'],
+      cards: [],
       drawer: null,
-      links: [
-        ['mdi-inbox-arrow-down', 'Inbox'],
-        ['mdi-send', 'Send'],
-        ['mdi-delete', 'Trash'],
-        ['mdi-alert-octagon', 'Spam'],
-      ],
+      links: [],
     }),
     methods: {
       async logout() {
