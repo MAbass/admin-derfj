@@ -11,8 +11,8 @@
                 :title="'Nombre total d\'utilisateurs actifs '"                
                 :icon="'mdi-account-group-outline'"
                 :nbr="'0'"
-                :colorIcon="'#00ac47'"
-                :colorText="'#00ac47'"
+                :colorIcon="'secondary'"
+                :colorText="'secondary'"
                 :class="'custom-card-user  border-user'"
               >
               </stat-box>
@@ -23,6 +23,7 @@
                 :icon="'mdi-credit-card'"
                 :nbr="'0'"
                 :colorIcon="'primary'"
+                :colorText="'primary'"
                 :class="'custom-card-user  border-user'"
               >
               </stat-box>
