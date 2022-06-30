@@ -155,7 +155,7 @@
     <v-btn
       :loading="loading"
       :disabled="!valid"
-      class="mr-4 text-white" color="#1B73E8"
+      class="mr-4 text-white" color="primary"
       @click="submitForm"
     >
       Enregistrer

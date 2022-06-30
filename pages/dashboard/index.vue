@@ -6,7 +6,7 @@
   <div class="custom-container mt-5">
     <v-card class="container" flat>  
        <v-row>
-            <v-col md="4" sm="12" lg="4">
+            <v-col md="3" sm="12" lg="3">
               <stat-box 
                 :title="'Nombre total d\'utilisateurs actifs '"                
                 :icon="'mdi-account-group-outline'"
@@ -17,22 +17,12 @@
               >
               </stat-box>
             </v-col>
-            <v-col md="4" sm="12" lg="4">
-              <stat-box 
-                :title="'Nombre total de région d\'intervention'"
-                :icon="'mdi-map'"
-                :nbr="'0'"
-                :colorIcon="'#007cf6'"
-                :class="'custom-card-user  border-user'"
-              >
-              </stat-box>
-            </v-col>
-            <v-col md="4" sm="12" lg="4">
+            <v-col md="3" sm="12" lg="3">
               <stat-box 
                 :title="'Nombre total de financement'"
                 :icon="'mdi-credit-card'"
                 :nbr="'0'"
-                :colorIcon="'#ffba00'"
+                :colorIcon="'primary'"
                 :class="'custom-card-user  border-user'"
               >
               </stat-box>
