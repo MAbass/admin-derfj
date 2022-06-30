@@ -10,8 +10,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - msas',
-    title: 'msas',
+    titleTemplate: '%s - derfj',
+    title: 'derfj',
     htmlAttrs: {
       lang: 'fr'
     },
@@ -105,7 +105,7 @@ export default {
       light: true,
       themes: {
         light: {
-          primary: "#047486",
+          primary: "#7E4F25",
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,

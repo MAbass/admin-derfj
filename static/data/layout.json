@@ -13,36 +13,6 @@
       "href": "/utilisateurs",
       "title": "Utilisateurs",
       "name": "gerer-utilisateurs"
-    },
-    {
-      "icon": "mdi-home-city-outline",
-      "href": "/structures",
-      "title": "Structures",
-      "name": "gerer-structures"
-    },
-    {
-      "icon": "mdi-home-city-outline",
-      "href": "/investissements",
-      "title": "Investissements",
-      "name": "gerer-investissements"
-    },
-    {
-      "icon": "mdi-home-city-outline",
-      "href": "/investissements/traitement",
-      "title": "Traitement de données",
-      "name": "gerer-investissements"
-    },
-    {
-      "icon": "mdi-file-document-outline",
-      "href": "/demandes",
-      "title": "Demandes",
-      "name":"gerer-demandes"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/parametres",
-      "title": "Paramétrage",
-      "name": "gerer-parametres"
     }
   ]
  }
