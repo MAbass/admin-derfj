@@ -10,8 +10,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - derfj',
-    title: 'derfj',
+    titleTemplate: '%s',
+    title: 'DER/FJ',
     htmlAttrs: {
       lang: 'fr'
     },
@@ -55,7 +55,7 @@ export default {
   ],
 
   axios: {
-    baseURL: 'https://msas.ip3dev.com/api-msas/public/api',
+    baseURL: 'https://msas.ip3dev.com/api-derfj/public/api',
   },
   
   auth: {
@@ -123,6 +123,6 @@ export default {
   },
 
   env: {
-    baseUrl: 'https://msas.ip3dev.com/api-msas/public/api',
+    baseUrl: 'https://msas.ip3dev.com/api-derfj/public/api',
   }
 }

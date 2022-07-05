@@ -13,6 +13,12 @@
       "href": "/utilisateurs",
       "title": "Utilisateurs",
       "name": "gerer-utilisateurs"
+    },
+    {
+      "icon": "mdi-credit-card-outline",
+      "href": "/enquetes",
+      "title": "Enquetes",
+      "name": "gerer-projets"
     }
   ]
  }
