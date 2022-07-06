@@ -5,7 +5,7 @@
   </div> 
   <div class="custom-container mt-5">
     <v-card class="container pl-10 pt-10 pb-10 pr-10" flat>  
-      <form-add-projet></form-add-projet>
+      <form-add-enquete></form-add-enquete>
     </v-card>
   </div> 
 </div>
@@ -14,22 +14,22 @@
 <script>
 import LeftMenu from '@/components/LeftMenu';
 import PageHeader from '@/components/PageHeader';
-import FormAddProjet from '@/components/projets/FormAddProjet';
+import FormAddEnquete from '@/components/enquetes/FormAddEnquete';
   export default {
     layout: "dashboard",
     components: {
       LeftMenu,
       PageHeader,
-      FormAddProjet
+      FormAddEnquete
     },
     middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('gerer-projets')){
+      if(!$hasPermission('gerer-enquetes')){
         return redirect('/')
       }
     },
     mounted: function() {
       /* this.$store.dispatch('roles/getList')
-      this.$store.dispatch('projets/getList')
+      this.$store.dispatch('enquetes/getList')
       this.$store.dispatch('fournisseurs/getList') */
       this.$store.dispatch('annees/getList')
       this.$store.dispatch('monnaies/getList')
@@ -51,7 +51,7 @@ import FormAddProjet from '@/components/projets/FormAddProjet';
         {
           text: 'Nouvelle enquete',
           disabled: false,
-          to: '/enquetes/addprojet',
+          to: '/enquetes/addenquete',
           exact: true
         }
         

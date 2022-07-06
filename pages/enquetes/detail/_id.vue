@@ -9,10 +9,10 @@
      <v-row align="center"
             justify="center">
             <v-col cols="12" md="12" lg="12" sm="12" class="my-5">
-              <actions-projet></actions-projet>
+              <actions-enquete></actions-enquete>
             </v-col>
             <v-col cols="12" md="12" lg="12" sm="12">
-              <info-projet></info-projet>
+              <info-enquete></info-enquete>
             </v-col>
             
           </v-row>
@@ -23,19 +23,19 @@
 
 <script>
 import PageHeader from '@/components/PageHeader';
-import InfoProjet from '@/components/projets/detail/InfoProjet';
-import ActionsProjet from '@/components/projets/detail/ActionsProjet';
-import HistoriqueProjet from '@/components/projets/detail/HistoriqueProjet';
+import InfoEnquete from '@/components/enquetes/detail/InfoEnquete';
+import ActionsEnquete from '@/components/enquetes/detail/ActionsEnquete';
+import HistoriqueEnquete from '@/components/enquetes/detail/HistoriqueEnquete';
   export default {
     layout: "dashboard",
     components: {
       PageHeader,
-      InfoProjet,
-      ActionsProjet,
-      HistoriqueProjet,
+      InfoEnquete,
+      ActionsEnquete,
+      HistoriqueEnquete,
     },
     middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('gerer-projets')){
+      if(!$hasPermission('gerer-enquetes')){
         return redirect('/')
       }
     },
@@ -44,15 +44,15 @@ import HistoriqueProjet from '@/components/projets/detail/HistoriqueProjet';
         id : this.$nuxt._route.params.id,
         headerItems: [
         {
-          text: 'projets',
+          text: 'enquetes',
           disabled: false,
-          to: '/projets',
+          to: '/enquetes',
           exact: true
         },
         {
-          text: 'Detail projet',
+          text: 'Detail enquete',
           disabled: true,
-          to: '/projets/94',
+          to: '/enquetes/94',
           exact: true
         }
         

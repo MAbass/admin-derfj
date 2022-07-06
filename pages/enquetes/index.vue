@@ -5,7 +5,7 @@
   </div> 
   <div class="custom-container mt-5">
     <v-card class="container" flat>  
-      <table-projet></table-projet>
+      <table-enquete></table-enquete>
     </v-card>
   </div> 
 </div>
@@ -13,22 +13,22 @@
 
 <script>
 import PageHeader from '@/components/PageHeader';
-import TableProjet from '@/components/projets/TableProjet'
+import TableEnquete from '@/components/enquetes/TableEnquete'
 import { mapActions} from 'vuex'
   export default {
     layout: "dashboard",
     middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('gerer-projets')){
+      if(!$hasPermission('gerer-enquetes')){
         return redirect('/')
       }
     },
     components: {
       PageHeader,
-      TableProjet
+      TableEnquete
     },
     mounted: function() {
       /* this.$store.dispatch('roles/getList')
-      this.$store.dispatch('projets/getList')
+      this.$store.dispatch('enquetes/getList')
       this.$store.dispatch('fournisseurs/getList') */
     },
     data () {
@@ -36,9 +36,9 @@ import { mapActions} from 'vuex'
         selectedItem: 0,
         headerItems: [
           {
-            text: 'Liste des projets',
+            text: 'Liste des enquetes',
             disabled: true,
-            to: '/projets',
+            to: '/enquetes',
             exact: true
           }
         ]

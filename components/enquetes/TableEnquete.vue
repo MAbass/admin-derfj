@@ -8,8 +8,8 @@
           >
         </v-tabs>
       </div>
-      <div class="ml-auto p-2" v-if="$hasPermission('ajouter_projet')">
-        <v-btn depressed rounded color="primary" @click="goToAddprojet">
+      <div class="ml-auto p-2" v-if="$hasPermission('ajouter_enquete')">
+        <v-btn depressed rounded color="primary" @click="goToAddenquete">
           <v-icon left> mdi-plus </v-icon>
           Ajouter une enquete
         </v-btn>
@@ -20,11 +20,11 @@
       <v-tab-item v-for="(item,i) in tabItems" :key="i">
         <div>
           <v-card-title class="col-12">
-            <!-- <recherche-projet></recherche-projet> -->
+            <!-- <recherche-enquete></recherche-enquete> -->
           </v-card-title>
           <v-data-table
             :headers="headers"
-            :items="item.value=='publie'?listprojets.filter(projet => projet.status=='publie'):listprojets.filter(projet => (item.value==projet.status & $hasPermission(projet.state) & $hasPermission(projet.status)))"
+            :items="item.value=='publie'?listenquetes.filter(enquete => enquete.status=='publie'):listenquetes.filter(enquete => (item.value==enquete.status & $hasPermission(enquete.state) & $hasPermission(enquete.status)))"
             :single-select="singleSelect"
             item-key="id"
             :items-per-page="perpage"
@@ -195,11 +195,11 @@
 </template>
 <script>
 import { mapMutations, mapGetters } from 'vuex'
-import RechercheProjet from '@/components/projets/RechercheProjet';
-import RechercheAvance from '@/components/projets/RechercheAvance';
+import RechercheEnquete from '@/components/enquetes/RechercheEnquete';
+import RechercheAvance from '@/components/enquetes/RechercheAvance';
   export default {
     components: {
-      RechercheProjet,
+      RechercheEnquete,
       RechercheAvance
     },
     mounted: function() {    
@@ -221,26 +221,26 @@ import RechercheAvance from '@/components/projets/RechercheAvance';
           type_source: null,
           source: null         
         }
-        this.$store.commit('projets/initdatasearch',data)
+        this.$store.commit('enquetes/initdatasearch',data)
       this.getList(1)
     },
     computed: mapGetters({
-      listprojets: 'projets/listprojets',
-      headers: 'projets/headerprojets',
-      totalpage: 'projets/totalpage',
-      perpage: 'projets/perpage',
-      datasearch: 'ligneprojets/datasearch',
+      listenquetes: 'enquetes/listenquetes',
+      headers: 'enquetes/headerenquetes',
+      totalpage: 'enquetes/totalpage',
+      perpage: 'enquetes/perpage',
+      datasearch: 'ligneenquetes/datasearch',
     }),
     methods: {
       getList(page){
           this.progress=true
-          this.$msasApi.$get('/projets?page='+page)
+          this.$msasApi.$get('/enquetes?page='+page)
         .then(async (response) => {
-            console.log('list projet ++++++++++',response)
+            console.log('list enquete ++++++++++',response)
             let totalPages = Math.ceil(response.data.total / response.data.per_page)
-            this.$store.dispatch('projets/getTotalPage',totalPages)
-            this.$store.dispatch('projets/getPerPage',response.data.per_page)
-            this.$store.dispatch('projets/getList',response.data.data)
+            this.$store.dispatch('enquetes/getTotalPage',totalPages)
+            this.$store.dispatch('enquetes/getPerPage',response.data.per_page)
+            this.$store.dispatch('enquetes/getList',response.data.data)
             console.log('total page ++++++++++',response.data.total / response.data.per_page)
         }).catch((error) => {
             /* this.$toast.global.my_error().goAway(1500) */ //Using custom toast
@@ -250,18 +250,18 @@ import RechercheAvance from '@/components/projets/RechercheAvance';
             console.log('Requette envoyé ')
             this.progress=false
         });
-        //console.log('total items++++++++++',this.paginationprojet)
+        //console.log('total items++++++++++',this.paginationenquete)
       },
       getResult(param){
          this.progress=true
        
-         this.$msasFileApi.post('/recherche_avance_projets',param)
+         this.$msasFileApi.post('/recherche_avance_enquetes',param)
           .then(async (response) => {
             console.log('Données reçus++++++++++++',response.data.data.data)
-            await this.$store.dispatch('projets/getList',response.data.data.data)
+            await this.$store.dispatch('enquetes/getList',response.data.data.data)
             let totalPages = Math.ceil(response.data.data.total / response.data.data.per_page)
-            this.$store.dispatch('projets/getTotalPage',totalPages)
-            this.$store.dispatch('projets/getPerPage',response.data.data.per_page)
+            this.$store.dispatch('enquetes/getTotalPage',totalPages)
+            this.$store.dispatch('enquetes/getPerPage',response.data.data.per_page)
             
         }).catch((error) => {
              /* this.$toast.global.my_error().goAway(1500) */ //Using custom toast
@@ -276,25 +276,25 @@ import RechercheAvance from '@/components/projets/RechercheAvance';
       handlePageChange(value){
         console.log('-------------datasearch est',this.datasearch)
         let data = {...this.datasearch,page:value}
-        this.$store.commit('projets/initdatasearch',data)
+        this.$store.commit('enquetes/initdatasearch',data)
         this.getResult(data)
         this.getList(value)
 
       },
       visualiserItem (item) {
-        this.$store.dispatch('projets/getDetail',item)
-        this.$router.push('/projets/detail/'+item.id);
+        this.$store.dispatch('enquetes/getDetail',item)
+        this.$router.push('/enquetes/detail/'+item.id);
       },
       editItem (item) {
-        this.$store.dispatch('projets/getDetail',item)
-        this.$router.push('/projets/modifier/'+item.id);
+        this.$store.dispatch('enquetes/getDetail',item)
+        this.$router.push('/enquetes/modifier/'+item.id);
       },
       async deleteItem () {
         this.dialog=false
         this.$store.dispatch('toast/getMessage',{type:'processing',text:'Traitement en cours ...'})
-        this.$msasApi.$delete('/projets/'+this.activeItem.id)
+        this.$msasApi.$delete('/enquetes/'+this.activeItem.id)
         .then(async (response) => {
-            this.$store.dispatch('projets/deleteprojet',this.activeItem.id)
+            this.$store.dispatch('enquetes/deleteenquete',this.activeItem.id)
             this.$store.dispatch('toast/getMessage',{type:'success',text:response.data.message || 'Suppression réussie'})
             }).catch((error) => {
               this.$store.dispatch('toast/getMessage',{type:'error',text:error || 'Echec de la suppression'})
@@ -314,18 +314,18 @@ import RechercheAvance from '@/components/projets/RechercheAvance';
         if(this.selected.length!=1)
         alert('Veuillez selectionner un element')
         else{
-          let projet = this.selected.map(function(value){ return value})[0]
-          this.$store.commit('projets/initdetail',projet)
-          this.$router.push('/projets/detail/'+projet.id);
+          let enquete = this.selected.map(function(value){ return value})[0]
+          this.$store.commit('enquetes/initdetail',enquete)
+          this.$router.push('/enquetes/detail/'+enquete.id);
         }
       },
       modifier(){
         if(this.selected.length!=1)
         alert('Veuillez selectionner un element')
         else{
-          let projet = this.selected.map(function(value){ return value})[0]
-          this.$store.commit('projets/initdetail',projet)
-          this.$router.push('/projets/modifier/'+projet.id);
+          let enquete = this.selected.map(function(value){ return value})[0]
+          this.$store.commit('enquetes/initdetail',enquete)
+          this.$router.push('/enquetes/modifier/'+enquete.id);
         }
       },
       supprimer(){
@@ -340,8 +340,8 @@ import RechercheAvance from '@/components/projets/RechercheAvance';
         else
         alert('Veuillez selectionner un element')
       },
-      goToAddprojet() {
-        this.$router.push('/enquetes/addProjet');
+      goToAddenquete() {
+        this.$router.push('/enquetes/addEnquete');
       },
     },
     data: () => ({

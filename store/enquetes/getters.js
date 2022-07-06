@@ -1,15 +1,15 @@
 export default {
-    listprojets (state) {
-      return state.listprojets
+    listenquetes (state) {
+      return state.listenquetes
     },
-    headerprojets (state) {
-      return state.headerprojets
+    headerenquetes (state) {
+      return state.headerenquetes
     },
-    headerprojetavances (state) {
-      return state.headerprojetavances
+    headerenqueteavances (state) {
+      return state.headerenqueteavances
     },
-    detailprojet (state) {
-      return state.detailprojet
+    detailenquete (state) {
+      return state.detailenquete
     },
     totalpage (state) {
       return state.totalPage

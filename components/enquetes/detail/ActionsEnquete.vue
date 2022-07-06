@@ -1,6 +1,6 @@
 <template>
   <v-row
-    align="center"
+    align-item="center"
     justify="space-around"
   >
     <v-btn
@@ -17,14 +17,14 @@
       flat
       outlined
       v-on:click="modifier()"
-      v-if="detailprojet.status=='brouillon' || detailprojet.status=='rejete'"
+      v-if="detailenquete.status=='brouillon' || detailenquete.status=='rejete'"
     >
       <v-icon left>
         mdi-pencil
       </v-icon>
       Modifier
     </v-btn> 
-    <div v-if="$hasPermission(detailprojet.state) && $hasPermission('rejet') && (detailprojet.status=='rejete' || detailprojet.status=='a_valider' || $hasRole('admin_dprs'))">
+    <div v-if="$hasPermission(detailenquete.state) && $hasPermission('rejet') && (detailenquete.status=='rejete' || detailenquete.status=='a_valider' || $hasRole('admin_dprs'))">
       <template>
         <v-row >
           <v-dialog
@@ -59,7 +59,7 @@
                       outlined
                       color="error"
                       v-on:click="rejeter()"
-                      v-if="$hasPermission(detailprojet.state) && $hasPermission('rejet') && (detailprojet.status=='rejete' || detailprojet.status=='a_valider' || $hasRole('admin_dprs'))"
+                      v-if="$hasPermission(detailenquete.state) && $hasPermission('rejet') && (detailenquete.status=='rejete' || detailenquete.status=='a_valider' || $hasRole('admin_dprs'))"
                     >
                       <v-icon left>
                         mdi-check
@@ -81,7 +81,7 @@
       outlined
       color="green"
       v-on:click="valider()"
-      v-if="($hasPermission(detailprojet.state) || ($hasRole('point_focal') && detailprojet.state=='INITIER_INVESTISSEMENT')) && $hasPermission('validation')"
+      v-if="($hasPermission(detailenquete.state) || ($hasRole('point_focal') && detailenquete.state=='INITIER_INVESTISSEMENT')) && $hasPermission('validation')"
     >
       <v-icon left>
         mdi-check
@@ -95,11 +95,11 @@
 import { mapMutations, mapGetters } from 'vuex'
   export default {
     mounted: function() {
-      this.state=this.detailprojet.state
-      this.status=this.detailprojet.status
+      this.state=this.detailenquete.state
+      this.status=this.detailenquete.status
     },
     computed: mapGetters({
-      detailprojet: 'projets/detailprojet'
+      detailenquete: 'enquetes/detailenquete'
     }),
     data: () => ({
       state:'',
@@ -129,22 +129,22 @@ import { mapMutations, mapGetters } from 'vuex'
         alert('Formulaire soumis')
       },
       retour(){       
-        this.$router.push('/projets');
+        this.$router.push('/enquetes');
       },
       modifier(){ 
-        this.$router.push('/projets/modifier/'+this.detailprojet.id);      
+        this.$router.push('/enquetes/modifier/'+this.detailenquete.id);      
       },
 
       valider () {
         this.loadingValidation = true;
-        console.log('Donées formulaire ++++++ : ',{id:this.detailprojet.id})
+        console.log('Donées formulaire ++++++ : ',{id:this.detailenquete.id})
         
-        this.$msasApi.post('/validation_projet', {id:this.detailprojet.id})
+        this.$msasApi.post('/validation_enquete', {id:this.detailenquete.id})
           .then((res) => {  
             this.state = res.data.data.state  
             this.status = res.data.data.status  
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message || 'Validation réussie !'})
-            this.$router.push('/projets');
+            this.$router.push('/enquetes');
             
           })
           .catch((error) => {
@@ -157,14 +157,14 @@ import { mapMutations, mapGetters } from 'vuex'
       },
       rejeter () {
         this.loadingRejet = true;
-        console.log('Donées formulaire ++++++ : ',{id:this.detailprojet.id})
+        console.log('Donées formulaire ++++++ : ',{id:this.detailenquete.id})
         
-        this.$msasApi.post('/rejet_projet', {id:this.detailprojet.id,motif_rejet:this.model.motif})
+        this.$msasApi.post('/rejet_enquete', {id:this.detailenquete.id,motif_rejet:this.model.motif})
           .then((res) => {  
             this.state = res.data.data.state  
             this.status = res.data.data.status 
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message || 'Investissement rejeté avec succés!'})
-            this.$router.push('/projets');
+            this.$router.push('/enquetes');
             
           })
           .catch((error) => {

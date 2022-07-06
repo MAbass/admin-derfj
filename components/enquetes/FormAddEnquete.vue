@@ -44,71 +44,71 @@
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="SelectedSource_financements"
-              :items="listsources"
+              v-model="model.commune"
+              :items="listcommunes"
               outlined
               dense
               label="Commune"
-              item-text="libelle_source"
+              item-text="nom_commune"
               item-value="id"
               return-object
-              @change="changeSource_financement"
+              @change="changeCommune"
             >
             </v-autocomplete>
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="selectedType_sources"
-              :items="selectedType_sources"
+              v-model="model.departement"
+              :items="listdepartements"
               outlined
               dense
               label="Departement"
-              item-text="libelle_type_source"
+              item-text="nom_departement"
               item-value="id"
               return-object
-              @change="changeType_source"
+              @change="changeDepartement"
             >
             </v-autocomplete>
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="SelectedSource_financements"
-              :items="listsources"
+              v-model="model.region"
+              :items="listregions"
               outlined
               dense
               label="Région"
-              item-text="libelle_source"
+              item-text="nom_region"
               item-value="id"
               return-object
-              @change="changeSource_financement"
+              @change="changeRegion"
             >
             </v-autocomplete>
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="selectedType_sources"
-              :items="selectedType_sources"
+              v-model="model.beneficiaire"
+              :items="listbeneficiaires"
               outlined
               dense
               label="Bénéficiaire"
-              item-text="libelle_type_source"
+              item-text="nom"
               item-value="id"
               return-object
-              @change="changeType_source"
+              @change="changeBeneficiaire"
             >
             </v-autocomplete>
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="selectedType_sources"
-              :items="selectedType_sources"
+              v-model="model.projet"
+              :items="listprojets"
               outlined
               dense
-              label="Projet"
-              item-text="libelle_type_source"
+              label="Projets"
+              item-text="titre"
               item-value="id"
               return-object
-              @change="changeType_source"
+              @change="changeProjet"
             >
             </v-autocomplete>
           </v-col>
@@ -249,6 +249,7 @@ import { mapMutations, mapGetters } from 'vuex'
     mounted: function() {
       this.listPiliers=this.listiliers
       this.listDimensions=this.listdimensions
+      this.listcommunes=this.projetByCommune
     },
     computed: {
       ...mapGetters({
@@ -262,6 +263,27 @@ import { mapMutations, mapGetters } from 'vuex'
       
     })},
     data: () => ({
+      listcommunes:[],
+      listdepartements:[],
+      listregions:[],
+      listbeneficiaires:[],
+      listprojets:[],
+      projetByCommune:[
+        {
+          id:1,nom_commune:'Dakar Plateau',
+          departement:{id:1,nom_departement:'Dakar', region:{id:1,nom_region:'Dakar'}},        
+          beneficiaires:[
+            {id:1,nom:'Cheikh',email:'cheikh@derfj.sn',projets:[{ref:'00B-15',titre:'Projet 1'}]}
+          ],
+        },
+        {
+          id:2,nom_commune:'Pikine Ouest',
+          departement:{id:1,nom_departement:'Pikine',region:{id:1,nom_region:'Dakar'}},          
+          beneficiaires:[
+            {id:1,nom:'Lamine',email:'lamine@derfj.sn',projets:[{id:1,ref:'00B-15',titre:'Projet 3'},{id:2,ref:'00B-16',titre:'Projet 4'}]}
+          ],
+        }
+      ],
       e6: 1,
       inputfichiers:[],
       libelle_fichiers:[],
@@ -318,6 +340,11 @@ import { mapMutations, mapGetters } from 'vuex'
       selectedModeFinancements: [],
       selectedStructure: [],
       model: {
+        commune:null,
+        departement:null,
+        region:null,
+        beneficiaire:null,
+        projet:null,
         libAutreModeFinance:[],
         montantAutreModeFinance:[]
       },
@@ -493,11 +520,11 @@ import { mapMutations, mapGetters } from 'vuex'
 
 
 
-       /* validation && this.$msasFileApi.post('/projets',formData)
+       /* validation && this.$msasFileApi.post('/enquetes',formData)
           .then((res) => {
             console.log('Donées reçus ++++++: ',res)
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message})
-           this.$router.push('/projets');
+           this.$router.push('/enquetes');
           })
           .catch((error) => {
               console.log('Code error ++++++: ', error)
@@ -632,6 +659,31 @@ import { mapMutations, mapGetters } from 'vuex'
         console.log('************',value)
 
       },
+      async changeCommune(value) {   
+        //reinitialisation
+        this.model.departement = null 
+        this.model.beneficiaire = null
+        this.model.region = null 
+        this.model.projet = null
+        
+        //chargement
+        this.listdepartements = [value?.departement]  
+        this.listbeneficiaires = value?.beneficiaires 
+        //console.log('************',i)
+      },
+
+      async changeDepartement(value) {      
+        this.listregions = [value?.region]  
+        //console.log('************',i)
+      },
+
+      async changeBeneficiaire(value) {      
+        console.log('************',value?.nom)
+
+        this.listprojets = value?.projets 
+        //console.log('************',i)
+      },
+      
     },
     metaInfo () {
       return {

@@ -1,15 +1,15 @@
 export default {
     initlist(state, newlist) {
-        state.listprojets = newlist
+        state.listenquetes = newlist
     },
     initheader(state, newlist) {
-        state.headerprojets = newlist
+        state.headerenquetes = newlist
     },
     initheaderavance(state, newlist) {
-        state.headerprojetavances = newlist
+        state.headerenqueteavances = newlist
     },
-    initdetail(state, newprojet) {
-        state.detailprojet = newprojet
+    initdetail(state, newenquete) {
+        state.detailenquete = newenquete
     },
     inittotalpage(state, newtotalpage) {
         state.totalPage = newtotalpage
@@ -25,6 +25,6 @@ export default {
     },
     removeItem(state,payload) {
         console.log('item to delete ++++++++ ',payload)
-        state.listprojets = state.listprojets.filter(item => item.id != payload)
+        state.listenquetes = state.listenquetes.filter(item => item.id != payload)
     }
 }

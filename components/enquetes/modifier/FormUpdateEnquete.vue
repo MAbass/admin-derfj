@@ -8,8 +8,8 @@
               label="Dénomination"
               outlined
               dense
-              v-model="model.nom_structure"
-              :rules="rules.nom_structureRules"
+              v-model="model.nom_enquete"
+              :rules="rules.nom_enqueteRules"
             ></v-text-field>
           </v-col>
           <v-col lg="4" md="4" sm="12">
@@ -142,30 +142,30 @@
       <h2 class="mb-5">Coordonnées siège</h2>
       <v-card class="mx-auto mb-5 pl-10 pt-10 pr-10 pb-5">
         <v-row>
-          <v-col md="4" lg="4" sm="12" v-if="showAdresseStructure">
+          <v-col md="4" lg="4" sm="12" v-if="showAdresseEnquete">
             <v-text-field
-              label="Adresse structure"
+              label="Adresse enquete"
               outlined
               dense
-              v-model="model.adresse_structure"
+              v-model="model.adresse_enquete"
               :rules="rules.firstnameRules"
             ></v-text-field>
           </v-col>
           <v-col md="4" lg="4" sm="12">
             <v-text-field
-              label="Téléphone structure"
+              label="Téléphone enquete"
               outlined
               dense
-              v-model="model.telephone_structure"
+              v-model="model.telephone_enquete"
               :rules="rules.telephoneRules"
             ></v-text-field>
           </v-col>
           <v-col md="4" lg="4" sm="12">
             <v-text-field
-              label="Email structure"
+              label="Email enquete"
               outlined
               dense
-              v-model="model.email_structure"
+              v-model="model.email_enquete"
               :rules="rules.emailRules"
             ></v-text-field>
           </v-col>
@@ -305,7 +305,7 @@ import { mapMutations, mapGetters } from 'vuex'
     },
     computed: 
       mapGetters({
-      detailstructure:'structures/detailstructure',
+      detailenquete:'enquetes/detailenquete',
       listtypezones: 'type-zones/listtypezones',
       listsources: 'sources/listsources',
       listregions: 'regions/listregions',
@@ -324,7 +324,7 @@ import { mapMutations, mapGetters } from 'vuex'
       showNumAutorisation: false,
       showAccordSiege: false,
       showNumAgrement: false,
-      showAdresseStructure: false,
+      showAdresseEnquete: false,
       showRegion: false,
       message:null,
       selectedSource_financements: [],
@@ -335,15 +335,15 @@ import { mapMutations, mapGetters } from 'vuex'
       selectedType_zone_interventions: [],
       model: {
         id : '',
-        nom_structure:'',
+        nom_enquete:'',
         numero_autorisation:'',
         accord_siege:'',
         numero_agrement:'',
-        adresse_structure:'',
+        adresse_enquete:'',
         debut_intervention:'',
         fin_intervention:'',
-        telephone_structure:'',
-        email_structure:'',
+        telephone_enquete:'',
+        email_enquete:'',
         firstname_responsable:'',
         lastname_responsable:'',
         email_responsable:'',
@@ -353,7 +353,7 @@ import { mapMutations, mapGetters } from 'vuex'
         type_zone_value:''
       },
       rules:{
-        nom_structureRules: [
+        nom_enqueteRules: [
           v => !!v || 'Dénomination est obligatoire'
         ],
         nameRules: [
@@ -381,8 +381,8 @@ import { mapMutations, mapGetters } from 'vuex'
         fournisseur_services_idRules: [
           v => (!!v) || 'Fournisseur est obligatoire',
         ],
-        structure_idRules: [
-          v => (!!v) || 'Structure est obligatoire',
+        enquete_idRules: [
+          v => (!!v) || 'Enquete est obligatoire',
         ],
         adresseRules: [
           v => !!v || 'Adresse est obligatoire',
@@ -421,12 +421,12 @@ import { mapMutations, mapGetters } from 'vuex'
     methods: {
       getDetail(id){
           this.progress=true
-          this.$msasApi.$get('/structures/'+id)
+          this.$msasApi.$get('/enquetes/'+id)
         .then(async (response) => {
-            console.log('Detail structure ++++++++++',response.data)
-            this.$store.dispatch('structures/getDetail',response.data)
+            console.log('Detail enquete ++++++++++',response.data)
+            this.$store.dispatch('enquetes/getDetail',response.data)
             this.model.id= response.data.id
-            this.model.nom_structure= response.data.nom_structure
+            this.model.nom_enquete= response.data.nom_enquete
             this.selectedSource_financements= response.data.source_financements[0]
             this.changeSource_financement(response.data.source_financements[0])
             this.selectedType_sources = response.data.type_sources[0]
@@ -434,9 +434,9 @@ import { mapMutations, mapGetters } from 'vuex'
             this.model.numero_autorisation = response.data.numero_autorisation
             this.model.debut_intervention = response.data.debut_intervention
             this.model.fin_intervention = response.data.fin_intervention
-            this.model.adresse_structure = response.data.adresse_structure
-            this.model.telephone_structure= response.data.telephone_structure
-            this.model.email_structure= response.data.email_structure
+            this.model.adresse_enquete = response.data.adresse_enquete
+            this.model.telephone_enquete= response.data.telephone_enquete
+            this.model.email_enquete= response.data.email_enquete
             //this.selectedType_zone_interventions= response.data.type_zone_interventions[0]
             this.model.type_zone_value = response.data.type_zone_interventions[0]
             this.changeType_zone_intervention(response.data.type_zone_interventions[0])
@@ -450,7 +450,7 @@ import { mapMutations, mapGetters } from 'vuex'
         }).finally(() => {
             console.log('Requette envoyé ')
         });
-        //console.log('total items++++++++++',this.paginationstructure)
+        //console.log('total items++++++++++',this.paginationenquete)
       },
       handleFileUpload(e){
         //Recupère le fichier
@@ -487,15 +487,15 @@ import { mapMutations, mapGetters } from 'vuex'
 
         formData.append("id", this.model.id);
         formData.append("_method", "put");
-        formData.append("nom_structure", this.model.nom_structure);
+        formData.append("nom_enquete", this.model.nom_enquete);
         formData.append("numero_autorisation",this.model.numero_autorisation);
         formData.append("accord_siege",this.model.accord_siege);
         formData.append("numero_agrement",this.model.numero_agrement);
-        formData.append("adresse_structure",this.model.adresse_structure);
+        formData.append("adresse_enquete",this.model.adresse_enquete);
         formData.append("debut_intervention",this.model.debut_intervention);
         formData.append("fin_intervention",this.model.fin_intervention);
-        formData.append("telephone_structure",this.model.telephone_structure);
-        formData.append("email_structure",this.model.email_structure);
+        formData.append("telephone_enquete",this.model.telephone_enquete);
+        formData.append("email_enquete",this.model.email_enquete);
 
         formData.append("source_financements",source_financements);
         formData.append("type_sources",type_sources);
@@ -526,11 +526,11 @@ import { mapMutations, mapGetters } from 'vuex'
 
 
 
-       validation && this.$msasFileApi.post('/structures/'+this.model.id,formData)
+       validation && this.$msasFileApi.post('/enquetes/'+this.model.id,formData)
           .then((res) => {
             console.log('Donées reçus ++++++: ',res)
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message})
-            this.$router.push('/structures');
+            this.$router.push('/enquetes');
           })
           .catch((error) => {
               console.log('Code error ++++++: ', error)
@@ -548,7 +548,7 @@ import { mapMutations, mapGetters } from 'vuex'
       },
       async changeRole(role) {
 
-        let checkRole = this.model.roles.filter(item => item.name === 'agent_structure').length;
+        let checkRole = this.model.roles.filter(item => item.name === 'agent_enquete').length;
         if(checkRole==1)
         this.showFournisseur=true
         else
@@ -564,7 +564,7 @@ import { mapMutations, mapGetters } from 'vuex'
         switch(source.libelle_source){
           case 'EPS' : {
             console.log('************',this.showNumAutorisation)
-            this.showAdresseStructure=true
+            this.showAdresseEnquete=true
 
             this.showNumAutorisation=false
             this.showNumAgrement=false
@@ -575,7 +575,7 @@ import { mapMutations, mapGetters } from 'vuex'
           break;
           case 'SPS' : {
             this.showNumAutorisation=true
-            this.showAdresseStructure=true
+            this.showAdresseEnquete=true
 
             this.showNumAgrement=false
             this.showAccordSiege=false
@@ -589,12 +589,12 @@ import { mapMutations, mapGetters } from 'vuex'
             this.showNumAutorisation=false
             this.showDebutIntervention=true
             this.showFinIntervention=true
-            this.showAdresseStructure=true
+            this.showAdresseEnquete=true
           }
           break;
           case 'ONG' : {
             this.showNumAgrement=true
-            this.showAdresseStructure=true
+            this.showAdresseEnquete=true
 
             this.showNumAutorisation=false
             this.showAccordSiege=false
@@ -603,7 +603,7 @@ import { mapMutations, mapGetters } from 'vuex'
           }
           break;
           case 'RSE' : {
-            this.showAdresseStructure=true
+            this.showAdresseEnquete=true
 
             this.showNumAutorisation=false
             this.showNumAgrement=false
@@ -613,7 +613,7 @@ import { mapMutations, mapGetters } from 'vuex'
           }
           break;
           case 'CT' : {
-            this.showAdresseStructure=false
+            this.showAdresseEnquete=false
 
             this.showNumAutorisation=false
             this.showNumAgrement=false

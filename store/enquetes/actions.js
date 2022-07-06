@@ -7,7 +7,7 @@ export default {
     async getDetail({commit},payload){
         await commit('initdetail', payload)
     },
-    async deleteprojet({commit,dispatch,state},payload){
+    async deleteenquete({commit,dispatch,state},payload){
         await commit('removeItem',payload)     
     },
     async getTotalPage({commit},payload){

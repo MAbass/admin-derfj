@@ -5,7 +5,7 @@
   </div> 
   <div class="custom-container mt-5">
     <v-card class="container pl-10 pt-10 pb-10 pr-10" flat>  
-     <form-update-structure></form-update-structure>
+     <form-update-enquete></form-update-enquete>
     </v-card>
   </div> 
 </div>
@@ -13,21 +13,21 @@
 
 <script>
 import PageHeader from '@/components/PageHeader';
-import FormUpdateStructure from '@/components/structures/modifier/FormUpdateStructure';
+import FormUpdateEnquete from '@/components/enquetes/modifier/FormUpdateEnquete';
   export default {
     layout: "dashboard",
     components: {
       PageHeader,
-      FormUpdateStructure
+      FormUpdateEnquete
     },
     middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('gerer-structures')){
+      if(!$hasPermission('gerer-enquetes')){
         return redirect('/')
       }
     },
     mounted: function() {
       //this.$store.dispatch('roles/getList')
-      /* this.$store.dispatch('structures/getList')
+      /* this.$store.dispatch('enquetes/getList')
       this.$store.dispatch('fournisseurs/getList') */
       this.$store.dispatch('type-zones/getList')
       this.$store.dispatch('typesources/getList')
@@ -40,15 +40,15 @@ import FormUpdateStructure from '@/components/structures/modifier/FormUpdateStru
       return {
         headerItems: [
         {
-          text: 'Structures',
+          text: 'Enquetes',
           disabled: false,
-          to: '/structures',
+          to: '/enquetes',
           exact: true
         },
         {
-          text: 'Detail structure',
+          text: 'Detail enquete',
           disabled: true,
-          to: '/structures/94',
+          to: '/enquetes/94',
           exact: true
         }
         

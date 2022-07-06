@@ -1,7 +1,7 @@
 export default () => ({
-    listprojets: [],
+    listenquetes: [],
 
-    headerprojets : [
+    headerenquetes : [
         { text: 'Année', value: 'annee' },
         { text: 'Monnaie', value: 'monnaie'},
         { text: 'Région', value: 'region'},
@@ -10,7 +10,7 @@ export default () => ({
         { text: 'Statut', value: 'status'},
         { text: 'Actions', value: 'actions', sortable: false },
     ],
-    headerprojetavances : [
+    headerenqueteavances : [
         { text: 'Année', value: 'annee' },
         { text: 'Monnaie', value: 'monnaie'},
         { text: 'Région', value: 'region'},
@@ -20,9 +20,9 @@ export default () => ({
         { text: 'Pilier', value: 'piliers'},
         { text: 'Actions', value: 'actions', sortable: false },
     ],
-    detailprojet :{},
+    detailenquete :{},
     //Intialise la pagination
-    paginationprojet :{},
+    paginationenquete :{},
     totalPage :1,
     perPage :15,
     currentPage :1,

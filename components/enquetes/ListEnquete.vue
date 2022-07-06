@@ -11,7 +11,7 @@
         depressed
         rounded
         color="primary"
-        @click="goToAddprojet"
+        @click="goToAddenquete"
         >
           <v-icon left>
             mdi-plus
@@ -23,27 +23,27 @@
     
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in tabItems"  :key="item.value" >
-          <table-projet :tab="item.value"></table-projet> 
+          <table-enquete :tab="item.value"></table-enquete> 
       </v-tab-item>          
     </v-tabs-items>
   </div>
 </template>
 <script>
-import TableProjet from '@/components/projets/TableProjet'
+import TableEnquete from '@/components/enquetes/TableEnquete'
   export default {
     components: {
-      TableProjet
+      TableEnquete
     },
     data: () => ({
       tab: null,
       tabItems: [
-        {title:'Tous les projets',value:'tout'}, {title:'Investissement à valider',value:true}
+        {title:'Tous les enquetes',value:'tout'}, {title:'Investissement à valider',value:true}
       ],
       selected: []
     }),
     methods:{
-      goToAddprojet() {      
-        this.$router.push('/projets/addInvestissement');
+      goToAddenquete() {      
+        this.$router.push('/enquetes/addInvestissement');
       },
     }
   }
