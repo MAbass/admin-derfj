@@ -51,7 +51,7 @@ import FormAddEnquete from '@/components/enquetes/FormAddEnquete';
         {
           text: 'Nouvelle enquete',
           disabled: false,
-          to: '/enquetes/addenquete',
+          to: '/enquetes/addEnquete',
           exact: true
         }
         

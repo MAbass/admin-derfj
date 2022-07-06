@@ -223,6 +223,7 @@ import RechercheAvance from '@/components/enquetes/RechercheAvance';
         }
         this.$store.commit('enquetes/initdatasearch',data)
       this.getList(1)
+
     },
     computed: mapGetters({
       listenquetes: 'enquetes/listenquetes',
