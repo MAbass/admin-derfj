@@ -1,79 +1,14 @@
 <template>
-  <v-container pl-0>
-    <v-row>
-      <v-col md="12" lg="12" sm="12" class="full-height">
-          <page-header :items="headerItems"></page-header>
-          <v-row class="d-flex align-items-center border-bottom-solid mb-6">
-            <h2 class="mt-4 ml-6 card-title custom-font">Statistiques globales</h2><v-spacer></v-spacer>
-            <h3 class="mt-4 card-title custom-font">Période du </h3>
-            <v-col lg="4" sm="12" md="4">
-              <v-menu
-                v-model="menu1"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="model.debut"
-                    label=""
-                    append-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    outlined dense
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="model.debut"
-                  @input="menu1 = false"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-            <h3 class="mt-4 card-title custom-font">au </h3>
-            <v-col lg="4" sm="12" md="4">
-              <v-menu
-                v-model="menu2"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="model.fin"
-                    label=""
-                    append-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    outlined dense
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="model.fin"
-                  @input="menu2 = false"
-                ></v-date-picker>
-              </v-menu>
-            </v-col> 
-          </v-row>
           <v-row>
             <v-col md="6" lg="6" sm="12" class="custom-bloc-chart border-right-chart">
-                <h4 class="card-title custom-font">Utilisateurs</h4 class="card-title custom-font">
+                <h4 class="card-title custom-font">Evolution mensuelle des enquetes</h4 class="card-title custom-font">
                 <BarChart :data="utilisateurData" :options="barChartOptions" :styles="{height: '400px', position: 'relative'}"/>
             </v-col> 
             <v-col md="6" lg="6" sm="12" class="custom-bloc-chart">
-                <h4 class="card-title custom-font">Répartition des structures par region</h4 class="card-title custom-font">
+                <h4 class="card-title custom-font">Répartition des activités par region</h4 class="card-title custom-font">
                 <BarChart :data="enrolementParSiteData" :options="barChartOptions" :styles="{height: '400px', position: 'relative',width:'100%'}"/>
             </v-col>
           </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
-  
 </template>
 
 <script>
@@ -136,7 +71,7 @@ import BarChart from "@/components/statistiques/charts/BarChart";
                     maintainAspectRatio: false
                 },
                 utilisateurData: {
-                    labels:['Utilisateurs'],
+                    labels:['Enquetes'],
                     datasets: [
                         {
                             label: "Actifs",
@@ -213,7 +148,7 @@ import BarChart from "@/components/statistiques/charts/BarChart";
                 enrolementParSiteData: {
                     labels:['DAKAR','THIES','LOUGA'],
                     datasets: [{
-                        label: 'Nombre de structure',
+                        label: 'Nombre de secteur d\'activité',
                         borderWidth: 1,
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         data: [40, 20, 12]

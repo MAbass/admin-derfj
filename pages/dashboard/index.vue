@@ -70,7 +70,13 @@
               >
               </stat-box>
             </v-col>
-          </v-row>
+        </v-row>
+
+        <v-row class="container">
+          <v-card class="container" flat>  
+            <list-chart></list-chart>    
+          </v-card>
+        </v-row>
 
   </div> 
 </div>
