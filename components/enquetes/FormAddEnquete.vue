@@ -9,7 +9,7 @@
       step="1"
       editable
     >
-      Analyse - Identification
+      Identification de la zone
     </v-stepper-step>
 
     <v-stepper-content step="1">
@@ -130,18 +130,33 @@
       step="2"
       editable
     >
-      Analyse - Diagnostic initial
+      Choisir une section
     </v-stepper-step>
 
     <v-stepper-content step="2">
-      <v-card
-        color="grey lighten-1"
-        class="mb-12"
-        height="200px"
-      ></v-card>
+      <v-card class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat>
+        <v-row>
+          <v-col md="12" lg="12" sm="12">
+            <v-radio-group
+              :v-model="selectedDimension"
+              :rules="rules.sexeRules"
+              @change="changeDimension"
+              row
+            >
+              <v-radio
+                class="col-12"
+                v-for="item in listsecteurs"
+                :key="item.id"
+                :label="item.libelle_secteur"
+                :value="item.id"
+              ></v-radio>
+            </v-radio-group>
+          </v-col>
+        </v-row>
+      </v-card>
       <v-btn
         color="primary"
-        @click="e6 = 3"
+        @click="goToSecteur"
       >
         Suivant
       </v-btn>
@@ -154,7 +169,7 @@
       :complete="e6 > 3"
       step="3"
     >
-      Analyse - Diagnostic système
+      Activité de la semaine
     </v-stepper-step>
 
     <v-stepper-content step="3">
@@ -263,6 +278,15 @@ import { mapMutations, mapGetters } from 'vuex'
       
     })},
     data: () => ({
+      listsecteurs : [
+        {id:1,libelle_secteur:'Suivi des dossiers financés par la DER/FJ'},
+        {id:2,libelle_secteur:'Suivi des décaissements au niveau des IFP'},
+        {id:3,libelle_secteur:'Formation et accompagnement des bénéficiaires de la DER/FJ'},
+        {id:4,libelle_secteur:'Situation des recouvrements au niveau départemental'},
+        {id:5,libelle_secteur:'Organisation des sessions d\'animation économique'},
+        {id:6,libelle_secteur:'Activité de représentation dans les comités'},
+        {id:7,libelle_secteur:'Autres activités'},
+      ],
       listcommunes:[],
       listdepartements:[],
       listregions:[],
@@ -285,6 +309,7 @@ import { mapMutations, mapGetters } from 'vuex'
         }
       ],
       e6: 1,
+      secteur_title : '',
       inputfichiers:[],
       libelle_fichiers:[],
       fichiers:[],
@@ -628,6 +653,11 @@ import { mapMutations, mapGetters } from 'vuex'
         //this.selectedType_sources = source.type_sources
         console.log('************',region)
       },
+      async goToSecteur() {
+        //this.showAutreMode=true
+        this.e6 = 3
+        console.log('************',this.e6)
+      },
       async changeMonnaie(monnaie) {
         //this.showAutreMode=true
         this.selectedMonnaie = monnaie
@@ -637,6 +667,11 @@ import { mapMutations, mapGetters } from 'vuex'
       },
       async changeDimension(e) {
         
+        
+        let secteur = this.listsecteurs.filter(item => item.id === e)[0]
+        //console.log('************ secteur',secteur.libelle_secteur)
+        this.secteur_title = secteur.libelle_secteur
+
         let modeFinanceInputs = this.listdimensions.filter(item => item.id === e)
         let predefModeFinanceInputs = modeFinanceInputs.length?modeFinanceInputs[0].ligne_modes:[]
 
