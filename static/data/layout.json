@@ -19,6 +19,12 @@
       "href": "/enquetes",
       "title": "Enquetes",
       "name": "gerer-enquetes"
+    },
+    {
+      "icon": "mdi-cog-outline",
+      "href": "/parametres",
+      "title": "Paramétrage",
+      "name": "gerer-parametres"
     }
   ]
  }

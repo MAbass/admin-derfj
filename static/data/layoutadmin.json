@@ -28,63 +28,9 @@
     },
     {
       "icon": "mdi-cog-outline",
-      "href": "/dimensions",
-      "title": "Dimensions",
-      "name": "gerer-dimensions"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/modefinancements",
-      "title": "Modes de financement",
-      "name": "gerer-modefinancements"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/type-zones",
-      "title": "Type Zone",
-      "name": "gerer-type-zones"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/typesources",
-      "title": "Type Source",
-      "name": "gerer-type-sources"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/sources",
-      "title": "Sources financement",
-      "name": "gerer-source-financement"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/piliers",
-      "title": "Piliers",
-      "name": "gerer-piliers"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/axes",
-      "title": "Axes",
-      "name": "gerer-axes"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/typelignes",
-      "title": "Type Ligne",
-      "name": "gerer-typelignes"
-    },
-    {
-      "icon": "mdi-cog-outline",
       "href": "/annees",
       "title": "Années",
       "name": "gerer-annees"
-    },
-    {
-      "icon": "mdi-cog-outline",
-      "href": "/monnaies",
-      "title": "Monnaies",
-      "name": "gerer-monnaies"
     }
   ]
  }
