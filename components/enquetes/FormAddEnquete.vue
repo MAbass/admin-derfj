@@ -296,14 +296,119 @@
       </v-btn>
     </v-stepper-content>
 
-    <v-stepper-step 
+    <v-stepper-step
       :complete="e6 > 4"
       step="4"
+      editable
+    >
+      Contraintes
+    </v-stepper-step>
+
+    <v-stepper-content step="4">
+      <v-card class="mx-auto mb-5 pl-10 pt-10 pr-10 pb-5" flat>
+        <div class="custom-ligne-bloc">
+          <v-row>
+            <v-col lg="12" md="12" sm="12">
+              <v-row>
+                <v-col md="12" lg="12" sm="12">
+                  <v-row>                   
+                    <v-col md="12" lg="12" sm="12">
+                      <v-textarea
+                        label="Difficulté rencontrée"
+                        outlined
+                        dense
+                        v-model="difficulte_rencontre0"
+                        :rules="rules.firstnameRules"
+                      ></v-textarea>
+                    </v-col>
+                    <v-col md="12" lg="12" sm="12">
+                      <v-textarea
+                        label="Solution trouvée"
+                        outlined
+                        dense
+                        v-model="solution_trouve0"
+                        :rules="rules.firstnameRules"
+                      ></v-textarea>
+                    </v-col>
+                    <v-col md="12" lg="12" sm="12">
+                      <v-textarea
+                        label="Suivi nécessaire"
+                        outlined
+                        dense
+                        v-model="suivie_necessaire0"
+                        :rules="rules.firstnameRules"
+                      ></v-textarea>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              <v-btn
+                color="#00173F"
+                class="white--text"
+                @click="submitLigneContrainte"
+                depressed
+              >
+                Ajouter une contrainte
+                <v-icon right dark> mdi-plus </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </div>
+        <template>
+          <v-simple-table class="custom-ligne-bloc-2">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Difficulté rencontrée
+                  </th>
+                  <th class="text-left">
+                    Solution trouvée
+                  </th>
+                  <th class="text-left">
+                    Suivi nécessaire
+                  </th>
+                  <th class="text-left">
+                    -
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(item,i) in ContrainteInputs"
+                  :key="item.id"
+                >
+                  <td>{{item.difficulte_rencontres}}</td>
+                  <td>{{item.solution_trouves}}</td>
+                  <td>{{item.suivie_necessaires}}</td>
+                  <td><v-icon @click="deleteFindContrainte(i)">mdi-close</v-icon></td>
+                  
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </template>
+        
+      </v-card>
+      <v-btn
+        color="primary"
+        @click="e6 = 5"
+      >
+        Suivant
+      </v-btn>
+      <v-btn text>
+        Annuler
+      </v-btn>
+    </v-stepper-content>
+
+    <v-stepper-step 
+      :complete="e6 > 5"
+      step="5"
       editable
       >
       Attacher des fichiers
     </v-stepper-step>
-    <v-stepper-content step="4">
+    <v-stepper-content step="5">
       <v-card class="mx-auto mb-5 pl-10 pt-10 pr-10 pb-5" flat>
         <v-row v-for="(item,i) in fichiers"
               :key="item.id">
@@ -341,7 +446,7 @@
       </v-card>
       <v-btn
         color="primary"
-        @click="e6 = 5"
+        @click="e6 = 6"
       >
         Suivant
       </v-btn>
@@ -351,13 +456,13 @@
     </v-stepper-content>
 
     <v-stepper-step 
-      :complete="e6 > 5"
-      step="5"
+      :complete="e6 > 6"
+      step="6"
       editable
       >
       Géolocalisation
     </v-stepper-step>
-    <v-stepper-content step="5">
+    <v-stepper-content step="6">
       <v-card
          class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat
       >
@@ -380,7 +485,7 @@
       </v-card>
       <v-btn
         color="primary"
-        @click="e6 = 6"
+        @click="e6 = 7"
       >
         Suivant
       </v-btn>
@@ -389,13 +494,13 @@
       </v-btn>
     </v-stepper-content>
     <v-stepper-step 
-      :complete="e6 > 6"
-      step="6"
+      :complete="e6 > 7"
+      step="7"
       editable
       >
       Résumé
     </v-stepper-step>
-    <v-stepper-content step="6">
+    <v-stepper-content step="7">
       <v-card
         color="grey lighten-1"
         class="mb-12"
@@ -541,6 +646,7 @@ import { mapMutations, mapGetters } from 'vuex'
       fichiers:[],
       modes:[],
       counterrow:1,
+      counterrowContrainte:1,
       counterrow_fichier:1,
       counterrow_mode:1,
       filename : '',
@@ -566,6 +672,7 @@ import { mapMutations, mapGetters } from 'vuex'
       autreModeFinanceInputs:[],
       LigneModeFinancement:[],
       ActiviteInputs:[],
+      ContrainteInputs:[],
       selectedPiliers0:[],
       selectedAxes0:[],
       nombre_benef_homme0:'',
@@ -575,6 +682,10 @@ import { mapMutations, mapGetters } from 'vuex'
       type_materiel_utilises0:'',
       montantInvestissementExecutes0:'',
 
+      difficulte_rencontre0:'',
+      solution_trouve0:'',
+      suivie_necessaire0:'',
+
       selectedPiliers:[],
       selectedAxes:[],
       intitule_activites:[],
@@ -582,6 +693,9 @@ import { mapMutations, mapGetters } from 'vuex'
       nombre_benef_hommes:[],
       nombre_benef_femmes:[],
       type_materiel_utilises:[],
+      difficulte_rencontres:[],
+      solution_trouves:[],
+      suivie_necessaires:[],
       montantInvestissementExecutes:[],
 
       selectedAnnee: [],
@@ -812,6 +926,30 @@ import { mapMutations, mapGetters } from 'vuex'
         this.nombre_benef_hommes.splice(index,1);
         this.nombre_benef_femmes.splice(index,1);
         this.type_materiel_utilises.splice(index,1);
+      },
+      submitLigneContrainte () {
+        this.counterrowContrainte += 1;
+        this.difficulte_rencontres.push(this.difficulte_rencontre0)
+        this.solution_trouves.push(this.solution_trouve0)
+        this.suivie_necessaires.push(this.suivie_necessaire0)
+
+        this.ContrainteInputs.push({
+          id:this.counterrowContrainte,
+          difficulte_rencontres:this.difficulte_rencontre0,
+          solution_trouves:this.solution_trouve0,
+          suivie_necessaires:this.suivie_necessaire0,
+          
+        })
+
+        console.log('Donées ContrainteInputs ++++++: ',this.ContrainteInputs)
+      },
+      deleteFindContrainte: function(index) {
+        console.log('Index---- ',index);
+        console.log('ContrainteInputs---- ',this.ContrainteInputs);
+        this.ContrainteInputs.splice(index,1);
+        this.difficulte_rencontres.splice(index,1);
+        this.solution_trouves.splice(index,1);
+        this.suivie_necessaires.splice(index,1);
       },
       deleteFindFichier: function(index) {
         console.log('Index---- ',index);
