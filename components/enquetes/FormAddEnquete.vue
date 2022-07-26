@@ -168,16 +168,123 @@
     <v-stepper-step
       :complete="e6 > 3"
       step="3"
+      editable
     >
       Activité de la semaine
     </v-stepper-step>
 
     <v-stepper-content step="3">
-      <v-card
-        color="grey lighten-1"
-        class="mb-12"
-        height="200px"
-      ></v-card>
+      <v-card class="mx-auto mb-5 pl-10 pt-10 pr-10 pb-5" flat>
+        <div class="custom-ligne-bloc">
+          <v-row>
+            <v-col lg="12" md="12" sm="12">
+              <v-row>
+                <v-col md="12" lg="12" sm="12">
+                  <v-row>                   
+                    <v-col md="12" lg="12" sm="12">
+                      <v-text-field
+                        label="Intitulé de l'activité"
+                        outlined
+                        dense
+                        v-model="intitule_activite0"
+                        :rules="rules.firstnameRules"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col md="12" lg="12" sm="12">
+                      <v-textarea
+                        label="Description de l'activité"
+                        outlined
+                        dense
+                        v-model="description_activite0"
+                        :rules="rules.firstnameRules"
+                      ></v-textarea>
+                    </v-col>
+                    <v-col md="4" lg="4" sm="12">
+                      <v-text-field
+                        label="Nombre de bénéficiaire Homme"
+                        outlined
+                        dense
+                        v-model="nombre_benef_homme0"
+                        :rules="rules.firstnameRules"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col md="4" lg="4" sm="12">
+                      <v-text-field
+                        label="Nombre de bénéficiaire Femme"
+                        outlined
+                        dense
+                        v-model="nombre_benef_femme0"
+                        :rules="rules.firstnameRules"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col md="4" lg="4" sm="12">
+                      <v-text-field
+                        label="Type de matériel utilisé"
+                        outlined
+                        dense
+                        v-model="type_materiel_utilise0"
+                        :rules="rules.firstnameRules"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              <v-btn
+                color="#00173F"
+                class="white--text"
+                @click="submitLigne"
+                depressed
+              >
+                Ajouter une activité
+                <v-icon right dark> mdi-plus </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </div>
+        <template>
+          <v-simple-table class="custom-ligne-bloc-2">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Intitulé de l'activité
+                  </th>
+                  <th class="text-left">
+                    Description de l'activité
+                  </th>
+                  <th class="text-left">
+                    Nombre de bénéficiaire Homme
+                  </th>
+                  <th class="text-left">
+                    Nombre de bénéficiaire Femme
+                  </th>
+                  <th class="text-left">
+                    Type de matériel utilisé
+                  </th>
+                  <th class="text-left">
+                    -
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(item,i) in ActiviteInputs"
+                  :key="item.id"
+                >
+                  <td>{{item.intitule_activites}}</td>
+                  <td>{{item.description_activites}}</td>
+                  <td>{{item.nombre_benef_hommes}}</td>
+                  <td>{{item.nombre_benef_femmes}}</td>
+                  <td>{{item.type_materiel_utilises}}</td>
+                  <td><v-icon @click="deleteFind(i)">mdi-close</v-icon></td>
+                  
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </template>
+        
+      </v-card>
       <v-btn
         color="primary"
         @click="e6 = 4"
@@ -191,15 +298,47 @@
 
     <v-stepper-step 
       :complete="e6 > 4"
-      step="4">
+      step="4"
+      editable
+      >
       Attacher des fichiers
     </v-stepper-step>
     <v-stepper-content step="4">
-      <v-card
-        color="grey lighten-1"
-        class="mb-12"
-        height="200px"
-      ></v-card>
+      <v-card class="mx-auto mb-5 pl-10 pt-10 pr-10 pb-5" flat>
+        <v-row v-for="(item,i) in fichiers"
+              :key="item.id">
+          <v-col md="6" lg="6" sm="12">
+              <v-text-field
+                v-model="item.libelle_fichier"
+                outlined
+                label="Nom du fichier" 
+                dense             
+              >              
+              </v-text-field>
+          </v-col>
+          <v-col md="6" lg="6" sm="12" class="d-flex">
+              <v-file-input
+              v-model="item.input_fichier"
+              outlined
+              label="Joindre le fichier"
+              dense
+              :clearable="false"
+              >
+              </v-file-input>
+              <v-icon @click="deleteFindFichier(i)">mdi-close</v-icon>
+          </v-col>
+
+        </v-row>
+        <v-btn
+          color="#00173F"
+          class="white--text mb-5"
+          @click="submitLigneFichier"
+          depressed
+        >
+          Ajouter un fichier
+          <v-icon right dark> mdi-plus </v-icon>
+        </v-btn>
+      </v-card>
       <v-btn
         color="primary"
         @click="e6 = 5"
@@ -213,15 +352,32 @@
 
     <v-stepper-step 
       :complete="e6 > 5"
-      step="5">
+      step="5"
+      editable
+      >
       Géolocalisation
     </v-stepper-step>
     <v-stepper-content step="5">
       <v-card
-        color="grey lighten-1"
-        class="mb-12"
-        height="200px"
-      ></v-card>
+         class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat
+      >
+        <v-col md="6" lg="6" sm="12">
+          <v-text-field
+            label="Latitude"
+            outlined dense
+            v-model="model.firstname"
+            :rules="rules.firstnameRules"
+          ></v-text-field>
+        </v-col>
+        <v-col md="6" lg="6" sm="12">
+          <v-text-field
+            label="Longitude"
+            outlined dense
+            v-model="model.lastname"
+            :rules="rules.lastnameRules"
+          ></v-text-field>
+        </v-col>
+      </v-card>
       <v-btn
         color="primary"
         @click="e6 = 6"
@@ -234,7 +390,9 @@
     </v-stepper-content>
     <v-stepper-step 
       :complete="e6 > 6"
-      step="6">
+      step="6"
+      editable
+      >
       Résumé
     </v-stepper-step>
     <v-stepper-content step="6">
@@ -308,6 +466,74 @@ import { mapMutations, mapGetters } from 'vuex'
           ],
         }
       ],
+      questionnaires: {
+        id_secteur : 1,
+        activites :[
+          {
+            key : 'intitule_activite',
+            text: "Intitulé de l\'activité",
+            type: "tf",
+            reponse: "t"
+          },
+          {
+            key : 'description_activite',
+            text: "Description de l\'activité",
+            type: "ta",
+            reponse: "f"
+          },
+          {
+            key : 'nombre_beneficiaire_homme',
+            text: "Nombre de bénéficiaire Homme",
+            type: "tf",
+            reponse: "t"
+          },
+          {
+            key : 'nombre_beneficiaire_femme',
+            text: "Nombre de bénéficiaire Femme",
+            type: "tf",
+            reponse: "t"
+          },
+          {
+            key : 'type_materiel_utilise',
+            text: "Type de matériel utilisé",
+            type: "tf",
+            reponse: "t"
+          }
+        ],
+        contraintes :[
+          {
+            text: "Is true true?",
+            type: "tf",
+            reponse: "t"
+          },
+          {
+            text: "Is false true?",
+            type: "tf",
+            reponse: "f"
+          },
+          {
+            text: "What is the best beer?",
+            type: "mc",
+            reponses: [
+              "Coors",
+              "Miller",
+              "Bud",
+              "Anchor Steam"
+            ],
+            reponse: "Anchor Steam"
+          },
+          {
+            text: "What is the best cookie?",
+            type: "mc",
+            reponses: [
+              "Chocolate Chip",
+              "Sugar",
+              "Beer"
+            ],
+            reponse: "Sugar"
+          }
+        ]
+      },
       e6: 1,
       secteur_title : '',
       inputfichiers:[],
@@ -339,23 +565,23 @@ import { mapMutations, mapGetters } from 'vuex'
       modeFinanceInputs:[],
       autreModeFinanceInputs:[],
       LigneModeFinancement:[],
-      LigneFinancementInputs:[],
+      ActiviteInputs:[],
       selectedPiliers0:[],
       selectedAxes0:[],
-      montantBienServicePrevus0:'',
-      montantBienServiceMobilises0:'',
-      montantBienServiceExecutes0:'',
-      montantInvestissementPrevus0:'',
-      montantInvestissementMobilises0:'',
+      nombre_benef_homme0:'',
+      intitule_activite0:'',
+      description_activite0:'',
+      nombre_benef_femmes0:'',
+      type_materiel_utilises0:'',
       montantInvestissementExecutes0:'',
 
       selectedPiliers:[],
       selectedAxes:[],
-      montantBienServicePrevus:[],
-      montantBienServiceMobilises:[],
-      montantBienServiceExecutes:[],
-      montantInvestissementPrevus:[],
-      montantInvestissementMobilises:[],
+      intitule_activites:[],
+      description_activites:[],
+      nombre_benef_hommes:[],
+      nombre_benef_femmes:[],
+      type_materiel_utilises:[],
       montantInvestissementExecutes:[],
 
       selectedAnnee: [],
@@ -479,11 +705,11 @@ import { mapMutations, mapGetters } from 'vuex'
         let axes = this.selectedAxes?.map((item)=>{return item.id})
         console.log('++++++++piliers ',piliers)
         console.log('++++++++axes ',axes)
-        let montantBienServicePrevus = this.montantBienServicePrevus
-        let montantBienServiceMobilises = this.montantBienServiceMobilises
-        let montantBienServiceExecutes = this.montantBienServiceExecutes
-        let montantInvestissementPrevus = this.montantInvestissementPrevus
-        let montantInvestissementMobilises = this.montantInvestissementMobilises
+        let intitule_activites = this.intitule_activites
+        let description_activites = this.description_activites
+        let nombre_benef_hommes = this.nombre_benef_hommes
+        let nombre_benef_femmes = this.nombre_benef_femmes
+        let type_materiel_utilises = this.type_materiel_utilises
         let montantInvestissementExecutes = this.montantInvestissementExecutes
 
         for(let i=0;i<=libelleModeFinancements.length;i++){
@@ -498,7 +724,7 @@ import { mapMutations, mapGetters } from 'vuex'
           }
         }
         let ligneModeFinancements = JSON.stringify(this.LigneModeFinancement)
-        let ligneFinancements = this.LigneFinancementInputs
+        let ligneFinancements = this.ActiviteInputs
         let fichiers = this.fichiers
         console.log('libelle mode+++++++++++++',libelleModeFinancements)
         let formData = new FormData();
@@ -513,11 +739,11 @@ import { mapMutations, mapGetters } from 'vuex'
 
         formData.append("piliers",piliers);
         formData.append("axes",axes);
-        formData.append("montantBienServicePrevus",montantBienServicePrevus);
-        formData.append("montantBienServiceMobilises",montantBienServiceMobilises);
-        formData.append("montantBienServiceExecutes",montantBienServiceExecutes);
-        formData.append("montantInvestissementPrevus",montantInvestissementPrevus);
-        formData.append("montantInvestissementMobilises",montantInvestissementMobilises);
+        formData.append("intitule_activites",intitule_activites);
+        formData.append("description_activites",description_activites);
+        formData.append("nombre_benef_hommes",nombre_benef_hommes);
+        formData.append("nombre_benef_femmes",nombre_benef_femmes);
+        formData.append("type_materiel_utilises",type_materiel_utilises);
         formData.append("montantInvestissementExecutes",montantInvestissementExecutes);
 
         formData.append("annee",annee);
@@ -561,44 +787,35 @@ import { mapMutations, mapGetters } from 'vuex'
       },
       submitLigne () {
         this.counterrow += 1;
-        this.selectedPiliers.push(this.selectedPiliers0)
-        this.selectedAxes.push(this.selectedAxes0)
-        this.montantBienServicePrevus.push(this.montantBienServicePrevus0)
-        this.montantBienServiceMobilises.push(this.montantBienServiceMobilises0)
-        this.montantBienServiceExecutes.push(this.montantBienServiceExecutes0)
-        this.montantInvestissementPrevus.push(this.montantInvestissementPrevus0)
-        this.montantInvestissementMobilises.push(this.montantInvestissementMobilises0)
-        this.montantInvestissementExecutes.push(this.montantInvestissementExecutes0)
+        this.intitule_activites.push(this.intitule_activite0)
+        this.description_activites.push(this.description_activite0)
+        this.nombre_benef_hommes.push(this.nombre_benef_homme0)
+        this.nombre_benef_femmes.push(this.nombre_benef_femmes0)
+        this.type_materiel_utilises.push(this.type_materiel_utilises0)
 
-        this.LigneFinancementInputs.push({
+        this.ActiviteInputs.push({
           id:this.counterrow,
-          pilier:this.selectedPiliers0,
-          axe:this.selectedAxes0,
-          montantBienServicePrevus:this.montantBienServicePrevus0,
-          montantBienServiceMobilises:this.montantBienServiceMobilises0,
-          montantBienServiceExecutes:this.montantBienServiceExecutes0,
-          montantInvestissementPrevus:this.montantInvestissementPrevus0,
-          montantInvestissementMobilises:this.montantInvestissementMobilises0,
-          montantInvestissementExecutes:this.montantInvestissementExecutes0
+          intitule_activites:this.intitule_activite0,
+          description_activites:this.description_activite0,
+          nombre_benef_hommes:this.nombre_benef_homme0,
+          nombre_benef_femmes:this.nombre_benef_femme0,
+          type_materiel_utilises:this.type_materiel_utilise0,
         })
 
-        console.log('Donées LigneFinancementInputs ++++++: ',this.LigneFinancementInputs)
+        console.log('Donées ActiviteInputs ++++++: ',this.ActiviteInputs)
       },
       deleteFind: function(index) {
         console.log('Index---- ',index);
-        console.log('LigneFinancementInputs---- ',this.LigneFinancementInputs);
-        this.LigneFinancementInputs.splice(index,1);
-        this.selectedPiliers.splice(index,1);
-        this.selectedAxes.splice(index,1);
-        this.montantBienServicePrevus.splice(index,1);
-        this.montantBienServiceExecutes.splice(index,1);
-        this.montantInvestissementPrevus.splice(index,1);
-        this.montantInvestissementMobilises.splice(index,1);
-        this.montantInvestissementExecutes.splice(index,1);
+        console.log('ActiviteInputs---- ',this.ActiviteInputs);
+        this.ActiviteInputs.splice(index,1);
+        this.intitule_activites.splice(index,1);
+        this.nombre_benef_hommes.splice(index,1);
+        this.nombre_benef_femmes.splice(index,1);
+        this.type_materiel_utilises.splice(index,1);
       },
       deleteFindFichier: function(index) {
         console.log('Index---- ',index);
-        console.log('LigneFinancementInputs---- ',this.fichiers);
+        console.log('ActiviteInputs---- ',this.fichiers);
         this.fichiers.splice(index,1);
         this.libelle_fichiers.splice(index,1);
         this.inputfichiers.splice(index,1);
@@ -606,7 +823,7 @@ import { mapMutations, mapGetters } from 'vuex'
       },
       deleteFindMode: function(index) {
         console.log('Index---- ',index);
-        console.log('LigneFinancementInputs---- ',this.modes);
+        console.log('ActiviteInputs---- ',this.modes);
         this.modes.splice(index,1);
         this.model.libAutreModeFinance.splice(index,1);
         this.model.montantAutreModeFinance.splice(index,1);
