@@ -15,16 +15,13 @@
         </v-btn>
       </div>
     </div>
-
-    <v-tabs-items v-model="tab">
-      <v-tab-item v-for="(item,i) in tabItems" :key="i">
         <div>
           <v-card-title class="col-12">
             <!-- <recherche-enquete></recherche-enquete> -->
           </v-card-title>
           <v-data-table
             :headers="headers"
-            :items="item.value=='publie'?listenquetes.filter(enquete => enquete.status=='publie'):listenquetes.filter(enquete => (item.value==enquete.status & $hasPermission(enquete.state) & $hasPermission(enquete.status)))"
+            :items="listenquetes"
             :single-select="singleSelect"
             item-key="id"
             :items-per-page="perpage"
@@ -110,46 +107,7 @@
                 </div>
               </v-row>
             </template>
-            <template v-slot:[`item.annee`]="{ item }">
-              <div v-for="annee in item.annee" :key="annee.id">
-                {{ annee.libelle}}
-              </div>
-            </template>
-            <template v-slot:[`item.monnaie`]="{ item }">
-              <div v-for="monnaie in item.monnaie" :key="monnaie.id">
-                {{ monnaie.libelle}}
-              </div>
-            </template>
-            <template v-slot:[`item.region`]="{ item }">
-              <div v-for="region in item.region" :key="region.id">
-                {{ region.nom_region}}
-              </div>
-            </template>
-            <template v-slot:[`item.structure`]="{ item }">
-              <div v-for="structure in item.structure" :key="structure.id">
-                {{ structure.nom_structure}}
-              </div>
-            </template>
-            <template v-slot:[`item.source`]="{ item }">
-              <div v-for="source in item.source" :key="source.id">
-                {{ source.libelle_source}}
-              </div>
-            </template>
-            <template v-slot:[`item.dimension`]="{ item }">
-              <div v-for="dimension in item.dimension" :key="dimension.id">
-                {{ dimension.libelle_dimension}}
-              </div>
-            </template>
-            <template v-slot:[`item.status`]="{ item }">
-              <v-chip
-                :color="(item.status=='a_valider' && 'primary') || (item.status=='rejete' && 'error') || (item.status=='brouillon' && 'orange') || (item.status=='publie' && 'green')"
-                small
-                outlined
-                class="my-1 mr-1"
-              >
-                {{ (item.status=='a_valider' && 'A valider') || (item.status=='rejete' && 'Rejeté') || (item.status=='brouillon' && 'Brouillon') || (item.status=='publie' && 'Publié')}}
-              </v-chip>
-            </template>
+            
             <template v-slot:[`item.actions`]="{ item }">
               <v-menu bottom left>
                 <template v-slot:activator="{ on, attrs }">
@@ -189,8 +147,6 @@
             </template>
           </v-data-table>
         </div>
-      </v-tab-item>
-    </v-tabs-items>
   </div>
 </template>
 <script>
