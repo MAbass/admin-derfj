@@ -44,15 +44,15 @@
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="model.commune"
-              :items="listcommunes"
+              v-model="model.region"
+              :items="listregions"
               outlined
               dense
-              label="Commune"
-              item-text="nom_commune"
+              label="Région"
+              item-text="nom_region"
               item-value="id"
               return-object
-              @change="changeCommune"
+              @change="changeRegion"
             >
             </v-autocomplete>
           </v-col>
@@ -72,15 +72,15 @@
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="model.region"
-              :items="listregions"
+              v-model="model.commune"
+              :items="listcommunes"
               outlined
               dense
-              label="Région"
-              item-text="nom_region"
+              label="Commune"
+              item-text="nom_commune"
               item-value="id"
               return-object
-              @change="changeRegion"
+              @change="changeCommune"
             >
             </v-autocomplete>
           </v-col>
@@ -527,7 +527,7 @@ import { mapMutations, mapGetters } from 'vuex'
     mounted: function() {
       this.listPiliers=this.listiliers
       this.listDimensions=this.listdimensions
-      this.listcommunes=this.projetByCommune
+      this.listregions=this.projetByRegion
     },
     computed: {
       ...mapGetters({
@@ -555,7 +555,7 @@ import { mapMutations, mapGetters } from 'vuex'
       listregions:[],
       listbeneficiaires:[],
       listprojets:[],
-      projetByCommune:[
+      /* projetByCommune:[
         {
           id:1,nom_commune:'Dakar Plateau',
           departement:{id:1,nom_departement:'Dakar', region:{id:1,nom_region:'Dakar'}},        
@@ -568,6 +568,113 @@ import { mapMutations, mapGetters } from 'vuex'
           departement:{id:1,nom_departement:'Pikine',region:{id:1,nom_region:'Dakar'}},          
           beneficiaires:[
             {id:1,nom:'Lamine',email:'lamine@derfj.sn',projets:[{id:1,ref:'00B-15',titre:'Projet 3'},{id:2,ref:'00B-16',titre:'Projet 4'}]}
+          ],
+        }
+      ], */
+      projetByRegion:[
+        {
+          id:1,
+          nom_region:'Dakar',
+          departements:[
+            {
+              id:1,
+              nom_departement:'Dakar',
+              communes:[
+                {
+                  id:2,
+                  nom_commune:'Point E',
+                  beneficiaires:[
+                    {
+                      id:1,
+                      nom:'Lamine',
+                      email:'lamine@derfj.sn',
+                      projets:[
+                        {
+                          id:1,
+                          ref:'00B-15',
+                          titre:'Projet 3'
+                        },
+                        {
+                          id:2,
+                          ref:'00B-16',
+                          titre:'Projet 4'
+                        }
+                      ]
+                    }
+                  ],
+                }
+              ]
+            },
+            {
+              id:2,
+              nom_departement:'Pikine',
+              communes:[
+                {
+                  id:2,
+                  nom_commune:'Pikine Ouest',
+                  beneficiaires:[
+                    {
+                      id:1,
+                      nom:'Lamine',
+                      email:'lamine@derfj.sn',
+                      projets:[
+                        {
+                          id:1,
+                          ref:'00B-15',
+                          titre:'Projet 3'
+                        },
+                        {
+                          id:2,
+                          ref:'00B-16',
+                          titre:'Projet 4'
+                        }
+                      ]
+                    }
+                  ],
+                }
+              ]
+            }
+          ],        
+          beneficiaires:[
+            {id:1,nom:'Cheikh',email:'cheikh@derfj.sn',projets:[{ref:'00B-15',titre:'Projet 1'}]}
+          ],
+        },
+        {
+          id:2,
+          nom_region:'Thiès',
+          departements:[
+            {
+              id:1,
+              nom_departement:'Thiès',
+              communes:[
+                {
+                  id:2,
+                  nom_commune:'Thiès Nord',
+                  beneficiaires:[
+                    {
+                      id:1,
+                      nom:'Serigne',
+                      email:'serigne@derfj.sn',
+                      projets:[
+                        {
+                          id:1,
+                          ref:'00B2-15',
+                          titre:'Projet 00'
+                        },
+                        {
+                          id:2,
+                          ref:'00B3-16',
+                          titre:'Projet 11'
+                        }
+                      ]
+                    }
+                  ],
+                }
+              ]
+            }
+          ],        
+          beneficiaires:[
+            {id:1,nom:'Cheikh',email:'cheikh@derfj.sn',projets:[{ref:'00B-15',titre:'Projet 1'}]}
           ],
         }
       ],
@@ -996,74 +1103,29 @@ import { mapMutations, mapGetters } from 'vuex'
       async changeAutreMode(value) {
         this.showAutreMode=value?true:false
       },
-      async changeAnnee(annee) {
-        //this.showAutreMode=true
-        this.selectedAnnee = annee
-        //this.selectedType_sources = source.type_sources
-        console.log('************',annee)
-      },
-      async changeRegion(region) {
-        //this.showAutreMode=true
-        this.selectedRegion = region
-        //this.selectedType_sources = source.type_sources
-        console.log('************',region)
-      },
       async goToSecteur() {
         //this.showAutreMode=true
         this.e6 = 3
         console.log('************',this.e6)
       },
-      async changeMonnaie(monnaie) {
-        //this.showAutreMode=true
-        this.selectedMonnaie = monnaie
-        this.devise = monnaie.libelle
-        //this.selectedType_sources = source.type_sources
-        console.log('************',monnaie)
-      },
-      async changeDimension(e) {
-        
-        
-        let secteur = this.listsecteurs.filter(item => item.id === e)[0]
-        //console.log('************ secteur',secteur.libelle_secteur)
-        this.secteur_title = secteur.libelle_secteur
-
-        let modeFinanceInputs = this.listdimensions.filter(item => item.id === e)
-        let predefModeFinanceInputs = modeFinanceInputs.length?modeFinanceInputs[0].ligne_modes:[]
-
-        this.modeFinanceInputs = predefModeFinanceInputs.length?predefModeFinanceInputs.filter(item => item.predefini === '1'):[]
-        this.autreModeFinanceInputs = predefModeFinanceInputs.length?predefModeFinanceInputs.filter(item => item.predefini === '0').map((item)=>{return item.libelle}):[]
-
-        console.log('************ dimension',this.modeFinanceInputs)
-        /*this.selectedDimension = e */
-        
-      },
-      async changePilier(value) {
-        this.showAxes=true
-        this.selectedPiliers0= value
-        this.listAxes0 = value.axes         
+      async changeRegion(value) {
+        this.model.departement= null
+        this.model.commune = null
+        this.model.beneficiaire = null
+        this.model.projet = null
+        this.listdepartements = value?.departements 
         console.log('************',value)
-        //console.log('************',i)
-      },
-      async changeAxe(value) {
-        this.selectedAxes0 = value         
-        console.log('************',value)
-
       },
       async changeCommune(value) {   
         //reinitialisation
-        this.model.departement = null 
-        this.model.beneficiaire = null
-        this.model.region = null 
-        this.model.projet = null
         
-        //chargement
-        this.listdepartements = [value?.departement]  
+        //chargement  
         this.listbeneficiaires = value?.beneficiaires 
         //console.log('************',i)
       },
 
       async changeDepartement(value) {      
-        this.listregions = [value?.region]  
+        this.listcommunes = value?.communes  
         //console.log('************',i)
       },
 
