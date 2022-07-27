@@ -1113,21 +1113,29 @@ import { mapMutations, mapGetters } from 'vuex'
         this.model.commune = null
         this.model.beneficiaire = null
         this.model.projet = null
+
         this.listdepartements = value?.departements 
+        this.listcommunes = []
+        this.listbeneficiaires = [] 
+        this.listprojets = []
         console.log('************',value)
+      },
+       async changeDepartement(value) {      
+        this.listcommunes = value?.communes 
+        this.listbeneficiaires = [] 
+        this.listprojets = [] 
+        //console.log('************',i)
       },
       async changeCommune(value) {   
         //reinitialisation
         
         //chargement  
-        this.listbeneficiaires = value?.beneficiaires 
+        this.listbeneficiaires = value?.beneficiaires
+        this.listprojets = [] 
         //console.log('************',i)
       },
 
-      async changeDepartement(value) {      
-        this.listcommunes = value?.communes  
-        //console.log('************',i)
-      },
+     
 
       async changeBeneficiaire(value) {      
         console.log('************',value?.nom)
