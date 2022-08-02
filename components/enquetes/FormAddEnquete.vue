@@ -187,7 +187,7 @@
                         outlined
                         dense
                         v-model="intitule_activite0"
-                        :rules="rules.firstnameRules"
+                        :rules="rules.textfieldRules"
                       ></v-text-field>
                     </v-col>
                     <v-col md="12" lg="12" sm="12">
@@ -196,7 +196,7 @@
                         outlined
                         dense
                         v-model="description_activite0"
-                        :rules="rules.firstnameRules"
+                        :rules="rules.textfieldRules"
                       ></v-textarea>
                     </v-col>
                     <v-col md="4" lg="4" sm="12">
@@ -205,7 +205,7 @@
                         outlined
                         dense
                         v-model="nombre_benef_homme0"
-                        :rules="rules.firstnameRules"
+                        :rules="rules.textfieldRules"
                       ></v-text-field>
                     </v-col>
                     <v-col md="4" lg="4" sm="12">
@@ -214,7 +214,7 @@
                         outlined
                         dense
                         v-model="nombre_benef_femme0"
-                        :rules="rules.firstnameRules"
+                        :rules="rules.textfieldRules"
                       ></v-text-field>
                     </v-col>
                     <v-col md="4" lg="4" sm="12">
@@ -223,7 +223,7 @@
                         outlined
                         dense
                         v-model="type_materiel_utilise0"
-                        :rules="rules.firstnameRules"
+                        :rules="rules.textfieldRules"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -241,48 +241,46 @@
             </v-col>
           </v-row>
         </div>
-        <template>
-          <v-simple-table class="custom-ligne-bloc-2">
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">
-                    Intitulé de l'activité
-                  </th>
-                  <th class="text-left">
-                    Description de l'activité
-                  </th>
-                  <th class="text-left">
-                    Nombre de bénéficiaire Homme
-                  </th>
-                  <th class="text-left">
-                    Nombre de bénéficiaire Femme
-                  </th>
-                  <th class="text-left">
-                    Type de matériel utilisé
-                  </th>
-                  <th class="text-left">
-                    -
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(item,i) in ActiviteInputs"
-                  :key="item.id"
-                >
-                  <td>{{item.intitule_activites}}</td>
-                  <td>{{item.description_activites}}</td>
-                  <td>{{item.nombre_benef_hommes}}</td>
-                  <td>{{item.nombre_benef_femmes}}</td>
-                  <td>{{item.type_materiel_utilises}}</td>
-                  <td><v-icon @click="deleteFind(i)">mdi-close</v-icon></td>
-                  
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-        </template>
+
+        <v-simple-table class="custom-ligne-bloc-2">
+
+          <thead>
+            <tr>
+              <th class="text-left">
+                Intitulé de l'activité
+              </th>
+              <th class="text-left">
+                Description de l'activité
+              </th>
+              <th class="text-left">
+                Nombre de bénéficiaire Homme
+              </th>
+              <th class="text-left">
+                Nombre de bénéficiaire Femme
+              </th>
+              <th class="text-left">
+                Type de matériel utilisé
+              </th>
+              <th class="text-left">
+                -
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(item,i) in ActiviteInputs"
+              :key="item.id"
+            >
+              <td>{{item.intitule_activites}}</td>
+              <td>{{item.description_activites}}</td>
+              <td>{{item.nombre_benef_hommes}}</td>
+              <td>{{item.nombre_benef_femmes}}</td>
+              <td>{{item.type_materiel_utilises}}</td>
+              <td><v-icon @click="deleteFind(i)">mdi-close</v-icon></td>
+              
+            </tr>
+          </tbody>
+        </v-simple-table>
         
       </v-card>
       <v-btn
@@ -318,7 +316,7 @@
                         outlined
                         dense
                         v-model="difficulte_rencontre0"
-                        :rules="rules.firstnameRules"
+                        :rules="rules.textfieldRules"
                       ></v-textarea>
                     </v-col>
                     <v-col md="12" lg="12" sm="12">
@@ -327,7 +325,7 @@
                         outlined
                         dense
                         v-model="solution_trouve0"
-                        :rules="rules.firstnameRules"
+                        :rules="rules.textfieldRules"
                       ></v-textarea>
                     </v-col>
                     <v-col md="12" lg="12" sm="12">
@@ -336,7 +334,7 @@
                         outlined
                         dense
                         v-model="suivie_necessaire0"
-                        :rules="rules.firstnameRules"
+                        :rules="rules.textfieldRules"
                       ></v-textarea>
                     </v-col>
                   </v-row>
@@ -354,40 +352,37 @@
             </v-col>
           </v-row>
         </div>
-        <template>
+
           <v-simple-table class="custom-ligne-bloc-2">
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">
-                    Difficulté rencontrée
-                  </th>
-                  <th class="text-left">
-                    Solution trouvée
-                  </th>
-                  <th class="text-left">
-                    Suivi nécessaire
-                  </th>
-                  <th class="text-left">
-                    -
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(item,i) in ContrainteInputs"
-                  :key="item.id"
-                >
-                  <td>{{item.difficulte_rencontres}}</td>
-                  <td>{{item.solution_trouves}}</td>
-                  <td>{{item.suivie_necessaires}}</td>
-                  <td><v-icon @click="deleteFindContrainte(i)">mdi-close</v-icon></td>
-                  
-                </tr>
-              </tbody>
-            </template>
+            <thead>
+              <tr>
+                <th class="text-left">
+                  Difficulté rencontrée
+                </th>
+                <th class="text-left">
+                  Solution trouvée
+                </th>
+                <th class="text-left">
+                  Suivi nécessaire
+                </th>
+                <th class="text-left">
+                  -
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(item,i) in ContrainteInputs"
+                :key="item.id"
+              >
+                <td>{{item.difficulte_rencontres}}</td>
+                <td>{{item.solution_trouves}}</td>
+                <td>{{item.suivie_necessaires}}</td>
+                <td><v-icon @click="deleteFindContrainte(i)">mdi-close</v-icon></td>
+                
+              </tr>
+            </tbody>
           </v-simple-table>
-        </template>
         
       </v-card>
       <v-btn
@@ -471,7 +466,7 @@
             label="Latitude"
             outlined dense
             v-model="model.firstname"
-            :rules="rules.firstnameRules"
+            :rules="rules.textfieldRules"
           ></v-text-field>
         </v-col>
         <v-col md="6" lg="6" sm="12">
@@ -508,7 +503,7 @@
       ></v-card>
       <v-btn
         color="primary"
-        @click="submitForm"
+        @click="controleValidation"
       >
         Soumettre
       </v-btn>
@@ -634,10 +629,7 @@ import { mapMutations, mapGetters } from 'vuex'
                 }
               ]
             }
-          ],        
-          beneficiaires:[
-            {id:1,nom:'Cheikh',email:'cheikh@derfj.sn',projets:[{ref:'00B-15',titre:'Projet 1'}]}
-          ],
+          ]
         },
         {
           id:2,
@@ -672,10 +664,7 @@ import { mapMutations, mapGetters } from 'vuex'
                 }
               ]
             }
-          ],        
-          beneficiaires:[
-            {id:1,nom:'Cheikh',email:'cheikh@derfj.sn',projets:[{ref:'00B-15',titre:'Projet 1'}]}
-          ],
+          ]
         }
       ],
       questionnaires: {
@@ -821,13 +810,11 @@ import { mapMutations, mapGetters } from 'vuex'
         montantAutreModeFinance:[]
       },
       rules:{
+        textfieldRules: [],
         nom_structureRules: [
           v => !!v || 'Dénomination est obligatoire'
         ],
         nameRules: [
-          v => !!v || 'Champ obligatoire'
-        ],
-        firstnameRules: [
           v => !!v || 'Champ obligatoire'
         ],
         lastnameRules: [
@@ -905,6 +892,10 @@ import { mapMutations, mapGetters } from 'vuex'
             alert("Seul les fichiers jpg/jpeg/png/pdf/doc/docx et de taille inférieur à 5Mb sont acceptés!");
           }
         }
+      },
+      async controleValidation(){
+        this.textfieldRules = [v => !!v || 'Champ obligatoire']
+        this.submitForm()
       },
       submitForm () {
         this.loading = true
@@ -1022,7 +1013,7 @@ import { mapMutations, mapGetters } from 'vuex'
           nombre_benef_femmes:this.nombre_benef_femme0,
           type_materiel_utilises:this.type_materiel_utilise0,
         })
-
+        this.resetActivite()
         console.log('Donées ActiviteInputs ++++++: ',this.ActiviteInputs)
       },
       deleteFind: function(index) {
@@ -1047,7 +1038,7 @@ import { mapMutations, mapGetters } from 'vuex'
           suivie_necessaires:this.suivie_necessaire0,
           
         })
-
+        this.resetContrainte()
         console.log('Donées ContrainteInputs ++++++: ',this.ContrainteInputs)
       },
       deleteFindContrainte: function(index) {
@@ -1079,34 +1070,26 @@ import { mapMutations, mapGetters } from 'vuex'
         this.fichiers.push({id:this.counterrow_fichier,libelle_fichier:this.libelle_fichiers[this.counterrow_fichier],input_fichier:this.inputfichiers[this.counterrow_fichier]})
         console.log('Donées fichier row ++++++: ',this.fichiers)
       },
-      submitLigneMode () {
-        this.counterrow_mode += 1;
-        this.modes.push({id:this.counterrow_mode,libelle_mode:this.model.libAutreModeFinance[this.counterrow_mode],input_mode:this.model.montantAutreModeFinance[this.counterrow_mode]})
-        console.log('Donées fichier row ++++++: ',this.model.libAutreModeFinance)
-        console.log('Donées fichier row ++++++: ',this.model.montantAutreModeFinance)
-      },
       resetForm () {
         this.$refs.form.reset()
       },
       resetValidationForm () {
         this.$refs.form.resetValidation()
       },
-      async changeRole(role) {
-
-        let checkRole = this.model.roles.filter(item => item.name === 'agent_structure').length;
-        if(checkRole==1)
-        this.showFournisseur=true
-        else
-        this.showFournisseur=false
-        console.log('************',checkRole)
+      resetActivite () {
+        this.intitule_activite0 = ''
+        this.description_activite0 = ''
+        this.nombre_benef_homme0 = ''
+        this.nombre_benef_femme0 = ''
+        this.type_materiel_utilise0 = ''
       },
-      async changeAutreMode(value) {
-        this.showAutreMode=value?true:false
+      resetContrainte () {
+        this.difficulte_rencontre0 = ''
+        this.solution_trouve0 = ''
+        this.suivie_necessaire0 = ''
       },
       async goToSecteur() {
-        //this.showAutreMode=true
         this.e6 = 3
-        console.log('************',this.e6)
       },
       async changeRegion(value) {
         this.model.departement= null
