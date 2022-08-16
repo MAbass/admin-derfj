@@ -5,46 +5,44 @@
   </div> 
   <div class="custom-container mt-5">
     <v-card class="container pl-10 pt-10 pb-10 pr-10" flat>  
-      <form-add-departement></form-add-departement>
+      <form-add-projet></form-add-projet>      
     </v-card>
   </div> 
 </div>
 </template>
 
 <script>
+import LeftMenu from '@/components/LeftMenu';
 import PageHeader from '@/components/PageHeader';
-import FormAddDepartement from '@/components/departements/FormAddDepartement';
+import FormAddProjet from '@/components/projets/FormAddProjet';
   export default {
     layout: "dashboard",
     components: {
+      LeftMenu,
       PageHeader,
-      FormAddDepartement
+      FormAddProjet
     },
     middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('gerer-departements')){
+      if(!$hasPermission('gerer-projets')){
         return redirect('/')
       }
     },
     mounted: function() {
-      this.$store.dispatch('communes/getList')
+      /* this.$store.dispatch('roles/getList')
+      this.$store.dispatch('structures/getList')
+      this.$store.dispatch('fournisseurs/getList') */
     },
     data () {
       return {
         leftmenuItems: [
-          { text: 'Roles', icon: 'mdi-lock',link:'/roles',position:1  },
-          { text: 'departements', icon: 'mdi-lock',link:'/departements',position:2  }
+          { text: 'Ajouter un projet', icon: 'mdi-account-plus-outline',link:'/projets/addUser',position:0 },
+          { text: 'Liste des projets', icon: 'mdi-account-group',link:'/projets',position:1  }
         ],
         headerItems: [
         {
-          text: 'departements',
+          text: 'Ajouter un projet',
           disabled: false,
-          to: '/departements',
-          exact: true
-        },
-        {
-          text: 'Nouveau departement',
-          disabled: false,
-          to: '/departements/adddepartement',
+          to: '/projets',
           exact: true
         }
         
@@ -57,7 +55,7 @@ import FormAddDepartement from '@/components/departements/FormAddDepartement';
         menu2: false,
         menu3: false,
         modal: false,
-        departements: ['Sperviseur national'],
+        roles: ['Sperviseur national'],
         localisations: ['Thiès','Dakar'],
 
       }

@@ -43,11 +43,41 @@
           ></v-textarea>
         </v-col>
       </v-row>
+      <v-row class="my-0">
+        <v-col md="12" lg="12" sm="12" class="my-0 py-0">
+          <template>
+            <v-card-title class="pl-0 pr-0">
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Rechercher une commune"
+                outlined
+                dense
+                hide-details
+                clearable
+              ></v-text-field>
+            </v-card-title>
+            <v-data-table
+              v-model="selected"
+              :headers="headers"
+              :items="listcommunes"
+              :loading="listcommunes.length?false:true" 
+              loading-text="Loading... Please wait"
+              :single-select="singleSelect"
+              item-key="nom_commune"
+              show-select
+              class="elevation-1"
+              :search="search"
+            >
+            </v-data-table>
+          </template>
+        </v-col>
+      </v-row>
       <v-btn
       :loading="loading"
         :disabled="!valid"
         depressed
-        class="mr-4 text-white" color="#1B73E8"
+        class="mr-4 text-white mt-5" color="primary"
         @click="submitForm"
       >
         Enregistrer
@@ -68,9 +98,11 @@ import { mapMutations, mapGetters } from 'vuex'
       this.model.latitude = this.detaildepartement.latitude
       this.model.longitude = this.detaildepartement.longitude
       this.model.svg = this.detaildepartement.svg
+      this.selected = this.detaildepartement?.communes
     },
     computed: mapGetters({
-      detaildepartement:'departements/detaildepartement'
+      detaildepartement:'departements/detaildepartement',
+      listcommunes: 'communes/listcommunes',
     }),
     data: () => ({
       loading: false,
@@ -79,6 +111,15 @@ import { mapMutations, mapGetters } from 'vuex'
       valid: true,
       selectedItem: 0,
       valid: true,
+      headers : [
+        {
+            text: 'Nom',
+            align: 'start',
+            sortable: true,
+            value: 'nom_commune',
+        },
+        { text: 'Slug', value: 'slug' }
+      ],
       model: {
         id:null,
         nom_departement: '',
@@ -89,7 +130,7 @@ import { mapMutations, mapGetters } from 'vuex'
       },
       rules:{
         nom_departementRules: [
-          v => !!v || 'Nom est obligatoire',
+          v => !!v || 'Nom departement est obligatoire',
           v => (v && v.length <= 50) || 'Nom doit etre inférieur à 20 caratères',
         ],
         slugRules: [
@@ -101,10 +142,11 @@ import { mapMutations, mapGetters } from 'vuex'
       submitForm () {
         this.loading = true;
         let validation = this.$refs.form.validate()
-        console.log('Donées formulaire ++++++ : ',{...this.model})
+        let selectedcommunes = this.selected.map((item)=>{return item.id})
+        console.log('Donées formulaire ++++++ : ',{...this.model,communes:selectedcommunes})
         this.loading = false;
         
-        validation && this.$msasApi.put('/departements/'+this.model.id, {...this.model})
+        validation && this.$msasApi.put('/departements/'+this.model.id, {...this.model,communes:selectedcommunes})
           .then((res) => {    
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message || 'Ajout réussi'})
             this.$router.push('/departements');

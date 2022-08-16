@@ -6,7 +6,7 @@
   </div> 
   <div class="custom-container mt-5">
     <v-card class="container pl-10 pt-10 pb-10 pr-10" flat>  
-    <form-update-departement></form-update-departement>
+    <form-update-commune></form-update-commune>
     </v-card>
   </div> 
 </div>
@@ -14,38 +14,35 @@
 
 <script>
 import PageHeader from '@/components/PageHeader';
-import FormUpdateDepartement from '@/components/departements/modifier/FormUpdateDepartement';
+import FormUpdateCommune from '@/components/communes/modifier/FormUpdateCommune';
   export default {
     layout: "dashboard",
     components: {
       PageHeader,
-      FormUpdateDepartement
+      FormUpdateCommune
     },
     middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('gerer-departements')){
+      if(!$hasPermission('gerer-communes')){
         return redirect('/')
       }
-    },
-     mounted: function() {
-      this.$store.dispatch('communes/getList')
     },
     data () {
       return {
         leftmenuItems: [
           { text: 'Roles', icon: 'mdi-lock',link:'/roles',position:1  },
-          { text: 'departements', icon: 'mdi-lock',link:'/departements',position:2  }
+          { text: 'communes', icon: 'mdi-lock',link:'/communes',position:2  }
         ],
         headerItems: [
         {
-          text: 'Departements',
+          text: 'Communes',
           disabled: false,
-          to: '/departements',
+          to: '/communes',
           exact: true
         },
         {
-          text: 'Detail departement',
+          text: 'Detail commune',
           disabled: true,
-          to: '/departements/94',
+          to: '/communes/94',
           exact: true
         }
         

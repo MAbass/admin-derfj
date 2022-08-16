@@ -5,7 +5,7 @@
   </div> 
   <div class="custom-container mt-5">
     <v-card class="container pl-10 pt-10 pb-10 pr-10" flat>  
-      <form-add-departement></form-add-departement>
+      <form-add-commune></form-add-commune>
     </v-card>
   </div> 
 </div>
@@ -13,38 +13,35 @@
 
 <script>
 import PageHeader from '@/components/PageHeader';
-import FormAddDepartement from '@/components/departements/FormAddDepartement';
+import FormAddCommune from '@/components/communes/FormAddCommune';
   export default {
     layout: "dashboard",
     components: {
       PageHeader,
-      FormAddDepartement
+      FormAddCommune
     },
     middleware: function ({redirect,$hasPermission}) {
-      if(!$hasPermission('gerer-departements')){
+      if(!$hasPermission('gerer-communes')){
         return redirect('/')
       }
-    },
-    mounted: function() {
-      this.$store.dispatch('communes/getList')
     },
     data () {
       return {
         leftmenuItems: [
           { text: 'Roles', icon: 'mdi-lock',link:'/roles',position:1  },
-          { text: 'departements', icon: 'mdi-lock',link:'/departements',position:2  }
+          { text: 'communes', icon: 'mdi-lock',link:'/communes',position:2  }
         ],
         headerItems: [
         {
-          text: 'departements',
+          text: 'Communes',
           disabled: false,
-          to: '/departements',
+          to: '/communes',
           exact: true
         },
         {
-          text: 'Nouveau departement',
+          text: 'Nouveau commune',
           disabled: false,
-          to: '/departements/adddepartement',
+          to: '/communes/addCommune',
           exact: true
         }
         
@@ -57,7 +54,7 @@ import FormAddDepartement from '@/components/departements/FormAddDepartement';
         menu2: false,
         menu3: false,
         modal: false,
-        departements: ['Sperviseur national'],
+        communes: ['Sperviseur national'],
         localisations: ['Thiès','Dakar'],
 
       }

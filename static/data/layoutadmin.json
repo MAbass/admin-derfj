@@ -16,6 +16,12 @@
     },
     {
       "icon": "mdi-cog-outline",
+      "href": "/communes",
+      "title": "Communes",
+      "name": "gerer-communes"
+    },
+    {
+      "icon": "mdi-cog-outline",
       "href": "/departements",
       "title": "Departement",
       "name": "gerer-departements"

@@ -1,13 +1,13 @@
 <template>
-<div>
-  <v-form class="text-sm-left" v-model="valid" ref="form">
-    <v-row>
-      <v-col md="6" lg="6" sm="12">
+  <div>
+    <v-form class="text-sm-left" v-model="valid" ref="form">
+      <v-row>
+        <v-col md="6" lg="6" sm="12">
           <v-text-field
             label="Nom"
             outlined dense
-            v-model="model.nom_region"
-            :rules="rules.nom_regionRules"
+            v-model="model.nom_commune"
+            :rules="rules.nom_communeRules"
           ></v-text-field>
         </v-col>
         <v-col md="6" lg="6" sm="12">
@@ -42,91 +42,54 @@
             :rules="rules.svgRules"
           ></v-textarea>
         </v-col>
-    </v-row>
-    <v-row class="my-0">
-      <v-col md="12" lg="12" sm="12" class="my-0 py-0">
-        <template>
-          <v-card-title class="pl-0 pr-0">
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Rechercher un departement"
-              outlined
-              dense
-              hide-details
-              clearable
-            ></v-text-field>
-          </v-card-title>
-          <v-data-table
-            v-model="selected"
-            :headers="headers"
-            :items="listdepartements"
-            :loading="listdepartements.length?false:true" 
-            loading-text="Loading... Please wait"
-            :single-select="singleSelect"
-            item-key="nom_departement"
-            show-select
-            class="elevation-1"
-            :search="search"
-          >
-          </v-data-table>
-        </template>
-      </v-col>
-    </v-row>
-
-    <v-btn
+      </v-row>
+      <v-btn
       :loading="loading"
-      :disabled="!valid"
-      depressed
-      class="mr-4 text-white mt-4" color="#1B73E8"
-      @click="submitForm"
-    >
-      Enregistrer
-    </v-btn>
-  </v-form>
-</div>
+        :disabled="!valid"
+        depressed
+        class="mr-4 text-white" color="primary"
+        @click="submitForm"
+      >
+        Enregistrer
+      </v-btn>
+    </v-form>
+  </div>
 </template>
 
 <script>
-import Notification from '@/components/Notification'
 import { mapMutations, mapGetters } from 'vuex'
   export default {
     components: {
-      Notification
+    },
+    mounted: function() {
+      this.model.id = this.detailcommune.id
+      this.model.nom_commune = this.detailcommune.nom_commune
+      this.model.slug = this.detailcommune.slug
+      this.model.latitude = this.detailcommune.latitude
+      this.model.longitude = this.detailcommune.longitude
+      this.model.svg = this.detailcommune.svg
     },
     computed: mapGetters({
-      listdepartements: 'departements/listdepartements',
-      headers: 'departements/headerdepartements'
+      detailcommune:'communes/detailcommune'
     }),
     data: () => ({
       loading: false,
       message:null,
       color:null,
       valid: true,
-      search: '',
-      selected: [],
-      search:'',
       selectedItem: 0,
-      headers : [
-        {
-            text: 'Nom',
-            align: 'start',
-            sortable: true,
-            value: 'nom_departement',
-        },
-        { text: 'Slug', value: 'slug' }
-      ],
       valid: true,
       model: {
-        nom_region: '',
+        id:null,
+        nom_commune: '',
         slug: '',
         latitude:'',
         longitude:'',
         svg:''
       },
       rules:{
-        nom_regionRules: [
-          v => !!v || 'Libelle est obligatoire',
+        nom_communeRules: [
+          v => !!v || 'Nom est obligatoire',
           v => (v && v.length <= 50) || 'Nom doit etre inférieur à 20 caratères',
         ],
         slugRules: [
@@ -138,13 +101,13 @@ import { mapMutations, mapGetters } from 'vuex'
       submitForm () {
         this.loading = true;
         let validation = this.$refs.form.validate()
-        let selecteddepartements = this.selected.map((item)=>{return item.id})
-        console.log('Donées formulaire ++++++ : ',{...this.model,departements:selecteddepartements})
+        console.log('Donées formulaire ++++++ : ',{...this.model})
+        this.loading = false;
         
-        validation && this.$msasApi.post('/regions', {...this.model,departements:selecteddepartements})
+        validation && this.$msasApi.put('/communes/'+this.model.id, {...this.model})
           .then((res) => {    
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message || 'Ajout réussi'})
-            this.$router.push('/regions');
+            this.$router.push('/communes');
           })
           .catch((error) => {
                console.log('Code error ++++++: ', error)

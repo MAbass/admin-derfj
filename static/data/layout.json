@@ -15,6 +15,18 @@
       "name": "gerer-utilisateurs"
     },
     {
+      "icon": "mdi-account-group-outline",
+      "href": "/beneficiaires",
+      "title": "Bénéficiaires",
+      "name": "gerer-beneficiaires"
+    },
+    {
+      "icon": "mdi-credit-card-outline",
+      "href": "/projets",
+      "title": "Projets",
+      "name": "gerer-projets"
+    },
+    {
       "icon": "mdi-credit-card-outline",
       "href": "/enquetes",
       "title": "Enquetes",

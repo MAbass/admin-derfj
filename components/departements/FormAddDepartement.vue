@@ -6,8 +6,8 @@
           <v-text-field
             label="Nom"
             outlined dense
-            v-model="model.nom_departement"
-            :rules="rules.nom_departementRules"
+            v-model="model.nom_commune"
+            :rules="rules.nom_communeRules"
           ></v-text-field>
         </v-col>
         <v-col md="6" lg="6" sm="12">
@@ -43,11 +43,41 @@
           ></v-textarea>
         </v-col>
       </v-row>
+      <v-row class="my-0">
+        <v-col md="12" lg="12" sm="12" class="my-0 py-0">
+          <template>
+            <v-card-title class="pl-0 pr-0">
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Rechercher une commune"
+                outlined
+                dense
+                hide-details
+                clearable
+              ></v-text-field>
+            </v-card-title>
+            <v-data-table
+              v-model="selected"
+              :headers="headers"
+              :items="listcommunes"
+              :loading="listcommunes.length?false:true" 
+              loading-text="Loading... Please wait"
+              :single-select="singleSelect"
+              item-key="nom_commune"
+              show-select
+              class="elevation-1"
+              :search="search"
+            >
+            </v-data-table>
+          </template>
+        </v-col>
+      </v-row>
       <v-btn
       :loading="loading"
         :disabled="!valid"
         depressed
-        class="mr-4 text-white" color="#1B73E8"
+        class="mr-4 text-white" color="primary"
         @click="submitForm"
       >
         Enregistrer
@@ -58,10 +88,14 @@
 
 <script>
 import Notification from '@/components/Notification'
+import { mapMutations, mapGetters } from 'vuex'
   export default {
     components: {
       Notification
     },
+    computed: mapGetters({
+      listcommunes: 'communes/listcommunes'
+    }),
     data: () => ({
       loading: false,
       message:null,
@@ -69,15 +103,24 @@ import Notification from '@/components/Notification'
       valid: true,
       selectedItem: 0,
       valid: true,
+      headers : [
+        {
+            text: 'Nom',
+            align: 'start',
+            sortable: true,
+            value: 'nom_commune',
+        },
+        { text: 'Slug', value: 'slug' }
+      ],
       model: {
-        nom_departement: '',
+        nom_commune: '',
         slug: '',
         latitude:'',
         longitude:'',
         svg:''
       },
       rules:{
-        nom_departementRules: [
+        nom_communeRules: [
           v => !!v || 'Libelle est obligatoire',
           v => (v && v.length <= 50) || 'Nom doit etre inférieur à 20 caratères',
         ],
@@ -90,9 +133,10 @@ import Notification from '@/components/Notification'
       submitForm () {
         this.loading = true;
         let validation = this.$refs.form.validate()
+        let selectedcommunes = this.selected.map((item)=>{return item.id})
         console.log('Donées formulaire ++++++ : ',{...this.model})
         
-        validation && this.$msasApi.post('/departements', {...this.model})
+        validation && this.$msasApi.post('/departements', {...this.model,communes:selectedcommunes})
           .then((res) => {    
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message || 'Ajout réussi'})
             this.$router.push('/departements');

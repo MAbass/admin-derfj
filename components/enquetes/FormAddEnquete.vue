@@ -1,11 +1,11 @@
 <template>
 <v-form class="" v-model="valid" ref="form" enctype="multipart/form-data">
   <v-stepper
-    v-model="e6"
+    v-model="step"
     vertical
   >
     <v-stepper-step
-      :complete="e6 > 1"
+      :complete="step > 1"
       step="1"
       editable
     >
@@ -27,6 +27,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="model.debut_intervention"
+                  :rules="rules.dateRules"
                   label="Date enquete"
                   append-icon="mdi-calendar"
                   readonly
@@ -45,6 +46,7 @@
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
               v-model="model.region"
+              :rules="rules.selectRules"
               :items="listregions"
               outlined
               dense
@@ -59,6 +61,7 @@
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
               v-model="model.departement"
+              :rules="rules.selectRules"
               :items="listdepartements"
               outlined
               dense
@@ -73,6 +76,7 @@
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
               v-model="model.commune"
+              :rules="rules.selectRules"
               :items="listcommunes"
               outlined
               dense
@@ -87,25 +91,39 @@
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
               v-model="model.beneficiaire"
+              :rules="rules.selectRules"
               :items="listbeneficiaires"
+              hide-no-data
+              :filter="() => true"
               outlined
               dense
-              label="Bénéficiaire"
-              item-text="nom"
+              label="Bénéficiaire (Téléhone ou Email)"
+              item-text="nom_beneficiaire"
               item-value="id"
               return-object
+              @keyup="(event) => UpdateBeneficiaire(event, index)"
               @change="changeBeneficiaire"
             >
+              <template v-slot:selection="data">
+                <h5>{{ data.item.prenom_beneficiaire+' '+data.item.nom_beneficiaire }}</h5>
+              </template>
+              <template v-slot:item="data">
+                <div class="mt-4">
+                  <h5>{{ data.item.prenom_beneficiaire+' '+data.item.nom_beneficiaire }}</h5>
+                  <p>Tel: {{ data.item.telephone_beneficiaire}}</p>
+                </div>
+              </template>
             </v-autocomplete>
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
               v-model="model.projet"
+              :rules="rules.selectRules"
               :items="listprojets"
               outlined
               dense
               label="Projets"
-              item-text="titre"
+              item-text="titre_projet"
               item-value="id"
               return-object
               @change="changeProjet"
@@ -116,7 +134,7 @@
       </v-card>
       <v-btn
         color="primary"
-        @click="e6 = 2"
+        @click="step = 2"
       >
         Suivant
       </v-btn>
@@ -126,7 +144,7 @@
     </v-stepper-content>
 
     <v-stepper-step
-      :complete="e6 > 2"
+      :complete="step > 2"
       step="2"
       editable
     >
@@ -138,8 +156,8 @@
         <v-row>
           <v-col md="12" lg="12" sm="12">
             <v-radio-group
-              :v-model="selectedDimension"
-              :rules="rules.sexeRules"
+              :v-model="selectedSecteur"
+              :rules="rules.radioRules"
               @change="changeDimension"
               row
             >
@@ -156,7 +174,7 @@
       </v-card>
       <v-btn
         color="primary"
-        @click="goToSecteur"
+         @click="step = 3"
       >
         Suivant
       </v-btn>
@@ -166,7 +184,7 @@
     </v-stepper-content>
 
     <v-stepper-step
-      :complete="e6 > 3"
+      :complete="step > 3"
       step="3"
       editable
     >
@@ -196,7 +214,7 @@
                         outlined
                         dense
                         v-model="description_activite0"
-                        :rules="rules.textfieldRules"
+                        :rules="rules.textareaRules"
                       ></v-textarea>
                     </v-col>
                     <v-col md="4" lg="4" sm="12">
@@ -268,7 +286,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(item,i) in ActiviteInputs"
+              v-for="(item,i) in LigneActivites"
               :key="item.id"
             >
               <td>{{item.intitule_activites}}</td>
@@ -285,7 +303,7 @@
       </v-card>
       <v-btn
         color="primary"
-        @click="e6 = 4"
+        @click="step = 4"
       >
         Suivant
       </v-btn>
@@ -295,7 +313,7 @@
     </v-stepper-content>
 
     <v-stepper-step
-      :complete="e6 > 4"
+      :complete="step > 4"
       step="4"
       editable
     >
@@ -316,7 +334,7 @@
                         outlined
                         dense
                         v-model="difficulte_rencontre0"
-                        :rules="rules.textfieldRules"
+                        :rules="rules.textareaRules"
                       ></v-textarea>
                     </v-col>
                     <v-col md="12" lg="12" sm="12">
@@ -325,7 +343,7 @@
                         outlined
                         dense
                         v-model="solution_trouve0"
-                        :rules="rules.textfieldRules"
+                        :rules="rules.textareaRules"
                       ></v-textarea>
                     </v-col>
                     <v-col md="12" lg="12" sm="12">
@@ -334,7 +352,7 @@
                         outlined
                         dense
                         v-model="suivie_necessaire0"
-                        :rules="rules.textfieldRules"
+                        :rules="rules.textareaRules"
                       ></v-textarea>
                     </v-col>
                   </v-row>
@@ -372,7 +390,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="(item,i) in ContrainteInputs"
+                v-for="(item,i) in LigneContraintes"
                 :key="item.id"
               >
                 <td>{{item.difficulte_rencontres}}</td>
@@ -387,7 +405,7 @@
       </v-card>
       <v-btn
         color="primary"
-        @click="e6 = 5"
+        @click="step = 5"
       >
         Suivant
       </v-btn>
@@ -397,7 +415,7 @@
     </v-stepper-content>
 
     <v-stepper-step 
-      :complete="e6 > 5"
+      :complete="step > 5"
       step="5"
       editable
       >
@@ -410,6 +428,7 @@
           <v-col md="6" lg="6" sm="12">
               <v-text-field
                 v-model="item.libelle_fichier"
+                :rules="rules.textfieldRules"
                 outlined
                 label="Nom du fichier" 
                 dense             
@@ -441,7 +460,7 @@
       </v-card>
       <v-btn
         color="primary"
-        @click="e6 = 6"
+        @click="step = 6"
       >
         Suivant
       </v-btn>
@@ -451,7 +470,7 @@
     </v-stepper-content>
 
     <v-stepper-step 
-      :complete="e6 > 6"
+      :complete="step > 6"
       step="6"
       editable
       >
@@ -465,7 +484,7 @@
           <v-text-field
             label="Latitude"
             outlined dense
-            v-model="model.firstname"
+            v-model="model.latitude"
             :rules="rules.textfieldRules"
           ></v-text-field>
         </v-col>
@@ -473,14 +492,14 @@
           <v-text-field
             label="Longitude"
             outlined dense
-            v-model="model.lastname"
-            :rules="rules.lastnameRules"
+            v-model="model.longitude"
+            :rules="rules.textfieldRules"
           ></v-text-field>
         </v-col>
       </v-card>
       <v-btn
         color="primary"
-        @click="e6 = 7"
+        @click="step = 7"
       >
         Suivant
       </v-btn>
@@ -489,7 +508,7 @@
       </v-btn>
     </v-stepper-content>
     <v-stepper-step 
-      :complete="e6 > 7"
+      :complete="step > 7"
       step="7"
       editable
       >
@@ -520,52 +539,13 @@ import { mapMutations, mapGetters } from 'vuex'
     components: {
     },
     mounted: function() {
-      this.listPiliers=this.listiliers
-      this.listDimensions=this.listdimensions
-      this.listregions=this.projetByRegion
+      this.getRegions()
     },
     computed: {
       ...mapGetters({
-      listannees: 'annees/listannees',
-      listmonnaies: 'monnaies/listmonnaies',
-      listdimensions: 'dimensions/listdimensions',
-      listregions: 'regions/listregions',
-      listmodefinancements: 'modefinancements/listmodefinancements',
-      listpiliers: 'piliers/listpiliers',
-      listaxes: 'axes/axes',
-      
+      listregions: 'regions/listregions'    
     })},
     data: () => ({
-      listsecteurs : [
-        {id:1,libelle_secteur:'Suivi des dossiers financés par la DER/FJ'},
-        {id:2,libelle_secteur:'Suivi des décaissements au niveau des IFP'},
-        {id:3,libelle_secteur:'Formation et accompagnement des bénéficiaires de la DER/FJ'},
-        {id:4,libelle_secteur:'Situation des recouvrements au niveau départemental'},
-        {id:5,libelle_secteur:'Organisation des sessions d\'animation économique'},
-        {id:6,libelle_secteur:'Activité de représentation dans les comités'},
-        {id:7,libelle_secteur:'Autres activités'},
-      ],
-      listcommunes:[],
-      listdepartements:[],
-      listregions:[],
-      listbeneficiaires:[],
-      listprojets:[],
-      /* projetByCommune:[
-        {
-          id:1,nom_commune:'Dakar Plateau',
-          departement:{id:1,nom_departement:'Dakar', region:{id:1,nom_region:'Dakar'}},        
-          beneficiaires:[
-            {id:1,nom:'Cheikh',email:'cheikh@derfj.sn',projets:[{ref:'00B-15',titre:'Projet 1'}]}
-          ],
-        },
-        {
-          id:2,nom_commune:'Pikine Ouest',
-          departement:{id:1,nom_departement:'Pikine',region:{id:1,nom_region:'Dakar'}},          
-          beneficiaires:[
-            {id:1,nom:'Lamine',email:'lamine@derfj.sn',projets:[{id:1,ref:'00B-15',titre:'Projet 3'},{id:2,ref:'00B-16',titre:'Projet 4'}]}
-          ],
-        }
-      ], */
       projetByRegion:[
         {
           id:1,
@@ -667,211 +647,80 @@ import { mapMutations, mapGetters } from 'vuex'
           ]
         }
       ],
-      questionnaires: {
-        id_secteur : 1,
-        activites :[
-          {
-            key : 'intitule_activite',
-            text: "Intitulé de l\'activité",
-            type: "tf",
-            reponse: "t"
-          },
-          {
-            key : 'description_activite',
-            text: "Description de l\'activité",
-            type: "ta",
-            reponse: "f"
-          },
-          {
-            key : 'nombre_beneficiaire_homme',
-            text: "Nombre de bénéficiaire Homme",
-            type: "tf",
-            reponse: "t"
-          },
-          {
-            key : 'nombre_beneficiaire_femme',
-            text: "Nombre de bénéficiaire Femme",
-            type: "tf",
-            reponse: "t"
-          },
-          {
-            key : 'type_materiel_utilise',
-            text: "Type de matériel utilisé",
-            type: "tf",
-            reponse: "t"
-          }
-        ],
-        contraintes :[
-          {
-            text: "Is true true?",
-            type: "tf",
-            reponse: "t"
-          },
-          {
-            text: "Is false true?",
-            type: "tf",
-            reponse: "f"
-          },
-          {
-            text: "What is the best beer?",
-            type: "mc",
-            reponses: [
-              "Coors",
-              "Miller",
-              "Bud",
-              "Anchor Steam"
-            ],
-            reponse: "Anchor Steam"
-          },
-          {
-            text: "What is the best cookie?",
-            type: "mc",
-            reponses: [
-              "Chocolate Chip",
-              "Sugar",
-              "Beer"
-            ],
-            reponse: "Sugar"
-          }
-        ]
-      },
-      e6: 1,
-      secteur_title : '',
+
+      listsecteurs : [
+        {id:1,libelle_secteur:'Suivi des dossiers financés par la DER/FJ'},
+        {id:2,libelle_secteur:'Suivi des décaissements au niveau des IFP'},
+        {id:3,libelle_secteur:'Formation et accompagnement des bénéficiaires de la DER/FJ'},
+        {id:4,libelle_secteur:'Situation des recouvrements au niveau départemental'},
+        {id:5,libelle_secteur:'Organisation des sessions d\'animation économique'},
+        {id:6,libelle_secteur:'Activité de représentation dans les comités'},
+        {id:7,libelle_secteur:'Autres activités'},
+      ],
+
+      listcommunes:[],
+      listdepartements:[],
+      listregions:[],
+      listbeneficiaires:[],
+      listprojets:[],   
+
+      step: 1,
+
       inputfichiers:[],
       libelle_fichiers:[],
       fichiers:[],
-      modes:[],
-      counterrow:1,
-      counterrowContrainte:1,
-      counterrow_fichier:1,
-      counterrow_mode:1,
+      countrow_activite:1,
+      countrow_contrainte:1,
+      countrow_fichier:1,
+
       filename : '',
       loading: false,
-      message:null,
-      color:null,
+
       valid: true,
-      showFournisseur: false,
-      showAutreMode: false,
-      showNumAutorisation: false,
-      showAccordSiege: false,
-      showNumAgrement: false,
-      showAdresseStructure: false,
-      showRegion: false,
-      showAxes:false,
-      message:null,
-      autreMode:false,
-      devise:'',
-      listPiliers:[],
-      listAxes:[],
-      listDimensions:[],
-      modeFinanceInputs:[],
-      autreModeFinanceInputs:[],
-      LigneModeFinancement:[],
-      ActiviteInputs:[],
-      ContrainteInputs:[],
-      selectedPiliers0:[],
-      selectedAxes0:[],
-      nombre_benef_homme0:'',
+ 
+      LigneActivites:[],
+      LigneContraintes:[],
+      
       intitule_activite0:'',
       description_activite0:'',
+      nombre_benef_homme0:'',
       nombre_benef_femmes0:'',
       type_materiel_utilises0:'',
-      montantInvestissementExecutes0:'',
 
       difficulte_rencontre0:'',
       solution_trouve0:'',
       suivie_necessaire0:'',
 
-      selectedPiliers:[],
-      selectedAxes:[],
       intitule_activites:[],
       description_activites:[],
       nombre_benef_hommes:[],
       nombre_benef_femmes:[],
       type_materiel_utilises:[],
+
       difficulte_rencontres:[],
       solution_trouves:[],
       suivie_necessaires:[],
-      montantInvestissementExecutes:[],
 
-      selectedAnnee: [],
-      selectedMonnaie: [],
-      selectedDimension: [],
-      selectedRegions: [],
-      selectedModeFinancements: [],
-      selectedStructure: [],
       model: {
         commune:null,
         departement:null,
         region:null,
         beneficiaire:null,
-        projet:null,
-        libAutreModeFinance:[],
-        montantAutreModeFinance:[]
+        projet:null
       },
       rules:{
         textfieldRules: [],
-        nom_structureRules: [
-          v => !!v || 'Dénomination est obligatoire'
-        ],
-        nameRules: [
-          v => !!v || 'Champ obligatoire'
-        ],
-        lastnameRules: [
-          v => !!v || 'Champ obligatoire'
-        ],
-        emailRules: [
-          v => !!v || 'l\'E-mail est obligatoire',
-          v => /.+@.+\..+/.test(v) || 'E-mail mdoit etre valide',
-        ],
-        rolesRules: [
-          v => (v && !!v.length) || 'Role est obligatoire',
-        ],
-        telephoneRules: [
-          v => !!v || 'Téléphone est obligatoire',
-        ],
-        country_codeRules: [
-          v => !!v || 'L\'indicatif du pays est obligatoire',
-        ],
-        fournisseur_services_idRules: [
-          v => (!!v) || 'Fournisseur est obligatoire',
-        ],
-        structure_idRules: [
-          v => (!!v) || 'Structure est obligatoire',
-        ],
-        adresseRules: [
-          v => !!v || 'Adresse est obligatoire',
-          v => (v && v.length <= 100) || 'Adresse doit etre inférieur à 50 caratères',
-        ],
-        nationalityRules: [
-          v => !!v || 'Nationalité est obligatoire',
-          v => (v && v.length <= 50) || 'Nationalité doit etre inférieur à 15 caratères',
-        ],
-        date_of_birthRules: [
-          v => !!v || 'Date de naissance est obligatoire',
-        ],
-        place_of_birthRules: [
-          v => !!v || 'Lieu de naissance est obligatoire',
-          v => (v && v.length <= 50) || 'Lieu de naissance doit etre inférieur à 20 caratères',
-        ],
-        /* sexeRules: [
-          v => !!v || 'Civilité est obligatoire',
-        ], */
-        type_identificationRules: [
-          v => !!v || 'Type d\'identification est obligatoire',
-        ],
-        numero_identificationRules: [
-          v => !!v || 'Numéro d\'identification est obligatoire'
-        ],
-        fonctionRules: [
-          v => !!v || 'Fonction est obligatoire'
-        ]
+        radioRules: [],
+        selectRules: [],
+        textareaRules: [],
+        numberRules: [],
+        emailRules: [],
+        dateRules: [],
       },
       date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       date2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       menu1: false,
-      menu2: false,
-      imageData:null,
+      menu2: false
     }),
     methods: {
       handleFileUpload(e){
@@ -905,7 +754,7 @@ import { mapMutations, mapGetters } from 'vuex'
         let annee = this.selectedAnnee?.id
         let monnaie = this.selectedMonnaie?.id
         let region = this.selectedRegion?.id
-        let dimension = this.selectedDimension
+        let dimension = this.selectedSecteur
 
         let montantModeFinancements = this.selectedModeFinancements
         let libelleModeFinancements = this.modeFinanceInputs?.map((item)=>{return item.libelle})
@@ -936,7 +785,7 @@ import { mapMutations, mapGetters } from 'vuex'
           }
         }
         let ligneModeFinancements = JSON.stringify(this.LigneModeFinancement)
-        let ligneFinancements = this.ActiviteInputs
+        let ligneFinancements = this.LigneActivites
         let fichiers = this.fichiers
         console.log('libelle mode+++++++++++++',libelleModeFinancements)
         let formData = new FormData();
@@ -998,15 +847,15 @@ import { mapMutations, mapGetters } from 'vuex'
         }); */
       },
       submitLigne () {
-        this.counterrow += 1;
+        this.countrow_activite += 1;
         this.intitule_activites.push(this.intitule_activite0)
         this.description_activites.push(this.description_activite0)
         this.nombre_benef_hommes.push(this.nombre_benef_homme0)
         this.nombre_benef_femmes.push(this.nombre_benef_femmes0)
         this.type_materiel_utilises.push(this.type_materiel_utilises0)
 
-        this.ActiviteInputs.push({
-          id:this.counterrow,
+        this.LigneActivites.push({
+          id:this.countrow_activite,
           intitule_activites:this.intitule_activite0,
           description_activites:this.description_activite0,
           nombre_benef_hommes:this.nombre_benef_homme0,
@@ -1014,60 +863,52 @@ import { mapMutations, mapGetters } from 'vuex'
           type_materiel_utilises:this.type_materiel_utilise0,
         })
         this.resetActivite()
-        console.log('Donées ActiviteInputs ++++++: ',this.ActiviteInputs)
+        console.log('Donées LigneActivites ++++++: ',this.LigneActivites)
       },
       deleteFind: function(index) {
         console.log('Index---- ',index);
-        console.log('ActiviteInputs---- ',this.ActiviteInputs);
-        this.ActiviteInputs.splice(index,1);
+        console.log('LigneActivites---- ',this.LigneActivites);
+        this.LigneActivites.splice(index,1);
         this.intitule_activites.splice(index,1);
         this.nombre_benef_hommes.splice(index,1);
         this.nombre_benef_femmes.splice(index,1);
         this.type_materiel_utilises.splice(index,1);
       },
       submitLigneContrainte () {
-        this.counterrowContrainte += 1;
+        this.countrow_contrainte += 1;
         this.difficulte_rencontres.push(this.difficulte_rencontre0)
         this.solution_trouves.push(this.solution_trouve0)
         this.suivie_necessaires.push(this.suivie_necessaire0)
 
-        this.ContrainteInputs.push({
-          id:this.counterrowContrainte,
+        this.LigneContraintes.push({
+          id:this.countrow_contrainte,
           difficulte_rencontres:this.difficulte_rencontre0,
           solution_trouves:this.solution_trouve0,
           suivie_necessaires:this.suivie_necessaire0,
           
         })
         this.resetContrainte()
-        console.log('Donées ContrainteInputs ++++++: ',this.ContrainteInputs)
+        console.log('Donées LigneContraintes ++++++: ',this.LigneContraintes)
       },
       deleteFindContrainte: function(index) {
         console.log('Index---- ',index);
-        console.log('ContrainteInputs---- ',this.ContrainteInputs);
-        this.ContrainteInputs.splice(index,1);
+        console.log('LigneContraintes---- ',this.LigneContraintes);
+        this.LigneContraintes.splice(index,1);
         this.difficulte_rencontres.splice(index,1);
         this.solution_trouves.splice(index,1);
         this.suivie_necessaires.splice(index,1);
       },
       deleteFindFichier: function(index) {
         console.log('Index---- ',index);
-        console.log('ActiviteInputs---- ',this.fichiers);
+        console.log('LigneActivites---- ',this.fichiers);
         this.fichiers.splice(index,1);
         this.libelle_fichiers.splice(index,1);
         this.inputfichiers.splice(index,1);
 
       },
-      deleteFindMode: function(index) {
-        console.log('Index---- ',index);
-        console.log('ActiviteInputs---- ',this.modes);
-        this.modes.splice(index,1);
-        this.model.libAutreModeFinance.splice(index,1);
-        this.model.montantAutreModeFinance.splice(index,1);
-
-      },
       submitLigneFichier () {
-        this.counterrow_fichier += 1;
-        this.fichiers.push({id:this.counterrow_fichier,libelle_fichier:this.libelle_fichiers[this.counterrow_fichier],input_fichier:this.inputfichiers[this.counterrow_fichier]})
+        this.countrow_fichier += 1;
+        this.fichiers.push({id:this.countrow_fichier,libelle_fichier:this.libelle_fichiers[this.countrow_fichier],input_fichier:this.inputfichiers[this.countrow_fichier]})
         console.log('Donées fichier row ++++++: ',this.fichiers)
       },
       resetForm () {
@@ -1088,45 +929,97 @@ import { mapMutations, mapGetters } from 'vuex'
         this.solution_trouve0 = ''
         this.suivie_necessaire0 = ''
       },
-      async goToSecteur() {
-        this.e6 = 3
-      },
       async changeRegion(value) {
         this.model.departement= null
         this.model.commune = null
         this.model.beneficiaire = null
         this.model.projet = null
 
-        this.listdepartements = value?.departements 
         this.listcommunes = []
         this.listbeneficiaires = [] 
         this.listprojets = []
-        console.log('************',value)
+
+        this.listdepartements = value?.departements 
+        
       },
        async changeDepartement(value) {      
-        this.listcommunes = value?.communes 
         this.listbeneficiaires = [] 
         this.listprojets = [] 
-        //console.log('************',i)
+
+        this.listcommunes = value?.communes 
+
       },
       async changeCommune(value) {   
-        //reinitialisation
-        
-        //chargement  
-        this.listbeneficiaires = value?.beneficiaires
-        this.listprojets = [] 
-        //console.log('************',i)
+        this.listprojets = []  
+        this.progress=true
+          this.$msasApi.$get('/communes/'+value.id)
+        .then(async (response) => {
+            console.log('Detail commune++++++++++',response.data)
+            this.listbeneficiaires = response.data.beneficiaires
+        }).catch((error) => {
+            console.log('Code error ++++++: ', error?.response?.data?.message)
+        }).finally(() => {
+            console.log('Requette envoyé ')
+        });
+        //console.log('total items++++++++++',this.paginationenquete)
       },
-
-     
-
+      UpdateBeneficiaire(event,index){
+        if((/.+@.+\..+/.test(event.target.value))){
+          console.log('Données change ++++++++++++',event.target.value)
+          this.getBenefByTerm(event.target.value)
+        }
+        if(event.target.value.length==9 & (/^[0-9]+$/.test(event.target.value))){
+          console.log('Données change ++++++++++++',event.target.value)
+          this.getBenefByTerm(event.target.value)
+        }
+      },
+      getBenefByTerm(param){
+         this.$msasApi.get('/beneficiaire-by-term/'+param)
+          .then(async (response) => {
+            console.log('Données reçus++++++++++++',response.data.data)
+            this.listbeneficiaires = response?.data?.data         
+        }).catch((error) => {
+            console.log('Code error ++++++: ', error?.response?.data?.message)
+        }).finally(() => {
+            console.log('Requette envoyé ')
+             this.loadingUsager = false;
+        });
+      },  
       async changeBeneficiaire(value) {      
-        console.log('************',value?.nom)
-
-        this.listprojets = value?.projets 
-        //console.log('************',i)
+        this.beneficiaire = value.id
+        value && value.id &&  this.$msasApi.$get('/beneficiaires/'+value.id)
+        .then(async (response) => {
+            console.log('Detail commune++++++++++',response.data)
+            this.listprojets = response.data.projets
+        }).catch((error) => {
+            console.log('Code error ++++++: ', error?.response?.data?.message)
+        }).finally(() => {
+            console.log('Requette envoyé ')
+        });
+        //console.log('total items++++++++++',this.paginationenquete)
       },
-      
+      async changeProjet(value) {      
+        this.model.projet = value.id
+      },
+
+      async getRegions(){
+        this.$msasApi.$get('regions')
+        .then(async (response) => { 
+          console.log('Données région reçu+++++++++++',response)
+          this.listregions=response.data
+          }).catch((error) => {
+              console.log('Code error ++++++: ', error?.response?.data?.message)
+          }).finally(() => {
+          console.log('Requette envoyé ')
+        });
+      },
+      async getBeneficiaireByCommune(id_commune){
+        this.listbeneficiaires = value?.beneficiaires
+      },
+
+      async getProjetByBeneficiaire(id_beneficiaire){
+        this.listprojets = value?.projets 
+      }
     },
     metaInfo () {
       return {
