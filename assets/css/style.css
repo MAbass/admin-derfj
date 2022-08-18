@@ -203,11 +203,9 @@ html {
   display: inline-flex;
   text-decoration: none;
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-  color: #fff !important;
 }
 .bg-title-grey {
-  background-color: #00173F !important;
-  color: #fff;
+  color:rgba(0, 0, 0, 0.87) !important;
 }
 
 .custom-container{

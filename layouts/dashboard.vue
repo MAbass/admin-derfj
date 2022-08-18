@@ -7,12 +7,12 @@
       color="#fff"
     >
       <v-sheet
-        color="#fff"
+        color="#00173F"
         class="pa-2"
-        style="height:63px;"
+        style="height:64px;"
       >
         <nuxt-link class="customTopNav flex text-sm-left" to="/">
-        <img src="@/static/logo.png" width="180" alt="Espace Senegal Service">
+        <img src="@/static/logo-der-blanc.png" width="180" alt="Espace Senegal Service">
       </nuxt-link>
       </v-sheet>
 
@@ -40,8 +40,8 @@
     </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar elevation="0" app color="#fff">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar elevation="0" app color="#00173F">
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="icon-white"></v-app-bar-nav-icon>
 
       <v-toolbar-title class="custom-top-title pl-12"><!--PLATEFORME NUMERIQUE DE SUIVI DU FINANCEMENT DE LA SANTE AU SENEGAL--></v-toolbar-title>
       <v-spacer></v-spacer>
@@ -206,5 +206,11 @@
 }
 .bg-grey{
   background-color: rgb(227, 235, 243) !important;
+}
+.v-btn--icon.v-size--default .v-icon, .v-btn--fab.v-size--default .v-icon {
+  height: 24px;
+  font-size: 24px;
+  width: 24px;
+  color: #fff;
 }
 </style>

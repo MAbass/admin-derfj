@@ -3,7 +3,7 @@
   <div class="custom-container bg-title-grey">
       <page-header :items="headerItems" class=""></page-header>  
   </div> 
-  <div class="custom-container mt-5">
+  <div class="custom-container">
     <v-card class="container" flat>  
       <table-enquete></table-enquete>
     </v-card>
@@ -49,8 +49,4 @@ import { mapActions} from 'vuex'
 </script>
 
 <style scoped>
-.bg-title {
-  background-color: rgb(227, 235, 243) !important;
-  color: #6F96AA;
-}
 </style>

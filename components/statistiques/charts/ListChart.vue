@@ -1,14 +1,22 @@
 <template>
-          <v-row>
-            <v-col md="6" lg="6" sm="12" class="custom-bloc-chart border-right-chart">
-                <h4 class="card-title custom-font">Evolution mensuelle des enquetes</h4 class="card-title custom-font">
-                <BarChart :data="utilisateurData" :options="barChartOptions" :styles="{height: '400px', position: 'relative'}"/>
-            </v-col> 
-            <v-col md="6" lg="6" sm="12" class="custom-bloc-chart">
-                <h4 class="card-title custom-font">Répartition des activités par region</h4 class="card-title custom-font">
-                <BarChart :data="enrolementParSiteData" :options="barChartOptions" :styles="{height: '400px', position: 'relative',width:'100%'}"/>
-            </v-col>
-          </v-row>
+    <v-row d-flex justify-content-between>
+    <v-col md="6" lg="6" sm="12" class="p-0">
+        <div class="bg-box-white mr-3 pl-0 pr-0 pt-5 pb-5">
+            <h4 class="title-chart pl-5">Evolution mensuelle des enquetes</h4>
+            <div class="pl-5">
+                <BarChart :data="utilisateurData" :options="barChartOptions" :styles="{height: '350px', position: 'relative'}"/>
+            </div>
+        </div>
+    </v-col> 
+    <v-col md="6" lg="6" sm="12" class="p-0">
+        <div class="bg-box-white pl-0 pr-0 pt-5 pb-5">
+            <h4 class="title-chart pl-5">Répartition des activités par region</h4>
+            <div class="pl-5">
+             <BarChart :data="enrolementParSiteData" :options="barChartOptions" :styles="{height: '350px', position: 'relative',width:'100%'}"/>   
+            </div>
+        </div>
+    </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -315,5 +323,16 @@ path:hover {
 .border-right-chart{
   border-right: solid 1px #aeb4b7;
   margin-bottom: 40px;
+}
+.bg-box-white{
+    background-color: #fff;
+    border-radius: 5px;
+}
+.title-chart{
+    color: grey;
+    font-size: 16px;
+    padding-bottom: 18px;
+    border-bottom: solid 2px #c8c8c8;
+    margin-bottom: 28px;
 }
 </style>

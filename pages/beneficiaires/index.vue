@@ -3,7 +3,7 @@
   <div class="custom-container bg-title-grey">
       <page-header :items="headerItems" class=""></page-header>  
   </div> 
-  <div class="custom-container mt-5">
+  <div class="custom-container">
     <v-card class="container" flat>  
       <list-beneficiaire></list-beneficiaire>      
     </v-card>
@@ -58,15 +58,4 @@ import { mapActions} from 'vuex'
 </script>
 
 <style scoped>
-.bg-title-grey {
-  background-color: #00173F !important;
-  color: #6F96AA;
-}
-
-.custom-container{
-  padding-left: 3%;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-right: 3%;
-}
 </style>
