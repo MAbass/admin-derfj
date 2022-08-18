@@ -191,7 +191,7 @@ import RechercheAvance from '@/components/enquetes/RechercheAvance';
     methods: {
       getList(page){
           this.progress=true
-          this.$msasApi.$get('/enquetes?page='+page)
+          this.$msasApi.$get('/enquettes?page='+page)
         .then(async (response) => {
             console.log('list enquete ++++++++++',response)
             let totalPages = Math.ceil(response.data.total / response.data.per_page)
