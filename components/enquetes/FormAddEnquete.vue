@@ -45,7 +45,7 @@
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="model.region"
+              v-model="region"
               :rules="rules.selectRules"
               :items="listregions"
               outlined
@@ -60,7 +60,7 @@
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="model.departement"
+              v-model="departement"
               :rules="rules.selectRules"
               :items="listdepartements"
               outlined
@@ -75,7 +75,7 @@
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="model.commune"
+              v-model="commune"
               :rules="rules.selectRules"
               :items="listcommunes"
               outlined
@@ -90,7 +90,7 @@
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="model.beneficiaire"
+              v-model="beneficiaire"
               :rules="rules.selectRules"
               :items="listbeneficiaires"
               hide-no-data
@@ -117,7 +117,7 @@
           </v-col>
           <v-col lg="4" md="4" sm="12">
             <v-autocomplete
-              v-model="model.projet"
+              v-model="projet"
               :rules="rules.selectRules"
               :items="listprojets"
               outlined
@@ -546,6 +546,11 @@ import { mapMutations, mapGetters } from 'vuex'
       listregions: 'regions/listregions'    
     })},
     data: () => ({
+      commune:null,
+      departement:null,
+      region:null,
+      beneficiaire:null,
+      projet:null,
       projetByRegion:[
         {
           id:1,
@@ -702,11 +707,6 @@ import { mapMutations, mapGetters } from 'vuex'
       suivie_necessaires:[],
 
       model: {
-        commune:null,
-        departement:null,
-        region:null,
-        beneficiaire:null,
-        projet:null
       },
       rules:{
         textfieldRules: [],
@@ -747,96 +747,16 @@ import { mapMutations, mapGetters } from 'vuex'
         this.submitForm()
       },
       submitForm () {
-        this.loading = true
-
         let validation = this.$refs.form.validate()
+        this.loading = true;
+    
+        console.log('Données formulaire +++++',{...this.model,commune:[this.commune],departement:[this.departement],region:[this.region],beneficiaire:[this.beneficiaire],projet:[this.projet]})
 
-        let annee = this.selectedAnnee?.id
-        let monnaie = this.selectedMonnaie?.id
-        let region = this.selectedRegion?.id
-        let dimension = this.selectedSecteur
-
-        let montantModeFinancements = this.selectedModeFinancements
-        let libelleModeFinancements = this.modeFinanceInputs?.map((item)=>{return item.libelle})
-        let libAutreModeFinance = this.model.libAutreModeFinance
-        let montantAutreModeFinance = this.model.montantAutreModeFinance
-        let autreMode = this.modes
-
-        let piliers = this.selectedPiliers?.map((item)=>{return item.id})
-        let axes = this.selectedAxes?.map((item)=>{return item.id})
-        console.log('++++++++piliers ',piliers)
-        console.log('++++++++axes ',axes)
-        let intitule_activites = this.intitule_activites
-        let description_activites = this.description_activites
-        let nombre_benef_hommes = this.nombre_benef_hommes
-        let nombre_benef_femmes = this.nombre_benef_femmes
-        let type_materiel_utilises = this.type_materiel_utilises
-        let montantInvestissementExecutes = this.montantInvestissementExecutes
-
-        for(let i=0;i<=libelleModeFinancements.length;i++){
-          this.LigneModeFinancement.push({libelle:libelleModeFinancements[i],montant:montantModeFinancements[i]})
-        }
-        if(autreMode.length){
-          for(let i=0;i<=autreMode.length;i++){
-            if(libAutreModeFinance[i] && montantAutreModeFinance[i]){
-              libelleModeFinancements.push(libAutreModeFinance[i])
-              montantModeFinancements.push(montantAutreModeFinance[i])
-            }
-          }
-        }
-        let ligneModeFinancements = JSON.stringify(this.LigneModeFinancement)
-        let ligneFinancements = this.LigneActivites
-        let fichiers = this.fichiers
-        console.log('libelle mode+++++++++++++',libelleModeFinancements)
-        let formData = new FormData();
-        
-        formData.append("libelleModeFinancements",libelleModeFinancements);
-        formData.append("montantModeFinancements",montantModeFinancements);
-        
-        /* if(autreMode){
-          formData.append("libAutreModeFinance",libAutreModeFinance);
-          formData.append("montantAutreModeFinance",montantAutreModeFinance);
-        } */
-
-        formData.append("piliers",piliers);
-        formData.append("axes",axes);
-        formData.append("intitule_activites",intitule_activites);
-        formData.append("description_activites",description_activites);
-        formData.append("nombre_benef_hommes",nombre_benef_hommes);
-        formData.append("nombre_benef_femmes",nombre_benef_femmes);
-        formData.append("type_materiel_utilises",type_materiel_utilises);
-        formData.append("montantInvestissementExecutes",montantInvestissementExecutes);
-
-        formData.append("annee",annee);
-        formData.append("monnaie",monnaie);
-        formData.append("dimension",dimension);
-        formData.append("region",region);
-        formData.append("ligneModeFinancements",ligneModeFinancements);
-        formData.append("ligneFinancements",ligneFinancements);
-        formData.append("fichiers",ligneFinancements);
-       
-        let data = {
-          annee : annee,
-          monnaie : monnaie,
-          dimension : dimension,
-          region : region,
-          ligneFinancements: ligneFinancements,
-          ligneModeFinancements:ligneModeFinancements,
-          fichiers:fichiers,
-          
-        }
-
-        console.log('Donées formulaire source financements ++++++: ',data)
-
-        console.log('FormData ++++++ : ',formData)
-
-
-
-       /* validation && this.$msasFileApi.post('/enquetes',formData)
-          .then((res) => {
-            console.log('Donées reçus ++++++: ',res)
+        validation && this.$msasApi.post('/enquettes',{...this.model,commune:[this.commune],departement:[this.departement],region:[this.region],beneficiaire:[this.beneficiaire],projet:[this.projet]})
+          .then((res) => {           
+            console.log('Donées reçus ++++++: ',res.data)
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message})
-           this.$router.push('/enquetes');
+            this.$router.push('/enquetes');
           })
           .catch((error) => {
               console.log('Code error ++++++: ', error)
@@ -844,7 +764,7 @@ import { mapMutations, mapGetters } from 'vuex'
           }).finally(() => {
             this.loading = false;
             console.log('Requette envoyé ')
-        }); */
+        }); 
       },
       submitLigne () {
         this.countrow_activite += 1;
@@ -930,10 +850,11 @@ import { mapMutations, mapGetters } from 'vuex'
         this.suivie_necessaire0 = ''
       },
       async changeRegion(value) {
-        this.model.departement= null
-        this.model.commune = null
-        this.model.beneficiaire = null
-        this.model.projet = null
+        this.region=value.id
+        this.departement= null
+        this.commune = null
+        this.beneficiaire = null
+        this.projet = null
 
         this.listcommunes = []
         this.listbeneficiaires = [] 
@@ -942,7 +863,8 @@ import { mapMutations, mapGetters } from 'vuex'
         this.listdepartements = value?.departements 
         
       },
-       async changeDepartement(value) {      
+       async changeDepartement(value) {  
+        this.departement = value.id    
         this.listbeneficiaires = [] 
         this.listprojets = [] 
 
@@ -950,6 +872,7 @@ import { mapMutations, mapGetters } from 'vuex'
 
       },
       async changeCommune(value) {   
+        this.commune=value.id
         this.listprojets = []  
         this.progress=true
           this.$msasApi.$get('/communes/'+value.id)
@@ -999,7 +922,7 @@ import { mapMutations, mapGetters } from 'vuex'
         //console.log('total items++++++++++',this.paginationenquete)
       },
       async changeProjet(value) {      
-        this.model.projet = value.id
+        this.projet = value.id
       },
 
       async getRegions(){

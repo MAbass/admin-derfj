@@ -241,7 +241,7 @@ import RechercheProjet from '@/components/projets/RechercheProjet';
         this.$store.dispatch('toast/getMessage',{type:'processing',text:'Traitement en cours ...'})  
         this.$msasApi.$delete('/projets/'+this.activeItem.id)
         .then(async (response) => {             
-            this.$store.dispatch('projets/deleteProjet',this.activeItem.id)
+            this.$store.dispatch('projets/deleteprojet',this.activeItem.id)
             this.$store.dispatch('toast/getMessage',{type:'success',text:response.data.message || 'Suppression réussie'})
             }).catch((error) => {
               this.$store.dispatch('toast/getMessage',{type:'error',text:error || 'Echec de la suppression'})

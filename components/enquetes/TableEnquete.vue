@@ -107,7 +107,50 @@
                 </div>
               </v-row>
             </template>
-            
+            <template v-slot:[`item.projet`]="{ item }">
+              <v-chip
+                color="primary"
+                small
+                outlined
+                class="my-1 mr-1"
+                v-for="projet in item.projet"
+                :key="projet.id"
+              >
+                {{ projet.reference_projet}}
+              </v-chip>
+            </template>
+            <template v-slot:[`item.beneficiaire`]="{ item }">
+              <div 
+                v-for="beneficiaire in item.beneficiaire"
+                :key="beneficiaire.id"
+              >
+                {{ beneficiaire.prenom_beneficiaire +' '+beneficiaire.nom_beneficiaire}}
+              </div>
+            </template>
+            <template v-slot:[`item.commune`]="{ item }">
+              <div 
+                v-for="commune in item.commune"
+                :key="commune.id"
+              >
+                {{ commune.nom_commune }}
+              </div>
+            </template>
+            <template v-slot:[`item.departement`]="{ item }">
+              <div 
+                v-for="departement in item.departement"
+                :key="departement.id"
+              >
+                {{ departement.nom_departement }}
+              </div>
+            </template>
+            <template v-slot:[`item.region`]="{ item }">
+              <div 
+                v-for="region in item.region"
+                :key="region.id"
+              >
+                {{ region.nom_region }}
+              </div>
+            </template>
             <template v-slot:[`item.actions`]="{ item }">
               <v-menu bottom left>
                 <template v-slot:activator="{ on, attrs }">
@@ -118,27 +161,22 @@
 
                 <v-list shaped>
                   <v-item-group>
-                    <v-list-item
-                      @click="visualiserItem(item)"
-                      link
-                      class="custom-v-list-action pl-2 pr-1"
-                    >
+                    <v-list-item @click="visualiserItem(item)" link class="custom-v-list-action pl-2 pr-1">
                       <v-list-item-title>
-                        <v-icon small class="mr-2">
-                          mdi-information-outline </v-icon
-                        >Détail
+                        <v-icon
+                          small
+                          class="mr-2"
+                          
+                        >
+                          mdi-information-outline
+                        </v-icon>Détail
                       </v-list-item-title>
                     </v-list-item>
-                    <v-list-item
-                      @click="editItem(item)"
-                      link
-                      class="custom-v-list-action pl-2 pr-1"
-                      v-if="item.status=='brouillon' || item.status=='rejete'"
-                    >
+                    <v-list-item @click="opendialog(item)" class="custom-v-list-action pl-2 pr-1">
                       <v-list-item-title>
-                        <v-icon small class="mr-2">
-                          mdi-pencil-outline </v-icon
-                        >Modifier
+                        <v-icon small class="mr-2" v-bind="attrs" v-on="on">
+                          mdi-delete-outline </v-icon
+                        >Supprimer
                       </v-list-item-title>
                     </v-list-item>
                   </v-item-group>
@@ -249,7 +287,7 @@ import RechercheAvance from '@/components/enquetes/RechercheAvance';
       async deleteItem () {
         this.dialog=false
         this.$store.dispatch('toast/getMessage',{type:'processing',text:'Traitement en cours ...'})
-        this.$msasApi.$delete('/enquetes/'+this.activeItem.id)
+        this.$msasApi.$delete('/enquettes/'+this.activeItem.id)
         .then(async (response) => {
             this.$store.dispatch('enquetes/deleteenquete',this.activeItem.id)
             this.$store.dispatch('toast/getMessage',{type:'success',text:response.data.message || 'Suppression réussie'})

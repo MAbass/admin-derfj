@@ -1,12 +1,12 @@
 <template>
-  <v-card class="custom-card-user border-grey">                   
+  <v-card class="custom-card-beneficiaire border-grey">                   
     <v-card-text>
       <v-row>
         <v-col md="3" sm="12" lg="3" text-md-center>
-          <!-- <img src="@/static/avatar/user.png" class="user-profil" alt="Espace Senegal Service"> -->
+          <!-- <img src="@/static/avatar/beneficiaire.png" class="beneficiaire-profil" alt="Espace Senegal Service"> -->
           <div class="headline">
-            <v-avatar v-if="detailUtilisateur.avatar" tile style="border: solid 2px #d8d8d8;" size="150px">
-              <img :src="detailUtilisateur.avatar" alt="Avatar"/>
+            <v-avatar v-if="detailBeneficiaire.avatar" tile style="border: solid 2px #d8d8d8;" size="150px">
+              <img :src="detailBeneficiaire.avatar" alt="Avatar"/>
             </v-avatar>
             <v-avatar size="100px" v-else>
               <img src="@/static/avatar/default-user.png" alt="Cheikh Gueye"/>
@@ -16,28 +16,22 @@
         <v-col md="9" sm="12" lg="9" text-md-left>
           <div class="row">
               <div class="col-md-6 border-left">
-                  <!--<p class="info-profil mb-4"><span>Prénom: </span>{{detailUtilisateur.firstname}}</p>
-                  <p class="info-profil mb-4"><span>Nom: </span>{{detailUtilisateur.lastname}}</p>-->
-                  <p class="info-profil mb-4"><span>Prénom et Nom: </span>{{detailUtilisateur.name}}</p>
+                  <!--<p class="info-profil mb-4"><span>Prénom: </span>{{detailBeneficiaire.firstname}}</p>
+                  <p class="info-profil mb-4"><span>Nom: </span>{{detailBeneficiaire.lastname}}</p>-->
+                  <p class="info-profil mb-4"><span>Prénom et Nom: </span>{{detailBeneficiaire.nom_beneficiaire+' '+detailBeneficiaire.prenom_beneficiaire}}</p>
                   
-                  <p class="info-profil mb-4"><span>Email : </span>{{detailUtilisateur.email}}</p>
-                  <p class="info-profil mb-4"><span>Roles : </span>
+                  <p class="info-profil mb-4"><span>Téléphone : </span>{{detailBeneficiaire.telephone_beneficiaire}}</p>
+                  <p class="info-profil mb-4"><span>Région : </span>
                     <v-chip
                       color="primary"
                       small
                       outlined
                       class="my-1 mr-1"
-                      v-for="role in detailUtilisateur.roles"  :key="role.id"
+                      v-for="region in detailBeneficiaire.region"  :key="region.id"
                     >
-                      {{ role.description }}
+                      {{ region.nom_region }}
                     </v-chip>
                   </p>
-              </div>
-              <div class="col-md-6 border-left">
-                  <p class="info-profil mb-4" v-if="detailUtilisateur.fonction"><span>Profession :
-                      </span>{{ detailUtilisateur.fonction}}
-                  </p>
-                  <p class="info-profil mb-4" v-if="detailUtilisateur.structures && detailUtilisateur.structures.length"><span>Structure: </span>{{ detailUtilisateur.structures[0] && detailUtilisateur.structures[0].nom_structure}}</p>  
               </div>
           </div>
         </v-col>
@@ -53,7 +47,7 @@ import { mapMutations, mapGetters } from 'vuex'
       this.getDetail(this.id)
     },
     computed: mapGetters({
-      detailUtilisateur: 'utilisateurs/detailutilisateur'
+      detailBeneficiaire: 'beneficiaires/detailbeneficiaire'
     }),
     data () {
       return {
@@ -65,14 +59,14 @@ import { mapMutations, mapGetters } from 'vuex'
         alert('Formulaire soumis')
       },
       retour(){       
-          this.$router.push('/utilisateurs');
+          this.$router.push('/beneficiaires');
       },
       getDetail(id){
           this.progress=true
-          this.$msasApi.$get('/users/'+id)
+          this.$msasApi.$get('/beneficiaires/'+id)
         .then(async (response) => {
             console.log('Detail ++++++++++',response)
-            this.$store.dispatch('utilisateurs/getDetail',response.data)
+            this.$store.dispatch('beneficiaires/getDetail',response.data)
         }).catch((error) => {
              this.$toast.error(error?.response?.data?.message).goAway(3000)
             console.log('Code error ++++++: ', error?.response?.data?.message)

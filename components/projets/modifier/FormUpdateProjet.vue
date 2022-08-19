@@ -7,7 +7,7 @@
         <v-text-field
           label="Référence projet"
           outlined dense
-          v-model="model.prenom_projet"
+          v-model="model.reference_projet"
           :rules="rules.textfieldRules"
         ></v-text-field>
       </v-col>
@@ -15,7 +15,7 @@
         <v-text-field
           label="Titre du projet"
           outlined dense
-          v-model="model.nom_projet"
+          v-model="model.titre_projet"
           :rules="rules.textfieldRules"
         ></v-text-field>
       </v-col>
@@ -64,33 +64,33 @@
         >
         </v-autocomplete>
       </v-col>
-      <v-col lg="4" md="4" sm="12">
+      <!--<v-col lg="4" md="4" sm="12">
         <v-autocomplete
-          v-model="model.projet"
+          v-model="model.beneficiaire"
           :rules="rules.selectRules"
-          :items="listprojets"
+          :items="listbeneficiaires"
           hide-no-data
           :filter="() => true"
           outlined
           dense
           label="Bénéficiaire (Téléhone ou Email)"
-          item-text="nom_projet"
+          item-text="nom_beneficiaire"
           item-value="id"
           return-object
           @keyup="(event) => UpdateBeneficiaire(event, index)"
           @change="changeBeneficiaire"
         >
           <template v-slot:selection="data">
-            <h5>{{ data.item.prenom_projet+' '+data.item.nom_projet }}</h5>
+            <h5>{{ data.item.prenom_beneficiaire+' '+data.item.nom_beneficiaire }}</h5>
           </template>
           <template v-slot:item="data">
             <div class="mt-4">
-              <h5>{{ data.item.prenom_projet+' '+data.item.nom_projet }}</h5>
-              <p>Tel: {{ data.item.telephone_projet}}</p>
+              <h5>{{ data.item.prenom_beneficiaire+' '+data.item.nom_beneficiaire }}</h5>
+              <p>Tel: {{ data.item.telephone_beneficiaire}}</p>
             </div>
           </template>
         </v-autocomplete>
-      </v-col>
+      </v-col>-->
     </v-row>
 
     <v-btn
@@ -130,11 +130,8 @@ import { mapMutations, mapGetters } from 'vuex'
 
       model: {
         id:'',
-        numero_cin:'',
-        nom_projet:'',
-        prenom_projet:'',
-        adresse_projet:'',
-        telephone_projet:''
+        titre_projet:'',
+        reference_projet:'',
       },
       rules:{
         textfieldRules: [],
@@ -175,6 +172,7 @@ import { mapMutations, mapGetters } from 'vuex'
           this.commune = response.data.commune.length!=0?response.data.commune[0].id:null
           this.beneficiaire = response.data.beneficiaire.length!=0?response.data.beneficiaire[0].id:null
 
+          this.listbeneficiaires = response.data.beneficiaire.length!=0?response.data.beneficiaire:null
           this.listdepartements = this.listregions.filter(region => (region.id == this.region))[0]?.departements
           this.listcommunes = this.listdepartements.filter(departement => (departement.id == this.departement))[0]?.communes
 
@@ -194,9 +192,9 @@ import { mapMutations, mapGetters } from 'vuex'
         let validation = this.$refs.form.validate()
         this.loading = true;
     
-        console.log('Données formulaire +++++',{...this.model,commune:[this.commune],departement:[this.departement],region:[this.region]})
+        console.log('Données formulaire +++++',{...this.model,beneficiaire:[this.beneficiaire],commune:[this.commune],departement:[this.departement],region:[this.region]})
 
-        validation && this.$msasApi.put('/projets/'+this.model.id,{...this.model,commune:[this.commune],departement:[this.departement],region:[this.region]})
+        validation && this.$msasApi.put('/projets/'+this.model.id,{...this.model,beneficiaire:[this.beneficiaire],commune:[this.commune],departement:[this.departement],region:[this.region]})
           .then((res) => {
             console.log('Donées reçus ++++++: ',res.data)
             this.$store.dispatch('toast/getMessage',{type:'success',text:res.data.message})
