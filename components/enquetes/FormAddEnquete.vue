@@ -480,6 +480,7 @@
       <v-card
          class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat
       >
+      <v-row>
         <v-col md="6" lg="6" sm="12">
           <v-text-field
             label="Latitude"
@@ -487,8 +488,6 @@
             v-model="model.latitude"
             :rules="rules.textfieldRules"
           ></v-text-field>
-        </v-col>
-        <v-col md="6" lg="6" sm="12">
           <v-text-field
             label="Longitude"
             outlined dense
@@ -496,6 +495,28 @@
             :rules="rules.textfieldRules"
           ></v-text-field>
         </v-col>
+        <v-col md="6" lg="6" sm="12">
+          <GmapMap
+            :center="center"
+            :zoom="18"
+            map-style-id="roadmap"
+            :options="mapOptions"
+            style="width: 100vmin; height: 50vmin"
+            ref="mapRef"
+            @click="handleMapClick"
+          >
+            <GmapMarker
+              :position="marker.position"
+              :clickable="true"
+              :draggable="true"
+              @drag="handleMarkerDrag"
+              @click="panToMarker"
+            />
+          </GmapMap>
+          <button @click="geolocate">Detect Location</button>
+          <p>Selected Position: {{ marker.position }}</p>
+        </v-col>
+      </v-row>
       </v-card>
       <v-btn
         color="primary"
@@ -540,6 +561,7 @@ import { mapMutations, mapGetters } from 'vuex'
     },
     mounted: function() {
       this.getRegions()
+      this.geolocate()
     },
     computed: {
       ...mapGetters({
@@ -720,7 +742,14 @@ import { mapMutations, mapGetters } from 'vuex'
       date1: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       date2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       menu1: false,
-      menu2: false
+      menu2: false,
+
+      marker: { position: { lat: 10, lng: 10 } },
+      center: { lat: 10, lng: 10 },
+      mapOptions: {
+        height:300,
+        disableDefaultUI: true,
+      },
     }),
     methods: {
       handleFileUpload(e){
@@ -942,7 +971,38 @@ import { mapMutations, mapGetters } from 'vuex'
 
       async getProjetByBeneficiaire(id_beneficiaire){
         this.listprojets = value?.projets 
-      }
+      },
+      geolocate() {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.model.latitude = position.coords.latitude
+          this.model.longitude = position.coords.longitude
+          this.marker.position = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          this.panToMarker();
+        });
+      },
+
+      //sets the position of marker when dragged
+      handleMarkerDrag(e) {
+        this.marker.position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+      },
+
+      //Moves the map view port to marker
+      panToMarker() {
+        this.$refs.mapRef.panTo(this.marker.position);
+        this.$refs.mapRef.setZoom(18);
+      },
+
+      //Moves the marker to click position on the map
+      handleMapClick(e) {
+        this.model.latitude = e.latLng.lat()
+          this.model.longitude = e.latLng.lng()
+        this.marker.position = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+        console.log(e);
+      },
     },
     metaInfo () {
       return {

@@ -36,6 +36,7 @@ export default {
   plugins: [
     '~/plugins/api.js',
     '~/plugins/helpers.js',
+    "~/plugins/google-maps",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
