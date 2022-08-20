@@ -508,7 +508,7 @@
         <v-col md="12" lg="12" sm="12">
           <GmapMap
             :center="center"
-            :zoom="18"
+            :zoom="8"
             map-style-id="roadmap"
             :options="mapOptions"
             style="width: 100%; height: 50vmin"
