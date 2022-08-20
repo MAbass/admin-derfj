@@ -511,7 +511,7 @@
             :zoom="18"
             map-style-id="roadmap"
             :options="mapOptions"
-            style="width: 100vmin; height: 50vmin"
+            style="width: 100%; height: 50vmin"
             ref="mapRef"
             @click="handleMapClick"
           >
@@ -758,6 +758,12 @@ import { mapMutations, mapGetters } from 'vuex'
       mapOptions: {
         height:300,
         disableDefaultUI: true,
+        zoomControl: true,
+        mapTypeControl: true,
+        scaleControl: true,
+        streetViewControl: true,
+        rotateControl: true,
+        fullscreenControl: true,
       },
     }),
     methods: {
