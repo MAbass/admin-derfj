@@ -481,13 +481,15 @@
          class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat
       >
       <v-row>
-        <v-col md="6" lg="6" sm="12">
+        <v-col md="4" lg="4" sm="12">
           <v-text-field
             label="Latitude"
             outlined dense
             v-model="model.latitude"
             :rules="rules.textfieldRules"
           ></v-text-field>
+        </v-col>
+        <v-col md="4" lg="4" sm="12">
           <v-text-field
             label="Longitude"
             outlined dense
@@ -495,7 +497,15 @@
             :rules="rules.textfieldRules"
           ></v-text-field>
         </v-col>
-        <v-col md="6" lg="6" sm="12">
+        <v-col md="4" lg="4" sm="12">
+          <v-btn
+          color=""
+          @click="geolocate"
+          >
+            Detecter la position actuelle
+          </v-btn>
+        </v-col>
+        <v-col md="12" lg="12" sm="12">
           <GmapMap
             :center="center"
             :zoom="18"
@@ -513,8 +523,7 @@
               @click="panToMarker"
             />
           </GmapMap>
-          <button @click="geolocate">Detect Location</button>
-          <p>Selected Position: {{ marker.position }}</p>
+          <p>Position: {{ marker.position }}</p>
         </v-col>
       </v-row>
       </v-card>
