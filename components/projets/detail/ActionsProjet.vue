@@ -24,43 +24,8 @@
       <v-icon left>
         mdi-pencil
       </v-icon>
-      Modifier les infos
+      Modifier
     </v-btn>
-    <v-dialog
-      v-model="dialog"
-      max-width="800px"
-    >
-      <template v-slot:activator="{}">
-        <v-btn
-          flat
-          outlined
-          rounded
-          color="red"
-          v-on:click="reinitialiser()"
-        >
-          <v-icon left>
-            mdi-lock-reset
-          </v-icon>
-          Réinitialiser le mot de passe
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-text>
-          <v-container>
-            <v-form class="row text-align-center pt-15 pb-15"  v-model="valid" ref="form" lazy-validation>
-              <v-text-field class="col-md-12 col-lg-12 col-sm-12 pl-4 pr-4 pt-0" dense outlined append-icon="mdi-lock-outline" name="password" label="Nouveau mot de passe" id="password" type="password"
-                            v-model="model.password" :rules="rules.passwordRules"></v-text-field>
-              <v-text-field class="col-md-12 col-lg-12 col-sm-12 pl-4 pr-4 pt-0" dense outlined append-icon="mdi-lock-outline" name="password_confirmation" label="Confirmer mot de passe" id="password_confirmation" type="password"
-                            v-model="model.password_confirmation" :rules="confirm_passwordRules"></v-text-field>
-              <v-spacer></v-spacer>
-              <div class="layout column align-center col-md-12 col-lg-12 col-sm-12 pt-0">
-                <v-btn depressed rounded block color="primary" class="pl-10 pr-10" @click="submitForm" :loading="loading" :disabled="!valid">Enregistrer</v-btn>
-              </div>
-            </v-form> 
-          </v-container>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
   </v-row>
 </template>
 
@@ -120,7 +85,7 @@ import { mapMutations, mapGetters } from 'vuex'
         this.$router.push('/projets');
       },
       modifier(){ 
-        this.$router.push('/projets/modifier/'+this.detailUtilisateur.id);      
+        this.$router.push('/projets/modifier/'+this.detailProjet.id);      
       },
       reinitialiser(){  
         this.dialog = true    
