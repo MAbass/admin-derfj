@@ -96,7 +96,7 @@ import BarChart from "@/components/statistiques/charts/BarChart";
                         {
                             label: "Bloqués",
                             borderWidth: 2,
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            backgroundColor: 'rgb(238, 233, 227)',
                             data: [3]
                         }
                     ]
