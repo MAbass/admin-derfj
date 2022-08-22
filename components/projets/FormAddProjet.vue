@@ -73,7 +73,7 @@
           :filter="() => true"
           outlined
           dense
-          label="Bénéficiaire (Téléhone ou CNI)"
+          label="Bénéficiaire (Téléphone ou CNI)"
           item-text="nom_beneficiaire"
           item-value="id"
           return-object

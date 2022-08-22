@@ -97,7 +97,7 @@
               :filter="() => true"
               outlined
               dense
-              label="Bénéficiaire (Téléhone ou CNI)"
+              label="Bénéficiaire (Téléphone ou CNI)"
               item-text="nom_beneficiaire"
               item-value="id"
               return-object
@@ -720,8 +720,8 @@ import { mapMutations, mapGetters } from 'vuex'
       intitule_activite0:'',
       description_activite0:'',
       nombre_benef_homme0:'',
-      nombre_benef_femmes0:'',
-      type_materiel_utilises0:'',
+      nombre_benef_femme0:'',
+      type_materiel_utilise0:'',
 
       difficulte_rencontre0:'',
       solution_trouve0:'',
