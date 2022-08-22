@@ -84,13 +84,13 @@ import BarChart from "@/components/statistiques/charts/BarChart";
                         {
                             label: "Actifs",
                             borderWidth: 2,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            backgroundColor: '#00173F',
                             data: [3]
                         },
                         {
                             label: "Innactifs",
                             borderWidth: 2,
-                            backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                            backgroundColor: '#7E4F25',
                             data: [4]
                         },
                         {
@@ -113,13 +113,13 @@ import BarChart from "@/components/statistiques/charts/BarChart";
                         {
                             label: "En traitement",
                             borderWidth: 2,
-                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            backgroundColor: '#7E4F25',
                             data: [4]
                         },
                         {
                             label: "Brouillon",
                             borderWidth: 2,
-                            backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                            backgroundColor: '#00173F',
                             data: [3]
                         }
                     ]
@@ -136,7 +136,7 @@ import BarChart from "@/components/statistiques/charts/BarChart";
                         {
                             label: "En traitement",
                             borderWidth: 2,
-                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            backgroundColor: '#00173F',
                             data: [4]
                         },
                         {
@@ -154,12 +154,12 @@ import BarChart from "@/components/statistiques/charts/BarChart";
                     ]
                 },
                 enrolementParSiteData: {
-                    labels:['DAKAR','THIES','LOUGA'],
+                    labels:['DAKAR','THIES','LOUGA','TAMBA','KAOLACK'],
                     datasets: [{
                         label: 'Nombre de secteur d\'activité',
                         borderWidth: 1,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        data: [40, 20, 12]
+                        backgroundColor: 'rgba(0, 23, 63, 0.71)',
+                        data: [40, 20, 12,15,13]
                       }
                     ]
                 },
@@ -168,7 +168,7 @@ import BarChart from "@/components/statistiques/charts/BarChart";
                     datasets: [{
                         label: 'Nombre de demandes',
                         borderWidth: 1,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        backgroundColor: 'rgba(0, 23, 63, 0.71)',
                         data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
                       }
                     ]
