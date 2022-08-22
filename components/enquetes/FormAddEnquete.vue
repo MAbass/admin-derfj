@@ -97,7 +97,7 @@
               :filter="() => true"
               outlined
               dense
-              label="Bénéficiaire (Téléhone ou Email)"
+              label="Bénéficiaire (Téléhone ou CNI)"
               item-text="nom_beneficiaire"
               item-value="id"
               return-object
@@ -569,8 +569,8 @@ import { mapMutations, mapGetters } from 'vuex'
     components: {
     },
     mounted: function() {
-      this.getRegions()
       this.geolocate()
+      this.getRegions()     
     },
     computed: {
       ...mapGetters({
