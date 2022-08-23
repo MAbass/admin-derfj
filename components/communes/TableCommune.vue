@@ -18,7 +18,6 @@
   :single-select="singleSelect"
   item-key="id"
   items-per-page="5"
-  show-select
   class="flat pt-4"
   :loading="progress" 
   loading-text="Loading... Please wait"
@@ -29,14 +28,6 @@
   <template v-slot:top="{ pagination, options, updateOptions }">
     <v-row class="mb-1 border-bottom-small">
       <v-col md="6" sm="12" lg="6" class="pb-0 pt-4">
-        <div class="row"> 
-          <v-btn icon class="col-3" v-on:click="supprimer()">
-            <v-icon left class="font-small">
-              mdi-trash-can-outline
-            </v-icon>
-            <span class="font-small">Supprimer</span>
-          </v-btn>   
-        </div>
       </v-col>
       <v-col md="6" sm="12" lg="6" class="pt-0 pb-2">  
         <v-data-footer 

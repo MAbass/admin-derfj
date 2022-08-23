@@ -3,25 +3,25 @@
     <div class="custom-container mt-5">
       <v-row class="d-flex justify-content-between">
         <v-col md="3" sm="12" lg="3" class="">
-          <div class="bg-marron mr-3 pl-4 pr-5 pt-5 pb-5">
+          <div class="bg-marron mr-3 pl-4 pr-5 pt-5 pb-5 text-sm-center">
             <h4 class="">NOMBRE DE REGION COUVERTE</h4>
             <h1 class="">14</h1>
           </div>
         </v-col>
         <v-col md="3" sm="12" lg="3" class="">
-          <div class="bg-marron mr-3 pl-4 pr-5 pt-5 pb-5">
+          <div class="bg-marron mr-3 pl-4 pr-5 pt-5 pb-5 text-sm-center">
             <h4 class="">NOMBRE DE DEPARTEMENT</h4>
             <h1 class="">46</h1>
           </div>
         </v-col>
         <v-col md="3" sm="12" lg="3" class="">
-          <div class="bg-marron mr-3 pl-4 pr-5 pt-5 pb-5">
+          <div class="bg-marron mr-3 pl-4 pr-5 pt-5 pb-5 text-sm-center">
             <h4 class="">NOMBRE TOTAL DE REPONSE</h4>
             <h1 class="">174</h1>
           </div>
         </v-col>
         <v-col md="3" sm="12" lg="3" class="">
-          <div class="bg-marron pl-4 pr-5 pt-5 pb-5">
+          <div class="bg-marron pl-4 pr-5 pt-5 pb-5 text-sm-center">
             <h4 class="">NOMBRE TOTAL DE SECTEUR</h4>
             <h1 class="">174</h1>
           </div>
@@ -57,7 +57,7 @@ import StatBox from '@/components/dashboard/admin/StatBox';
     },
     methods:{
       getDashboardData(){
-        this.$essApi.$get('/dashboard-employee')
+        this.$msasApi.$get('/dashboard-employee')
         .then(async (response) => { 
           console.log('Données reçu+++++++++++',response)
               await this.$store.commit('dashboard/initdashboardData', response)
