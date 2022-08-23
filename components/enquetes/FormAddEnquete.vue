@@ -165,7 +165,7 @@
                 class="col-12"
                 v-for="item in listsecteurs"
                 :key="item.id"
-                :label="item.libelle_secteur"
+                :label="item.nom_secteur"
                 :value="item.id"
               ></v-radio>
             </v-radio-group>
@@ -809,22 +809,22 @@
           <v-col md="12" sm="12" lg="12" text-md-left>
             <div class="row">
               <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Région : </span>{{region}}</p>
+                  <p class="info-profil"><span>Région : </span>{{resume.nom_region}}</p>
               </div>
               <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Departement : </span>{{departement}}</p>
+                  <p class="info-profil"><span>Departement : </span>{{resume.nom_departement}}</p>
               </div>
               <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Commune : </span>{{commune}}</p>
+                  <p class="info-profil"><span>Commune : </span>{{resume.nom_commune}}</p>
               </div>
               <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Beneficiaire : </span>{{beneficiaire}}</p>
+                  <p class="info-profil"><span>Beneficiaire : </span>{{resume.nom_beneficiaire}}</p>
               </div>
               <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Projet : </span>{{projet}}</p>
+                  <p class="info-profil"><span>Projet : </span>{{resume.reference_projet}}</p>
               </div>
               <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Secteur : </span>{{selectedSecteur}}</p>
+                  <p class="info-profil"><span>Secteur : </span>{{resume.nom_secteur}}</p>
               </div>
               <div class="col-md-4 my-0 py-0">
                   <p class="info-profil"><span>Latitude : </span>{{model.latitude}}</p>
@@ -941,6 +941,14 @@ import { mapMutations, mapGetters } from 'vuex'
       listregions: 'regions/listregions'    
     })},
     data: () => ({
+      resume:{
+        nom_region:'',
+        nom_departement:'',
+        nom_commune:'',
+        nom_beneficiaire:'',
+        reference_projet:'',
+        nom_secteur:''
+      },
       commune:null,
       departement:null,
       region:null,
@@ -1050,13 +1058,13 @@ import { mapMutations, mapGetters } from 'vuex'
       ],
 
       listsecteurs : [
-        {id:1,libelle_secteur:'Suivi des dossiers financés par la DER/FJ'},
-        {id:2,libelle_secteur:'Suivi des décaissements au niveau des IFP'},
-        {id:3,libelle_secteur:'Formation et accompagnement des bénéficiaires de la DER/FJ'},
-        {id:4,libelle_secteur:'Situation des recouvrements au niveau départemental'},
-        {id:5,libelle_secteur:'Organisation des sessions d\'animation économique'},
-        {id:6,libelle_secteur:'Activité de représentation dans les comités'},
-        {id:7,libelle_secteur:'Autres activités'},
+        {id:1,nom_secteur:'Suivi des dossiers financés par la DER/FJ'},
+        {id:2,nom_secteur:'Suivi des décaissements au niveau des IFP'},
+        {id:3,nom_secteur:'Formation et accompagnement des bénéficiaires de la DER/FJ'},
+        {id:4,nom_secteur:'Situation des recouvrements au niveau départemental'},
+        {id:5,nom_secteur:'Organisation des sessions d\'animation économique'},
+        {id:6,nom_secteur:'Activité de représentation dans les comités'},
+        {id:7,nom_secteur:'Autres activités'},
       ],
       environnements : [
         {id:1,nom_environnement:'Adhésion OP'},
@@ -1290,6 +1298,9 @@ import { mapMutations, mapGetters } from 'vuex'
         this.listprojets = []
 
         this.listdepartements = value?.departements 
+
+        //resumé
+        this.resume.nom_region = value.nom_region
         
       },
        async changeDepartement(value) {  
@@ -1298,6 +1309,9 @@ import { mapMutations, mapGetters } from 'vuex'
         this.listprojets = [] 
 
         this.listcommunes = value?.communes 
+
+        //resumé
+        this.resume.nom_departement = value.nom_departement
 
       },
       async changeCommune(value) {   
@@ -1314,6 +1328,8 @@ import { mapMutations, mapGetters } from 'vuex'
             console.log('Requette envoyé ')
         });
         //console.log('total items++++++++++',this.paginationenquete)
+        //resumé
+        this.resume.nom_commune = value.nom_commune
       },
 
       UpdateBeneficiaire(event,index){
@@ -1350,13 +1366,21 @@ import { mapMutations, mapGetters } from 'vuex'
             console.log('Requette envoyé ')
         });
         //console.log('total items++++++++++',this.paginationenquete)
+
+        //resumé
+        this.resume.nom_beneficiaire = value.prenom_beneficiaire+' '+value.nom_beneficiaire
       },
       async changeProjet(value) {      
         this.projet = value.id
+
+        //resumé
+        this.resume.reference_projet = value.reference_projet
       },
       async changeSecteur(e) {
         this.selectedSecteur = e
-        /*this.selectedDimension = e */      
+        /*this.selectedDimension = e */ 
+        //resumé
+        this.resume.nom_secteur = this.listsecteurs.filter(item => (item.id === e)).map((item)=>(item.nom_secteur))[0]     
       },
 
       async getRegions(){
@@ -1433,7 +1457,7 @@ import { mapMutations, mapGetters } from 'vuex'
 }
 .custom-ligne-bloc {
   border: solid 2px #e3ebf3;
-  margin: 12px;
+  margin: 0px;
   padding: 34px;
   border-radius: 5px;
   margin-bottom: 26px;
