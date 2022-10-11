@@ -3,18 +3,87 @@
     align="center"
     justify="space-around"
   >
-    <v-btn
-      flat
-      outlined
-      rounded
-      color="primary"
-      v-on:click="retour()"
-    >
-      <v-icon left>
-        mdi-arrow-left
-      </v-icon>
-      Retour à la liste
-    </v-btn>
+  <v-dialog
+    v-model="dialog"
+    max-width="1200px"
+  >
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+      v-bind="attrs"
+          v-on="on"
+        depressed
+        rounded
+        color="primary"
+        outlined
+        >
+        <v-icon left>
+          mdi-plus
+        </v-icon>
+        Enquette point focal
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-text>
+        <v-container>
+          <form-add-enquette></form-add-enquette>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+  <v-dialog
+    v-model="dialog"
+    max-width="1200px"
+  >
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+      v-bind="attrs"
+          v-on="on"
+        depressed
+        rounded
+        color="primary"
+        outlined
+        >
+        <v-icon left>
+          mdi-plus
+        </v-icon>
+        Analyse risques environnementaux et sociaux
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-text>
+        <v-container>
+          <form-add-enquette></form-add-enquette>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog> 
+  <v-dialog
+    v-model="dialog"
+    max-width="1200px"
+  >
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+      v-bind="attrs"
+          v-on="on"
+        depressed
+        rounded
+        color="primary"
+        outlined
+        >
+        <v-icon left>
+          mdi-plus
+        </v-icon>
+        Analyse genre
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-text>
+        <v-container>
+          <form-add-enquette></form-add-enquette>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog> 
     <v-btn
       flat
       rounded
@@ -31,31 +100,19 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
+import FormAddEnquette from '@/components/projets/detail/FormAddEnquette'
   export default {
+    components: {
+      FormAddEnquette
+    },
     mounted: function() {
-      this.model.email = this.detailProjet.email
+      //this.model.email = this.detailProjet.email
     },
     computed: mapGetters({
       detailProjet: 'projets/detailprojet'
     }),
     data: () => ({
-      loading:false,
-      dialog: false,
-      model: {
-        email: '',
-        password: '',
-        password_confirmation: '',
-      },
-      rules:{
-        passwordRules: [
-          v => !!v || 'Mot de passe est obligatoire',
-          v => (v && v.length >= 8) || 'Mot de passe doit etre superieur ou égal à 8 caracteres',
-        ],
-        emailRules: [
-          v => !!v || 'E-mail est obligatoire',
-          v => /.+@.+\..+/.test(v) || 'E-mail mdoit etre valide',
-        ]
-      },
+      listProjets:[]
     }),
     methods: {
      submitForm () {

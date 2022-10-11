@@ -5,6 +5,9 @@ export default {
     headerprojets (state) {
       return state.headerprojets
     },
+    headerprojets2 (state) {
+      return state.headerprojets2
+    },
     detailprojet (state) {
       return state.detailprojet
     },

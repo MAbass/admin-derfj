@@ -1,5 +1,5 @@
 <template>
-  <v-card class="custom-card-beneficiaire border-grey">                   
+  <v-card class="">                   
     <v-card-text>
       <v-row>
         <v-col md="3" sm="12" lg="3" text-md-center>
@@ -15,23 +15,25 @@
         </v-col>
         <v-col md="9" sm="12" lg="9" text-md-left>
           <div class="row">
-              <div class="col-md-6 border-left">
-                  <!--<p class="info-profil mb-4"><span>Prénom: </span>{{detailBeneficiaire.firstname}}</p>
-                  <p class="info-profil mb-4"><span>Nom: </span>{{detailBeneficiaire.lastname}}</p>-->
-                  <p class="info-profil mb-4"><span>Prénom et Nom: </span>{{detailBeneficiaire.nom_beneficiaire+' '+detailBeneficiaire.prenom_beneficiaire}}</p>
-                  
-                  <p class="info-profil mb-4"><span>Téléphone : </span>{{detailBeneficiaire.telephone_beneficiaire}}</p>
-                  <p class="info-profil mb-4"><span>Région : </span>
-                    <v-chip
-                      color="primary"
-                      small
-                      outlined
-                      class="my-1 mr-1"
-                      v-for="region in detailBeneficiaire.region"  :key="region.id"
-                    >
-                      {{ region.nom_region }}
-                    </v-chip>
-                  </p>
+            <div class="col-md-6 border-left">
+                <p class="info-profil mb-4"><span>Prénom: </span>{{detailBeneficiaire.prenom_beneficiaire}}</p>
+                <p class="info-profil mb-4"><span>Nom: </span>{{detailBeneficiaire.nom_beneficiaire}}</p> 
+                <p class="info-profil mb-4"><span>Adresse: </span>{{detailBeneficiaire.adresse_beneficiaire}}</p> 
+                
+              </div>
+              <div class="col-md-6 border-left">              
+                <p class="info-profil mb-4"><span>Téléphone : </span>{{detailBeneficiaire.telephone_beneficiaire}}</p>
+                <p class="info-profil mb-4"><span>Région : </span>
+                  <v-chip
+                    color="primary"
+                    small
+                    outlined
+                    class="my-1 mr-1"
+                    v-for="region in detailBeneficiaire.region"  :key="region.id"
+                  >
+                    {{ region.nom_region }}
+                  </v-chip>
+                </p>
               </div>
           </div>
         </v-col>

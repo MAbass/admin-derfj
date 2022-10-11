@@ -106,8 +106,8 @@ export default {
       light: true,
       themes: {
         light: {
-          primary: "#7E4F25",
-          secondary: "#00173F",
+          primary: "#7E4F25",//marron
+          secondary: "#00173F",//darkblue
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,

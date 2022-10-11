@@ -7,17 +7,32 @@
         </v-tabs>
       </div>
       <div class="ml-auto p-2">
-        <v-btn
-        depressed
-        rounded
-        color="primary"
-        @click="goToAddenquete"
+        <v-dialog
+          v-model="dialog"
+          max-width="1200px"
         >
-          <v-icon left>
-            mdi-plus
-          </v-icon>
-          Ajouter une enquete
-        </v-btn>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+            v-bind="attrs"
+                v-on="on"
+              depressed
+              rounded
+              color="primary"
+              >
+              <v-icon left>
+                mdi-plus
+              </v-icon>
+              Enquette point focal
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text>
+              <v-container>
+                <form-add-enquette></form-add-enquette>
+              </v-container>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </div>
     </div>
     
@@ -30,9 +45,11 @@
 </template>
 <script>
 import TableEnquete from '@/components/enquetes/TableEnquete'
+import FormAddEnquette from '@/components/projets/detail/FormAddEnquette'
   export default {
     components: {
-      TableEnquete
+      TableEnquete,
+      FormAddEnquette
     },
     data: () => ({
       tab: null,

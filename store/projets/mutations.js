@@ -5,6 +5,9 @@ export default {
     initheader(state, newlist) {
         state.headerprojets = newlist
     },
+    initheader2(state, newlist) {
+        state.headerprojets2 = newlist
+    },
     initdetail(state, newprojet) {
         state.detailprojet = newprojet
     },

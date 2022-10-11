@@ -4,12 +4,23 @@
       <v-row>
         <v-col md="9" sm="12" lg="9" text-md-left>
           <div class="row">
-              <div class="col-md-6 border-left">
+              <div class="col-md-4">
                   <!--<p class="info-profil mb-4"><span>Prénom: </span>{{detailUtilisateur.firstname}}</p>
                   <p class="info-profil mb-4"><span>Nom: </span>{{detailUtilisateur.lastname}}</p>-->
-                  <p class="info-profil mb-4"><span>Référence projet: </span>{{detailProjet.reference_projet}}</p>
-                  
+                  <p class="info-profil mb-4"><span>Référence projet: </span>{{detailProjet.reference_projet}}</p>            
                   <p class="info-profil mb-4"><span>Titre : </span>{{detailProjet.titre_projet}}</p>
+              </div>
+              <div class="col-md-4">
+                  <!--<p class="info-profil mb-4"><span>Prénom: </span>{{detailUtilisateur.firstname}}</p>
+                  <p class="info-profil mb-4"><span>Nom: </span>{{detailUtilisateur.lastname}}</p>-->
+                  <p class="info-profil mb-4"><span>Prénom bénéficiaire: </span>{{detailProjet.beneficiaire && detailProjet.beneficiaire[0].prenom_beneficiaire}}</p>            
+                  <p class="info-profil mb-4"><span>Nom Bénéficiaire : </span>{{detailProjet.beneficiaire && detailProjet.beneficiaire[0].nom_beneficiaire}}</p>
+              </div>
+              <div class="col-md-4">
+                  <!--<p class="info-profil mb-4"><span>Prénom: </span>{{detailUtilisateur.firstname}}</p>
+                  <p class="info-profil mb-4"><span>Nom: </span>{{detailUtilisateur.lastname}}</p>-->
+                  <p class="info-profil mb-4"><span>Téléphone bénéficiaire: </span>{{detailProjet.beneficiaire && detailProjet.beneficiaire[0].telephone_beneficiaire}}</p>            
+                  <p class="info-profil mb-4"><span>Adresse bénéficiaire : </span>{{detailProjet.beneficiaire && detailProjet.beneficiaire[0].adresse_beneficiaire}}</p>
               </div>
           </div>
         </v-col>

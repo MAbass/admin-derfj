@@ -11,7 +11,7 @@
               <info-beneficiaire></info-beneficiaire>
             </v-col>
             <v-col cols="12" md="12" lg="12" sm="12">
-              <actions-beneficiaire></actions-beneficiaire>
+              <historique-beneficiaire></historique-beneficiaire>
             </v-col>
           </v-row>      
     </v-card>
@@ -26,13 +26,15 @@ import LeftMenu from '@/components/LeftMenu';
 import PageHeader from '@/components/PageHeader';
 import InfoBeneficiaire from '@/components/beneficiaires/detail/InfoBeneficiaire';
 import ActionsBeneficiaire from '@/components/beneficiaires/detail/ActionsBeneficiaire';
+import HistoriqueBeneficiaire from '@/components/beneficiaires/detail/HistoriqueBeneficiaire';
   export default {
     layout: "dashboard",
     components: {
       LeftMenu,
       PageHeader,
       InfoBeneficiaire,
-      ActionsBeneficiaire
+      ActionsBeneficiaire,
+      HistoriqueBeneficiaire
     },
     middleware: function ({redirect,$hasPermission}) {
       if(!$hasPermission('gerer-beneficiaires')){

@@ -9,10 +9,32 @@
         </v-tabs>
       </div>
       <div class="ml-auto p-2" v-if="$hasPermission('ajouter_enquete')">
-        <v-btn depressed rounded color="primary" @click="goToAddenquete">
-          <v-icon left> mdi-plus </v-icon>
-          Ajouter une enquete
-        </v-btn>
+        <v-dialog
+          v-model="dialog2"
+          max-width="1200px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+            v-bind="attrs"
+                v-on="on"
+              depressed
+              rounded
+              color="primary"
+              >
+              <v-icon left>
+                mdi-plus
+              </v-icon>
+              Nouvelle Enquette
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text>
+              <v-container>
+                <form-add-enquette></form-add-enquette>
+              </v-container>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </div>
     </div>
         <div>
@@ -191,10 +213,12 @@
 import { mapMutations, mapGetters } from 'vuex'
 import RechercheEnquete from '@/components/enquetes/RechercheEnquete';
 import RechercheAvance from '@/components/enquetes/RechercheAvance';
+import FormAddEnquette from '@/components/projets/detail/FormAddEnquette'
   export default {
     components: {
       RechercheEnquete,
-      RechercheAvance
+      RechercheAvance,
+      FormAddEnquette
     },
     mounted: function() {    
       this.$hasPermission('brouillon') && this.tabItems.push({title:'Brouillons',value:'brouillon'})
@@ -344,6 +368,7 @@ import RechercheAvance from '@/components/enquetes/RechercheAvance';
       tabItems: [],
       selected: [],
       dialog: false,
+      dialog2: false,
       progress:true,
       search:'',
       items:[],

@@ -28,8 +28,8 @@
     },
     {
       "icon": "mdi-credit-card-outline",
-      "href": "/enquetes",
-      "title": "Enquetes",
+      "href": "/typeenquettes",
+      "title": "Enquettes & Analyses",
       "name": "gerer-enquetes"
     },
     {
