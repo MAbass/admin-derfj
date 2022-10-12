@@ -121,7 +121,7 @@
                   </v-icon>Détail
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item @click="editItem(item)" link class="custom-v-list-action pl-2 pr-1">
+              <!--<v-list-item @click="editItem(item)" link class="custom-v-list-action pl-2 pr-1">
                 <v-list-item-title> 
                   <v-icon small class="mr-2"> mdi-pencil-outline </v-icon
                   >Modifier
@@ -133,7 +133,7 @@
                     mdi-delete-outline </v-icon
                   >Supprimer
                 </v-list-item-title>
-              </v-list-item>
+              </v-list-item>-->
             </v-item-group>
           </v-list>
         </v-menu>

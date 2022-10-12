@@ -126,17 +126,6 @@
         </v-card-actions>
     </v-card>
   </v-dialog> 
-    <v-btn
-      flat
-      rounded
-      outlined
-      v-on:click="modifier()"
-    >
-      <v-icon left>
-        mdi-pencil
-      </v-icon>
-      Modifier
-    </v-btn>
   </v-row>
 </template>
 
