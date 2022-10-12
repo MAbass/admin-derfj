@@ -10,6 +10,8 @@
         <v-dialog
           v-model="dialog"
           max-width="1200px"
+          scrollable
+          persistent
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -31,6 +33,16 @@
                 <form-add-enquette></form-add-enquette>
               </v-container>
             </v-card-text>
+            <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog = false"
+          >
+            Fermer
+          </v-btn>
+        </v-card-actions>
           </v-card>
         </v-dialog>
       </div>
@@ -52,6 +64,7 @@ import FormAddEnquette from '@/components/projets/detail/FormAddEnquette'
       FormAddEnquette
     },
     data: () => ({
+      dialog:false,
       tab: null,
       tabItems: [
         {title:'Tous les enquetes',value:'tout'}, {title:'Investissement à valider',value:true}

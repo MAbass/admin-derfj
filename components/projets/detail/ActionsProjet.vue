@@ -4,8 +4,10 @@
     justify="space-around"
   >
   <v-dialog
-    v-model="dialog"
+    v-model="dialog1"
     max-width="1200px"
+    scrollable
+    persistent
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
@@ -28,11 +30,23 @@
           <form-add-enquette></form-add-enquette>
         </v-container>
       </v-card-text>
+      <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog1 = false"
+          >
+            Fermer
+          </v-btn>
+        </v-card-actions>
     </v-card>
   </v-dialog>
   <v-dialog
-    v-model="dialog"
+    v-model="dialog2"
     max-width="1200px"
+    scrollable
+    persistent
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
@@ -55,11 +69,23 @@
           <form-add-enquette></form-add-enquette>
         </v-container>
       </v-card-text>
+      <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog2 = false"
+          >
+            Fermer
+          </v-btn>
+        </v-card-actions>
     </v-card>
   </v-dialog> 
   <v-dialog
-    v-model="dialog"
+    v-model="dialog3"
     max-width="1200px"
+    scrollable
+    persistent
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
@@ -82,6 +108,16 @@
           <form-add-enquette></form-add-enquette>
         </v-container>
       </v-card-text>
+      <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog3 = false"
+          >
+            Fermer
+          </v-btn>
+        </v-card-actions>
     </v-card>
   </v-dialog> 
     <v-btn
@@ -112,6 +148,9 @@ import FormAddEnquette from '@/components/projets/detail/FormAddEnquette'
       detailProjet: 'projets/detailprojet'
     }),
     data: () => ({
+      dialog1: false,
+      dialog2: false,
+      dialog3: false,
       listProjets:[]
     }),
     methods: {
