@@ -25,6 +25,8 @@
       </v-btn>
     </template>
     <v-card>
+      <v-card-title >Enquette point focal</v-card-title>
+      <v-divider></v-divider>
       <v-card-text>
         <v-container>
           <form-add-enquette></form-add-enquette>
@@ -64,9 +66,11 @@
       </v-btn>
     </template>
     <v-card>
+      <v-card-title >Analyse risques environnementaux et sociaux</v-card-title>
+      <v-divider></v-divider>
       <v-card-text>
         <v-container>
-          <form-add-enquette></form-add-enquette>
+          <form-add-analyse-risque></form-add-analyse-risque>
         </v-container>
       </v-card-text>
       <v-divider></v-divider>
@@ -103,9 +107,11 @@
       </v-btn>
     </template>
     <v-card>
+      <v-card-title >Analyse genre</v-card-title>
+      <v-divider></v-divider>
       <v-card-text>
         <v-container>
-          <form-add-enquette></form-add-enquette>
+          <form-add-analyse-genre></form-add-analyse-genre>
         </v-container>
       </v-card-text>
       <v-divider></v-divider>
@@ -137,10 +143,14 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 import FormAddEnquette from '@/components/projets/detail/FormAddEnquette'
+import FormAddAnalyseRisque from '@/components/projets/detail/FormAddAnalyseRisque'
+import FormAddAnalyseGenre from '@/components/projets/detail/FormAddAnalyseGenre'
   export default {
     components: {
-      FormAddEnquette
-    },
+    FormAddEnquette,
+    FormAddAnalyseRisque,
+    FormAddAnalyseGenre
+},
     mounted: function() {
       //this.model.email = this.detailProjet.email
     },

@@ -39,13 +39,13 @@
         },
         {
           "icon": "mdi-cog-outline",
-          "href": "/enquetes",
+          "href": "/analyserisques",
           "title": "Analyse risques environnementaux et sociaux",
           "name": "analyse-risques"
         },
         {
           "icon": "mdi-cog-outline",
-          "href": "/enquetes",
+          "href": "/analysegenres",
           "title": "Analyse genre",
           "name": "analyse-genre"
         }
