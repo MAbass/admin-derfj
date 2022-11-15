@@ -170,26 +170,15 @@
       step="2"
       editable
     >
-      Choisir une section
+      Questionnaire
     </v-stepper-step>
     <v-stepper-content step="2">
       <v-card class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat>
         <v-row>
           <v-col md="12" lg="12" sm="12">
-            <v-radio-group
-              :v-model="selectedSecteur"
-              :rules="rules.radioRules"
-              @change="changeSecteur"
-              row
-            >
-              <v-radio
-                class="col-12"
-                v-for="item in listsecteurs"
-                :key="item.id"
-                :label="item.nom_secteur"
-                :value="item.id"
-              ></v-radio>
-            </v-radio-group>
+            <v-form v-model="valid">
+              <v-jsf v-model="model" :schema="schema"/>
+            </v-form>
           </v-col>
         </v-row>
       </v-card>
@@ -203,748 +192,7 @@
         Annuler
       </v-btn>
     </v-stepper-content>
-
-    <!-- Step:3 Activités -->
-    <v-stepper-step
-      :complete="step > 3"
-      step="3"
-      editable
-    >
-      Activité de la semaine
-    </v-stepper-step>
-    <v-stepper-content step="3">
-      <v-card class="mx-auto mb-5 pl-10 pt-10 pr-10 pb-5" flat>
-        <div class="custom-ligne-bloc">
-          <v-row>
-            <v-col lg="12" md="12" sm="12">
-              <v-row>
-                <v-col md="12" lg="12" sm="12">
-                  <v-row>                   
-                    <v-col md="12" lg="12" sm="12">
-                      <v-text-field
-                        label="Intitulé de l'activité"
-                        outlined
-                        dense
-                        v-model="intitule_activite0"
-                        :rules="rules.textfieldRules"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col md="12" lg="12" sm="12">
-                      <v-textarea
-                        label="Description de l'activité"
-                        outlined
-                        dense
-                        v-model="description_activite0"
-                        :rules="rules.textareaRules"
-                      ></v-textarea>
-                    </v-col>
-                    <v-col md="4" lg="4" sm="12">
-                      <v-text-field
-                        label="Nombre de bénéficiaire Homme"
-                        outlined
-                        dense
-                        v-model="nombre_benef_homme0"
-                        :rules="rules.textfieldRules"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col md="4" lg="4" sm="12">
-                      <v-text-field
-                        label="Nombre de bénéficiaire Femme"
-                        outlined
-                        dense
-                        v-model="nombre_benef_femme0"
-                        :rules="rules.textfieldRules"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col md="4" lg="4" sm="12">
-                      <v-text-field
-                        label="Type de matériel utilisé"
-                        outlined
-                        dense
-                        v-model="type_materiel_utilise0"
-                        :rules="rules.textfieldRules"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-              <v-btn
-                color="#00173F"
-                class="white--text"
-                @click="submitLigne"
-                depressed
-              >
-                Ajouter une activité
-                <v-icon right dark> mdi-plus </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </div>
-
-        <v-simple-table class="custom-ligne-bloc-2">
-
-          <thead>
-            <tr>
-              <th class="text-left">
-                Intitulé de l'activité
-              </th>
-              <th class="text-left">
-                Description de l'activité
-              </th>
-              <th class="text-left">
-                Nombre de bénéficiaire Homme
-              </th>
-              <th class="text-left">
-                Nombre de bénéficiaire Femme
-              </th>
-              <th class="text-left">
-                Type de matériel utilisé
-              </th>
-              <th class="text-left">
-                -
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(item,i) in LigneActivites"
-              :key="item.id"
-            >
-              <td>{{item.intitule_activites}}</td>
-              <td>{{item.description_activites}}</td>
-              <td>{{item.nombre_benef_hommes}}</td>
-              <td>{{item.nombre_benef_femmes}}</td>
-              <td>{{item.type_materiel_utilises}}</td>
-              <td><v-icon @click="deleteFind(i)">mdi-close</v-icon></td>
-              
-            </tr>
-          </tbody>
-        </v-simple-table>
-        
-      </v-card>
-      <v-btn
-        color="primary"
-        @click="step = 4"
-      >
-        Suivant
-      </v-btn>
-      <v-btn text>
-        Annuler
-      </v-btn>
-    </v-stepper-content>
-
-    <!-- Step:4 Contraintes -->
-    <v-stepper-step
-      :complete="step > 4"
-      step="4"
-      editable
-    >
-      Contraintes
-    </v-stepper-step>
-    <v-stepper-content step="4">
-      <v-card class="mx-auto mb-5 pl-10 pt-10 pr-10 pb-5" flat>
-        <div class="custom-ligne-bloc">
-          <v-row>
-            <v-col lg="12" md="12" sm="12">
-              <v-row>
-                <v-col md="12" lg="12" sm="12">
-                  <v-row>                   
-                    <v-col md="12" lg="12" sm="12">
-                      <v-textarea
-                        label="Difficulté rencontrée"
-                        outlined
-                        dense
-                        v-model="difficulte_rencontre0"
-                        :rules="rules.textareaRules"
-                      ></v-textarea>
-                    </v-col>
-                    <v-col md="12" lg="12" sm="12">
-                      <v-textarea
-                        label="Solution trouvée"
-                        outlined
-                        dense
-                        v-model="solution_trouve0"
-                        :rules="rules.textareaRules"
-                      ></v-textarea>
-                    </v-col>
-                    <v-col md="12" lg="12" sm="12">
-                      <v-textarea
-                        label="Suivi nécessaire"
-                        outlined
-                        dense
-                        v-model="suivie_necessaire0"
-                        :rules="rules.textareaRules"
-                      ></v-textarea>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-              <v-btn
-                color="#00173F"
-                class="white--text"
-                @click="submitLigneContrainte"
-                depressed
-              >
-                Ajouter une contrainte
-                <v-icon right dark> mdi-plus </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </div>
-
-          <v-simple-table class="custom-ligne-bloc-2">
-            <thead>
-              <tr>
-                <th class="text-left">
-                  Difficulté rencontrée
-                </th>
-                <th class="text-left">
-                  Solution trouvée
-                </th>
-                <th class="text-left">
-                  Suivi nécessaire
-                </th>
-                <th class="text-left">
-                  -
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(item,i) in LigneContraintes"
-                :key="item.id"
-              >
-                <td>{{item.difficulte_rencontres}}</td>
-                <td>{{item.solution_trouves}}</td>
-                <td>{{item.suivie_necessaires}}</td>
-                <td><v-icon @click="deleteFindContrainte(i)">mdi-close</v-icon></td>
-                
-              </tr>
-            </tbody>
-          </v-simple-table>
-        
-      </v-card>
-      <v-btn
-        color="primary"
-        @click="step = 5"
-      >
-        Suivant
-      </v-btn>
-      <v-btn text>
-        Annuler
-      </v-btn>
-    </v-stepper-content>
-
-    <!-- Step:5 Attacher fichiers -->
-    <v-stepper-step 
-      :complete="step > 5"
-      step="5"
-      editable
-      >
-      Attacher des fichiers
-    </v-stepper-step>
-    <v-stepper-content step="5">
-      <v-card class="mx-auto mb-5 pl-10 pt-10 pr-10 pb-5" flat>
-        <v-row v-for="(item,i) in fichiers"
-              :key="item.id">
-          <v-col md="6" lg="6" sm="12">
-              <v-text-field
-                v-model="item.libelle_fichier"
-                :rules="rules.textfieldRules"
-                outlined
-                label="Nom du fichier" 
-                dense             
-              >              
-              </v-text-field>
-          </v-col>
-          <v-col md="6" lg="6" sm="12" class="d-flex">
-              <v-file-input
-              v-model="item.input_fichier"
-              outlined
-              label="Joindre le fichier"
-              dense
-              :clearable="false"
-              >
-              </v-file-input>
-              <v-icon @click="deleteFindFichier(i)">mdi-close</v-icon>
-          </v-col>
-
-        </v-row>
-        <v-btn
-          color="#00173F"
-          class="white--text mb-5"
-          @click="submitLigneFichier"
-          depressed
-        >
-          Ajouter un fichier
-          <v-icon right dark> mdi-plus </v-icon>
-        </v-btn>
-      </v-card>
-      <v-btn
-        color="primary"
-        @click="step = 6"
-      >
-        Suivant
-      </v-btn>
-      <v-btn text>
-        Annuler
-      </v-btn>
-    </v-stepper-content>
-
-    <!-- Step:6 Géolocalisation -->
-    <v-stepper-step 
-      :complete="step > 6"
-      step="6"
-      editable
-      >
-      Géolocalisation
-    </v-stepper-step>
-    <v-stepper-content step="6">
-      <v-card
-         class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat
-      >
-      <v-row>
-        <v-col md="4" lg="4" sm="12">
-          <v-text-field
-            label="Latitude"
-            outlined dense
-            v-model="model.latitude"
-            :rules="rules.textfieldRules"
-          ></v-text-field>
-        </v-col>
-        <v-col md="4" lg="4" sm="12">
-          <v-text-field
-            label="Longitude"
-            outlined dense
-            v-model="model.longitude"
-            :rules="rules.textfieldRules"
-          ></v-text-field>
-        </v-col>
-        <v-col md="4" lg="4" sm="12">
-          <v-btn
-          color=""
-          @click="geolocate"
-          >
-            Detecter la position actuelle
-          </v-btn>
-        </v-col>
-        <v-col md="12" lg="12" sm="12">
-          <GmapMap
-            :center="center"
-            :zoom="11"
-            map-style-id="roadmap"
-            :options="mapOptions"
-            style="width: 100%; height: 50vmin"
-            ref="mapRef"
-            @click="handleMapClick"
-          >
-            <GmapMarker
-              :position="marker.position"
-              :clickable="true"
-              :draggable="true"
-              @drag="handleMarkerDrag"
-              @click="panToMarker"
-            />
-          </GmapMap>
-          <p>Position: {{ marker.position }}</p>
-        </v-col>
-      </v-row>
-      </v-card>
-      <v-btn
-        color="primary"
-        @click="step = 7"
-      >
-        Suivant
-      </v-btn>
-      <v-btn text>
-        Annuler
-      </v-btn>
-    </v-stepper-content>
-
-    <!-- Step:7 Données specifique -->
-    <v-stepper-step 
-      :complete="step > 7"
-      step="7"
-      editable
-      >
-      Données spécifiques
-    </v-stepper-step>
-    <v-stepper-content step="7">
-      <v-card class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat>
-        <v-row>
-          <v-col lg="10" md="10" sm="10">
-            <v-text-field
-              label="Superficie"
-              outlined
-              dense
-              v-model="model.superficie"
-              :rules="rules.textfieldRules"
-            ></v-text-field>
-          </v-col>
-          <v-col lg="2" md="2" sm="2">
-            <v-radio-group
-              v-model="model.unite_superficie"
-              row
-            >
-              <v-radio
-                label="m2"
-                value="m2"
-              ></v-radio>
-              <v-radio
-                label="ha"
-                value="ha"
-              ></v-radio>
-            </v-radio-group>
-          </v-col>
-          <v-col lg="12" md="12" sm="12">
-            <v-textarea
-              label="Description du fonctionnement global"
-              outlined
-              dense
-              v-model="model.fonctionnement_global"
-              :rules="rules.textareaRules"
-            ></v-textarea>
-          </v-col>
-          <v-col lg="12" md="12" sm="12">
-            <v-textarea
-              label="Description du systeme de production"
-              outlined
-              dense
-              v-model="model.systeme_production"
-              :rules="rules.textareaRules"
-            ></v-textarea>
-          </v-col>
-          <v-col lg="12" md="12" sm="12">
-            <v-textarea
-              label="Priorité de l'Exploitation/Projet"
-              outlined
-              dense
-              v-model="model.exploitation_projet"
-              :rules="rules.textareaRules"
-            ></v-textarea>
-          </v-col>
-          <v-col lg="12" md="12" sm="12">
-            <v-textarea
-              label="Main d'oeuvre"
-              outlined
-              dense
-              v-model="model.main_oeuvre"
-              :rules="rules.textareaRules"
-            ></v-textarea>
-          </v-col>
-          <v-col md="6" lg="6" sm="12">
-            <v-expansion-panels
-              class="mb-2"
-            >
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  <h3>Environnement techo-socio-eco</h3> 
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div v-for="item in environnements" :key="item.id">
-                    <v-checkbox
-                      v-model="selectedEnvironnements"
-                      :label="item.nom_environnement"
-                      :value="item.id"
-                    ></v-checkbox>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-col>
-          <v-col md="6" lg="6" sm="12">
-            <v-expansion-panels
-              class="mb-2"
-            >
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  <h3>Enjeux locaux</h3> 
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div v-for="item in enjeux_locaux" :key="item.id">
-                    <v-checkbox
-                      v-model="selectedEnjeux_locaux"
-                      :label="item.nom_enjeu_locaux"
-                      :value="item.id"
-                    ></v-checkbox>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-col>
-          <v-col md="6" lg="6" sm="12">
-            <v-expansion-panels
-              class="mb-2 mt-0"
-            >
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  <h3>Valorisation</h3> 
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div v-for="item in valorisations" :key="item.id">
-                    <v-checkbox
-                      v-model="selectedValorisations"
-                      :label="item.nom_valorisation"
-                      :value="item.id"
-                    ></v-checkbox>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-col>
-          <v-col md="6" lg="6" sm="12">
-            <v-expansion-panels
-              class="mb-2 mt-0"
-            >
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  <h3>Commercialisation</h3> 
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div v-for="item in commercialisations" :key="item.id">
-                    <v-checkbox
-                      v-model="selectedCommercialisations"
-                      :label="item.nom_commercialisation"
-                      :value="item.id"
-                    ></v-checkbox>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-col>
-          <v-col lg="12" sm="12" md="12">
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="model.date_demarrage"
-                  :rules="rules.dateRules"
-                  label="Date de démarrage de l'activité"
-                  append-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  outlined
-                  dense
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="model.date_demarrage"
-                @input="menu2 = false"
-              ></v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col lg="12" md="12" sm="12">
-            <v-textarea
-              label="Organisation du travail"
-              outlined
-              dense
-              v-model="model.organisation_travail"
-              :rules="rules.textareaRules"
-            ></v-textarea>
-          </v-col>
-          <v-col lg="12" md="12" sm="12">
-            <v-textarea
-              label="Stratégie de protection"
-              outlined
-              dense
-              v-model="model.strategie_protection"
-              :rules="rules.textareaRules"
-            ></v-textarea>
-          </v-col>
-          <v-col lg="6" md="6" sm="6">
-            <v-text-field
-              label="Rendement (t/ha)"
-              outlined
-              dense
-              v-model="model.rendement"
-              :rules="rules.textfieldRules"
-            ></v-text-field>
-          </v-col>
-          <v-col lg="6" md="6" sm="6">
-            <v-text-field
-              label="Perte (%)"
-              outlined
-              dense
-              v-model="model.perte"
-              :rules="rules.textfieldRules"
-            ></v-text-field>
-          </v-col>
-          <v-col lg="4" md="4" sm="12">
-            <v-text-field
-              label="Chiffre d'affaire (%ha)"
-              outlined
-              dense
-              v-model="model.chiffre_affaire_ha"
-              :rules="rules.textfieldRules"
-            ></v-text-field>
-          </v-col>
-          <v-col lg="4" md="4" sm="12">
-            <v-text-field
-              label="Chiffre d'affaire (%bande)"
-              outlined
-              dense
-              v-model="model.chiffre_affaire_bande"
-              :rules="rules.textfieldRules"
-            ></v-text-field>
-          </v-col>
-          <v-col lg="4" md="4" sm="12">
-            <v-text-field
-              label="Chiffre d'affaire (%lot)"
-              outlined
-              dense
-              v-model="model.chiffre_affaire_lot"
-              :rules="rules.textfieldRules"
-            ></v-text-field>
-          </v-col>
-        </v-row>
-      </v-card>
-      <v-btn
-        color="primary"
-        @click="step = 8"
-      >
-        Suivant
-      </v-btn>
-      <v-btn text>
-        Annuler
-      </v-btn>
-    </v-stepper-content>
-
-    <!-- Step:8 Resumé -->
-    <v-stepper-step 
-      :complete="step > 8"
-      step="8"
-      editable
-      >
-      Résumé
-    </v-stepper-step>
-    <v-stepper-content step="8">
-      <v-card class="container pl-10 pt-10 pb-10 pr-10 mb-5 border-grey" flat>
-        <v-row>
-          <v-col md="12" sm="12" lg="12" text-md-left>
-            <div class="row">
-              <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Région : </span>{{resume.nom_region}}</p>
-              </div>
-              <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Departement : </span>{{resume.nom_departement}}</p>
-              </div>
-              <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Commune : </span>{{resume.nom_commune}}</p>
-              </div>
-              <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Beneficiaire : </span>{{modelBeneficiaire.prenom_beneficiaire+' '+modelBeneficiaire.nom_beneficiaire}}</p>
-              </div>
-              <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Référence Projet : </span>{{modelProjet.reference_projet}}</p>
-              </div>
-              <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Secteur : </span>{{resume.nom_secteur}}</p>
-              </div>
-              <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Latitude : </span>{{model.latitude}}</p>
-              </div>
-              <div class="col-md-4 my-0 py-0">
-                  <p class="info-profil"><span>Longitude : </span>{{model.longitude}}</p>
-              </div>
-              <div class="col-md-12 col-sm-12 col-lg-12 my-5 py-0">
-                  <p class="info-profil"><span>Activités de la semaine</span></p>
-                  <v-simple-table class="custom-ligne-bloc-2">
-
-                    <thead>
-                      <tr>
-                        <th class="text-left">
-                        
-                        </th>
-                        <th class="text-left">
-                          Intitulé de l'activité
-                        </th>
-                        <th class="text-left">
-                          Description de l'activité
-                        </th>
-                        <th class="text-left">
-                          Nombre de bénéficiaire Homme
-                        </th>
-                        <th class="text-left">
-                          Nombre de bénéficiaire Femme
-                        </th>
-                        <th class="text-left">
-                          Type de matériel utilisé
-                        </th>
-                        <th class="text-left">
-                          -
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="(item,i) in LigneActivites"
-                        :key="item.id"
-                      >
-                        <td>{{i}}</td>
-                        <td>{{item.intitule_activites}}</td>
-                        <td>{{item.description_activites}}</td>
-                        <td>{{item.nombre_benef_hommes}}</td>
-                        <td>{{item.nombre_benef_femmes}}</td>
-                        <td>{{item.type_materiel_utilises}}</td>                    
-                      </tr>
-                    </tbody>
-                  </v-simple-table>
-              </div>
-              <div class="col-md-12 col-sm-12 col-lg-12 my-5 py-0">
-                  <p class="info-profil"><span>Contraintes</span></p>
-                  <v-simple-table class="custom-ligne-bloc-2">
-                  <thead>
-                    <tr>
-                      <th class="text-left">
-                      </th>
-                      <th class="text-left">
-                        Difficulté rencontrée
-                      </th>
-                      <th class="text-left">
-                        Solution trouvée
-                      </th>
-                      <th class="text-left">
-                        Suivi nécessaire
-                      </th>
-                      <th class="text-left">
-                        -
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(item,i) in LigneContraintes"
-                      :key="item.id"
-                    >
-                      <td>{{i}}</td>
-                      <td>{{item.difficulte_rencontres}}</td>
-                      <td>{{item.solution_trouves}}</td>
-                      <td>{{item.suivie_necessaires}}</td>                    
-                    </tr>
-                  </tbody>
-                </v-simple-table>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </v-card>
-      <v-btn
-        color="primary"
-        @click="controleValidation"
-      >
-        Soumettre
-      </v-btn>
-      <v-btn text>
-        Annuler
-      </v-btn>
-    </v-stepper-content>
+    
   </v-stepper>
 </v-form>
 </template>
@@ -970,6 +218,7 @@ import { mapMutations, mapGetters } from 'vuex'
       detailProjet: 'projets/detailprojet'   
     })},
     data: () => ({
+
       hasProject : false,
       modelBeneficiaire: {
         numero_cin:'',
@@ -1173,6 +422,71 @@ import { mapMutations, mapGetters } from 'vuex'
 
       model: {
       },
+      schema: {
+      "type": "object",
+      "properties": {
+        "objectSection1": {
+          "title": "QUESTIONS ENVIRONNEMENTALES",
+          "description": "",
+          "type": "object",
+          "properties": {
+            "reponse1_1": {
+              "type": "string",
+              "title": "1) Quelle est la distance du site d'exploitation par rapport aux installations humaines ?",
+              "description": "",
+              "enum": [
+                "0 - 50",
+                "51 - 100",
+                "101 - 250",
+                "250 - 500",
+              ],
+              "x-display": "radio",
+              "x-class":"mt-10"
+            },
+            "reponse2_1": {
+              "type": "string",
+              "title": "2) Le projet nécessite t-il une perte d'espèces végétales (défrichement des terres ou abattage d'arbres)",
+              "description": "",
+              "enum": [
+                "OUI",
+                "NON"
+              ],
+              "x-display": "radio"
+            },
+            "reponse2_2": {
+              "type": "string",
+              "title": "Risque (pertes d'espèces)",
+              "description": "",
+              "enum": [
+                "H",
+                "L",
+                "M",
+                "NA",
+              ],
+              "x-display": "radio",
+              "x-if": "parent.value.reponse2_1  == 'OUI'",
+              "x-options": {
+                "evalMethod": "evalExpr"
+              }
+            },
+            "reponse2_3": {
+              "type": "string",
+              "title": "Justification des risque (pertes d'espèces)",
+              "x-display": "textarea",
+              "x-if": "parent.value.reponse2_1  == 'OUI'",
+              "x-options": {
+                "evalMethod": "evalExpr",
+              },
+              "x-props": {
+                "outlined": "outlined",
+              },
+            }
+          },
+          "x-style": "border:solid 1px; border-radius:3px; margin:10px",
+          "x-class":"pl-10 pt-10 pb-10"
+        }
+      }
+    },
       rules:{
         textfieldRules: [],
         radioRules: [],
