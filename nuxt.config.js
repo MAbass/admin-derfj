@@ -37,6 +37,7 @@ export default {
     '~/plugins/api.js',
     '~/plugins/helpers.js',
     "~/plugins/google-maps",
+    "~/plugins/vjsf",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -121,6 +122,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ['vuetify/lib', /@koumoul/],
   },
 
   env: {
